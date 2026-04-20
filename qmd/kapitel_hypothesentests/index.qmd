@@ -1,0 +1,62 @@
+---
+title: "3. Hypothesentests"
+lang: de
+---
+
+## Was dich erwartet {.unnumbered}
+
+In der Schätztheorie haben wir gelernt, Parameter zu schätzen und Konfidenzintervalle zu
+berechnen. Jetzt gehen wir einen Schritt weiter: Wir wollen auf Basis von Daten **Entscheidungen
+treffen** – zum Beispiel, ob ein Medikament wirkt, ob zwei Gruppen sich unterscheiden oder ob
+zwei Merkmale zusammenhängen.
+
+Das Werkzeug dafür sind **statistische Hypothesentests**: formalisierte Verfahren, die eine
+Entscheidung zwischen zwei konkurrierenden Hypothesen ermöglichen – und dabei die
+Fehlerwahrscheinlichkeit kontrollieren.
+
+Dieses Kapitel besteht aus acht Unterkapiteln:
+
+| | Thema | Kernfrage |
+|-|-------|-----------|
+| **3.1** | Signifikanz & p-Werte | *Wie funktioniert ein statistischer Test grundsätzlich?* |
+| **3.2** | Der Gauß-Test | *Wie teste ich einen Mittelwert bei bekannter Varianz?* |
+| **3.3** | Einstichproben-t-Test | *Wie teste ich einen Mittelwert bei unbekannter Varianz?* |
+| **3.4** | t-Test: unverbundene Stichproben | *Unterscheiden sich die Mittelwerte zweier Gruppen?* |
+| **3.5** | t-Test: verbundene Stichproben | *Gibt es einen Unterschied bei Messwiederholungen?* |
+| **3.6** | Der F-Test | *Unterscheiden sich die Varianzen zweier Gruppen?* |
+| **3.7** | Der Mann-Whitney-U-Test | *Wie vergleiche ich Gruppen ohne Normalverteilungsannahme?* |
+| **3.8** | Der Chi-Quadrat-Test | *Sind zwei kategoriale Merkmale unabhängig?* |
+
+## Lernziele {.unnumbered}
+
+Am Ende dieses Kapitels kannst du:
+
+- die Grundbegriffe (H₀, H₁, p-Wert, Signifikanzniveau, Fehler 1./2. Art) erklären und
+  korrekt anwenden.
+- den passenden Test für eine gegebene Fragestellung auswählen.
+- t-Tests (ein- und zweiseitig, verbunden und unverbunden), F-Test, Mann-Whitney-U-Test und
+  Chi-Quadrat-Test in Python durchführen und interpretieren.
+- den Unterschied zwischen statistischer und praktischer Signifikanz erläutern.
+
+## Voraussetzungen {.unnumbered}
+
+Dieses Kapitel setzt Kapitel 1 (insbesondere Normalverteilung und Standardabweichung) und
+Kapitel 2.4 (Konfidenzintervalle, t-Verteilung) voraus.
+
+## Übersicht: Welcher Test wann? {.unnumbered}
+
+```{mermaid}
+flowchart TD
+    A[Fragestellung] --> B{Merkmalstyp?}
+    B -->|metrisch| C{Wie viele Gruppen?}
+    B -->|kategorial| K[Chi-Quadrat-Test\n3.8]
+    C -->|1 Gruppe vs. Sollwert| D{σ bekannt?}
+    C -->|2 unverbundene Gruppen| E{Normalverteilung?}
+    C -->|2 verbundene Gruppen| F[t-Test verbunden\n3.5]
+    C -->|Varianzen vergleichen| G[F-Test\n3.6]
+    D -->|ja| H[Gauß-Test\n3.2]
+    D -->|nein| I[Einstichproben-t-Test\n3.3]
+    E -->|ja| J[Zweistichproben-t-Test\nWelch / Student\n3.4]
+    E -->|nein / ordinal| L[Mann-Whitney-U-Test\n3.7]
+```
+

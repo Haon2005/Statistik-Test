@@ -1,0 +1,132 @@
+---
+title: "Grundlagen der Statistik mit Python"
+subtitle: "Ein interaktives Tutorial für Einsteiger"
+format: html
+filters:
+  - pyodide
+  - quizdown
+---
+
+# Willkommen!
+
+Statistik begegnet uns überall: in Zeitungsartikeln über Umfragen, in medizinischen Studien, beim Sportreporting und in der Wirtschaft. Doch was steckt eigentlich dahinter? Wie kann man aus einer Handvoll Messungen verlässliche Aussagen über die Welt machen?
+
+Dieses Tutorial gibt dir eine solide Einführung in die Grundlagen der Statistik – von der Beschreibung von Daten bis hin zu statistischen Tests. Dabei nutzen wir **Python**, um Konzepte nicht nur zu verstehen, sondern auch direkt auszuprobieren.
+
+::: {.callout-tip}
+**Keine Vorkenntnisse nötig!** Dieses Tutorial setzt nur grundlegende Mathematikkenntnisse (Schulniveau) voraus. Programmiervorerfahrung ist hilfreich, aber nicht nötig – eine eigene Python-Einführungsseite hilft dir beim Einstieg.
+:::
+
+---
+
+## Was dich erwartet
+
+Das Tutorial ist in drei Kapitel gegliedert:
+
+| Kapitel | Inhalt | Kernfrage |
+|---------|--------|-----------|
+| **1. Deskriptive Statistik** | Daten beschreiben & zusammenfassen | *Wie sehen meine Daten aus?* |
+| **2. Schätztheorie** | Vom Datensatz auf die Grundgesamtheit schließen | *Was gilt über meine Stichprobe hinaus?* |
+| **3. Hypothesentests** | Behauptungen mit Daten prüfen | *Ist ein Unterschied zufällig oder echt?* |
+
+Als durchgehender roter Faden dient uns der **Palmer-Pinguins-Datensatz** – ein realer Datensatz mit Messungen von drei Pinguinarten aus der Antarktis. Er ist anschaulich, vielfältig und macht statistische Methoden greifbar.
+
+---
+
+## Unser Datensatz: Die Palmer-Pinguine
+
+![Die drei Pinguinarten des Datensatzes: Adélie, Chinstrap und Gentoo](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png)
+
+Der Datensatz enthält Messdaten von **344 Pinguinen** dreier Arten, gesammelt auf drei Inseln des Palmer-Archipels in der Antarktis. Für jeden Pinguin liegen folgende Merkmale vor:
+
+- **Schnabellänge** und **Schnabeltiefe** (in mm)
+- **Flossenlänge** (in mm)
+- **Körpermasse** (in g)
+- **Insel**, **Art** und **Geschlecht**
+
+Warum dieser Datensatz? Er eignet sich hervorragend als Beispiel, weil er echte Messungen enthält, verschiedene Merkmalstypen (metrisch, kategorial) bietet und direkt interessante Fragen aufwirft: *Unterscheiden sich die Arten? Gibt es Zusammenhänge zwischen den Merkmalen?*
+
+---
+
+## Python und seine Bibliotheken
+
+Für dieses Tutorial verwenden wir folgende Python-Bibliotheken:
+
+- **`pandas`** – zum Einlesen, Verwalten und Filtern von Datensätzen (unsere „Tabellenkalkulation")
+- **`matplotlib`** – zum Erstellen von Grafiken und Diagrammen
+- **`scipy`** – für statistische Berechnungen und Tests
+- **`numpy`** – für numerische Grundoperationen
+
+::: {.callout-python}
+**Python-Tipp:** Du musst Python nicht installieren – alle Codeblöcke in diesem Tutorial laufen direkt im Browser! Wenn du tiefer einsteigen möchtest, schau auf die [Python-Grundlagen Seite](qmd/grundlagen.qmd).
+:::
+
+---
+
+## So funktioniert dieses Tutorial
+
+### Interaktive Codeblöcke
+
+Das Besondere an diesem Tutorial: Du kannst Python-Code direkt im Browser ausführen, ohne etwas installieren zu müssen. Es gibt zwei Arten von Codeblöcken:
+
+**Nicht bearbeitbare Blöcke** zeigen ein Konzept. Du kannst den Code ausführen und das Ergebnis sehen – aber nicht verändern:
+
+```{pyodide-python}
+#| read-only: true
+# Beispiel: einfache Berechnung
+alter = [18, 21, 19, 22, 20]
+durchschnitt = sum(alter) / len(alter)
+print(f"Durchschnittsalter: {durchschnitt} Jahre")
+```
+
+**Bearbeitbare Blöcke** laden dich ein, selbst zu experimentieren. Du kannst den Code verändern und direkt sehen, was passiert. Außerdem siehst du hier den **"Feedback"-Knopf**: Eine KI analysiert deinen Code und gibt dir Rückmeldung zu Stärken und möglichen Verbesserungen.
+
+<details>
+<summary>KI-Feedback einrichten</summary>
+
+Um das KI-Feedback nutzen zu können, gibst du zu Beginn jeder Seite deine **Base-URL** und deinen **API-Key** ein. Diese erhältst du über den KI-Dienst deiner Einrichtung (z.B. das GPT-Modell der Ruhr-Universität Bochum).
+
+</details>
+
+```{pyodide-python}
+# Probiere es selbst! Ändere die Zahlen und führe den Code aus.
+zahlen = [4, 8, 15, 16, 23, 42]
+print(f"Anzahl: {len(zahlen)}")
+print(f"Summe:  {sum(zahlen)}")
+print(f"Mittel: {sum(zahlen) / len(zahlen):.2f}")
+```
+
+::: {.callout-rechnen}
+**Hinweis:** Jeder Codeblock läuft für sich allein. Das bedeutet: Bibliotheken müssen in jedem Block neu importiert werden. Ein typischer Block beginnt also mit `import pandas as pd` o.ä.
+:::
+
+### Interaktive Visualisierungen
+
+Neben den Codeblöcken gibt es in diesem Tutorial auch interaktive Grafiken, in denen du Parameter verschieben und die Auswirkungen live beobachten kannst – zum Beispiel, wie sich der Mittelwert verschiebt, wenn du einen Ausreißer hinzufügst.
+
+### Quizze
+
+Am Ende jedes Kapitels kannst du dein Wissen mit einem kleinen Quiz überprüfen. Hier ist ein Vorgeschmack:
+
+```{quizdown}
+### Was beschreibt die deskriptive Statistik?
+
+> Denk daran, was das Wort "deskriptiv" bedeutet...
+
+1. [ ] Sie schließt von einer Stichprobe auf die Grundgesamtheit.
+1. [x] Sie fasst und beschreibt vorhandene Daten zusammen.
+    > Genau! Deskriptiv kommt von "beschreiben" – wir fassen Daten zusammen, ohne Schlüsse über Nicht-Beobachtetes zu ziehen.
+1. [ ] Sie prüft, ob ein Unterschied statistisch signifikant ist.
+1. [ ] Sie erstellt Prognosen über zukünftige Ereignisse.
+```
+
+### Navigation
+
+- Die **linke Leiste** zeigt alle Kapitel und Unterkapitel – du kannst Kapitel aufklappen und direkt zum gesuchten Abschnitt springen.
+- Die **Suche** (Lupensymbol oben) durchsucht das gesamte Tutorial nach Begriffen.
+- Mit dem **Light-/Dark-Mode-Schalter** wechselst du das Farbschema.
+- Der **Reader Mode** blendet die Leisten aus für ablenkungsfreies Lesen.
+
+---
+
+Viel Spaß beim Entdecken der Statistik – die Pinguine warten schon!

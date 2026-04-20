@@ -1,0 +1,829 @@
+---
+title: "1.4 Kennzahlen: Lage"
+lang: de
+execute:
+  eval: false
+  echo: true
+  warning: false
+filters:
+  - pyodide
+---
+
+```{python}
+#| include: true
+#| echo: false
+#| eval: true
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+import pandas as pd
+from scipy import stats
+
+matplotlib.rcParams['figure.dpi'] = 110
+matplotlib.rcParams['font.size'] = 11
+
+try:
+    from palmerpenguins import load_penguins
+    penguins = load_penguins()
+except Exception:
+    url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"
+    penguins = pd.read_csv(url)
+```
+
+## Lernziele {.unnumbered}
+
+Am Ende dieses Unterkapitels kannst du:
+
+- erklären, was eine Kennzahl ist und wozu sie genutzt wird.
+- Modalwert, arithmetisches Mittel, geometrisches Mittel und Median berechnen und interpretieren.
+- für einen gegebenen Datensatz das passende Lagemaß auswählen.
+- $p$-Quantile und Quartile berechnen.
+- einen Boxplot ablesen und mit Python erstellen.
+
+---
+
+## Einführung
+
+Wir haben eine Stichprobe $(x_1, x_2, \dots, x_n)$ vorliegen. Häufigkeitstabellen und Grafiken zeigen uns ein vollständiges Bild der Daten – aber manchmal möchten wir die Stichprobe auf **einen einzigen charakteristischen Wert** reduzieren. Solche Werte nennt man **Kennzahlen** (oder Maßzahlen).
+
+Eine Häufigkeitsverteilung lässt sich durch vier wichtige Eigenschaften beschreiben:
+
+::: {.panel-tabset}
+#### Lage
+Die **Lage** beschreibt, wo die Mitte oder der Schwerpunkt der Daten liegt.
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Zwei Gruppen mit gleicher Streuung, aber unterschiedlicher Lage."
+np.random.seed(42)
+x1 = np.random.normal(5, 1.5, 300)
+x2 = np.random.normal(10, 1.5, 300)
+x_range = np.linspace(0, 16, 400)
+
+fig, ax = plt.subplots(figsize=(7, 3))
+for x, color_fill, color_line, label in [
+    (x1, '#0a9396', '#005f73', 'Gruppe A (Lage: 5)'),
+    (x2, '#ae2012', '#9b2226', 'Gruppe B (Lage: 10)')
+]:
+    kde = stats.gaussian_kde(x, bw_method=0.4)
+    ax.fill_between(x_range, kde(x_range), alpha=0.35, color=color_fill)
+    ax.plot(x_range, kde(x_range), color=color_line, lw=2, label=label)
+ax.set_xlabel('Merkmalsausprägung'); ax.set_ylabel('Dichte')
+ax.legend(); ax.set_xlim(0, 16)
+plt.tight_layout(); plt.show()
+```
+
+**Kennzahlen für die Lage** sind z.B. Modalwert, Mittelwert und Median – sie stehen im Mittelpunkt dieses Kapitels.
+
+#### Streuung
+Die **Streuung** beschreibt, wie stark die Werte auseinander liegen.
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Zwei Gruppen mit gleicher Lage, aber unterschiedlicher Streuung."
+np.random.seed(42)
+x1 = np.random.normal(7, 1, 300)
+x2 = np.random.normal(7, 2.5, 300)
+x_range = np.linspace(0, 15, 400)
+
+fig, ax = plt.subplots(figsize=(7, 3))
+for x, color_fill, color_line, label in [
+    (x1, '#0a9396', '#005f73', 'Gruppe A (wenig Streuung)'),
+    (x2, '#ae2012', '#9b2226', 'Gruppe B (viel Streuung)')
+]:
+    kde = stats.gaussian_kde(x, bw_method=0.4)
+    ax.fill_between(x_range, kde(x_range), alpha=0.35, color=color_fill)
+    ax.plot(x_range, kde(x_range), color=color_line, lw=2, label=label)
+ax.set_xlabel('Merkmalsausprägung'); ax.set_ylabel('Dichte')
+ax.legend(); ax.set_xlim(0, 15)
+plt.tight_layout(); plt.show()
+```
+
+Kennzahlen für die Streuung – Varianz, Standardabweichung u.a. – werden in **Kapitel 1.5** behandelt.
+
+#### Schiefe
+Die **Schiefe** beschreibt, ob die Verteilung symmetrisch ist oder ob die Werte auf einer Seite weiter streuen.
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Eine schiefe (blau) und eine symmetrische (rot) Verteilung."
+np.random.seed(42)
+x1 = np.random.exponential(2, 300) + 3
+x2 = np.random.normal(7, 2, 300)
+x_range = np.linspace(2, 16, 400)
+
+fig, ax = plt.subplots(figsize=(7, 3))
+for x, color_fill, color_line, label in [
+    (x1, '#0a9396', '#005f73', 'Gruppe A (rechtsschief)'),
+    (x2, '#ae2012', '#9b2226', 'Gruppe B (symmetrisch)')
+]:
+    kde = stats.gaussian_kde(x, bw_method=0.5)
+    ax.fill_between(x_range, kde(x_range), alpha=0.35, color=color_fill)
+    ax.plot(x_range, kde(x_range), color=color_line, lw=2, label=label)
+ax.set_xlabel('Merkmalsausprägung'); ax.set_ylabel('Dichte')
+ax.legend(); ax.set_xlim(2, 16)
+plt.tight_layout(); plt.show()
+```
+
+Kennzahlen für die Schiefe werden ebenfalls in **Kapitel 1.5** behandelt.
+
+#### Wölbung
+Die **Wölbung** beschreibt, ob die Werte gleichmäßig verteilt sind oder ob sich die meisten Werte eng um die Mitte häufen (mit einzelnen weit entfernten Ausreißern).
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Eine stark gewölbte (blau) und eine flachere (rot) Verteilung."
+np.random.seed(42)
+x1 = np.random.laplace(7, 1, 300)   # stärker gewölbt
+x2 = np.random.normal(7, 1.8, 300)  # flacher
+x_range = np.linspace(0, 14, 400)
+
+fig, ax = plt.subplots(figsize=(7, 3))
+for x, color_fill, color_line, label in [
+    (x1, '#0a9396', '#005f73', 'Gruppe A (stark gewölbt)'),
+    (x2, '#ae2012', '#9b2226', 'Gruppe B (weniger gewölbt)')
+]:
+    kde = stats.gaussian_kde(x, bw_method=0.4)
+    ax.fill_between(x_range, kde(x_range), alpha=0.35, color=color_fill)
+    ax.plot(x_range, kde(x_range), color=color_line, lw=2, label=label)
+ax.set_xlabel('Merkmalsausprägung'); ax.set_ylabel('Dichte')
+ax.legend(); ax.set_xlim(0, 14)
+plt.tight_layout(); plt.show()
+```
+
+Auch Kennzahlen für die Wölbung kommen in **Kapitel 1.5**.
+:::
+
+Wir beginnen in diesem Kapitel mit den **Lagemaßen**: Sie beschreiben, wo sich die Mitte einer Stichprobe befindet.
+
+::: {.callout-tip}
+#### Welches Lagemaß für welchen Merkmalstyp?
+
+| Lagemaß | Skalenniveau | Besonderheit |
+|---------|-------------|--------------|
+| Modalwert | ab nominal | immer anwendbar |
+| Median | ab ordinal | robust gegenüber Ausreißern |
+| Arithmetisches Mittel | kardinal | empfindlich gegenüber Ausreißern |
+| Geometrisches Mittel | kardinal (nur $>0$) | für Wachstumsraten geeignet |
+:::
+
+---
+
+## Modalwert
+
+Der **Modalwert** (oder **Modus**) ist die Merkmalsausprägung, die am häufigsten in der Stichprobe vorkommt.
+
+::: {#def-modalwert}
+### Modalwert
+
+<br>
+
+Sei $(x_1, \dots, x_n)$ eine Stichprobe. Der **Modalwert** $x_\text{mod}$ ist die Merkmalsausprägung mit der größten absoluten Häufigkeit.
+
+Formal: $x_\text{mod}$ ist dasjenige $a_j$, für das $H(a_j)$ maximal ist.
+:::
+
+::: {.callout-caution}
+#### Besonderheiten des Modalwerts
+
+- Eine Stichprobe kann **mehrere Modalwerte** haben, wenn mehrere Ausprägungen gleich oft vorkommen.
+- Bei stetigen Merkmalen, bei denen jeder Wert genau einmal vorkommt, ist der Modalwert wenig sinnvoll. Besser: **Modalklasse** (Klasse mit der höchsten Häufigkeitsdichte).
+:::
+
+::: {#exm-modalwert-blutgruppe}
+### Blutgruppe und Körpergröße
+
+<br>
+
+In einer Umfrage wurden 12 Personen nach Blutgruppe und Körpergröße befragt:
+
+| ID | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|:---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:--:|:--:|:--:|
+| Blutgruppe | A | A | B | AB | 0 | 0 | A | 0 | B | A | 0 | A |
+| Größe (cm) | 170,5 | 183,0 | 174,5 | 158,0 | 167,5 | 179,5 | 192,0 | 177,5 | 186,5 | 161,5 | 181,0 | 164,0 |
+
+: {.striped .hover}
+
+Die **Blutgruppe A** kommt 5-mal vor – sie ist der Modalwert.
+
+Für die Körpergröße (stetig) macht der Modalwert wenig Sinn – jede Größe kommt genau einmal vor. Stattdessen: Modalklasse bei Klassierung in 10-cm-Intervalle → **(170, 180]** hat die meisten Beobachtungen (4 von 12).
+:::
+
+### Unimodale und bimodale Verteilungen {.unnumbered}
+
+Eine Verteilung mit **genau einem** lokalen Maximum heißt **unimodal**, eine mit **zwei** lokalen Maxima heißt **bimodal**.
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Links: bimodale Verteilung (zwei Häufungspunkte). Rechts: unimodale Verteilung (ein Häufungspunkt)."
+#| layout-ncol: 2
+np.random.seed(42)
+# bimodal
+xb = np.concatenate([np.random.normal(3, 0.8, 100), np.random.normal(7, 0.8, 100)])
+# unimodal
+xu = np.random.normal(5, 1.2, 200)
+
+for x, title in [(xb, 'Bimodale Verteilung'), (xu, 'Unimodale Verteilung')]:
+    fig, ax = plt.subplots(figsize=(4, 3))
+    ax.hist(x, bins=15, color='#0a9396', edgecolor='white', alpha=0.85, density=True)
+    ax.set_xlabel('Merkmalsausprägung'); ax.set_ylabel('rel. Häufigkeit / Dichte')
+    ax.set_title(title)
+    plt.tight_layout(); plt.show()
+```
+
+::: {#exr-modalwert-pinguine}
+### Pinguine: Modalwert
+
+<br>
+
+Bestimme mit Python den Modalwert der Variablen `species` im Pinguin-Datensatz. Welche Pinguinart kommt am häufigsten vor?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+
+# Modalwert mit value_counts:
+print(penguins['species'].value_counts())
+
+# Direkt als Modalwert:
+print("\nModalwert:", penguins['species'].mode()[0])
+```
+:::
+
+::: {.callout-python}
+#### Python: Modalwert berechnen
+
+```python
+# Für kategoriale Merkmale – liefert alle Modi (kann mehrere geben)
+df['spalte'].mode()
+
+# Häufigste Ausprägung direkt
+df['spalte'].value_counts().index[0]
+```
+:::
+
+---
+
+## Arithmetisches Mittel
+
+Das **arithmetische Mittel** ist das bekannteste Lagemaß. Im Alltag wird es oft einfach „Durchschnitt" oder „Mittelwert" genannt.
+
+::: {#def-arithm-mittel}
+### Arithmetisches Mittel
+
+<br>
+
+Sei $(x_1, \dots, x_n)$ eine Stichprobe eines **kardinal skalierten** Merkmals. Das **arithmetische Mittel** ist:
+
+$$\bar{x} = \dfrac{1}{n} \sum_{i=1}^{n} x_i = \dfrac{x_1 + x_2 + \cdots + x_n}{n}$$
+:::
+
+::: {#exm-arithm-mittel-groesse}
+### Fortsetzung: Körpergröße bei 12 Personen
+
+<br>
+
+Die Körpergrößen lauten: 170,5 – 183,0 – 174,5 – 158,0 – 167,5 – 179,5 – 192,0 – 177,5 – 186,5 – 161,5 – 181,0 – 164,0
+
+$$\bar{x} = \dfrac{1}{12} (170{,}5 + 183{,}0 + \cdots + 164{,}0) = \dfrac{2095{,}5}{12} \approx 174{,}6 \text{ cm}$$
+:::
+
+::: {.callout-rechnen}
+#### Rechenhinweis: Summenformel
+
+Das Summenzeichen $\sum_{i=1}^{n} x_i$ bedeutet einfach: addiere alle Werte von $x_1$ bis $x_n$. Für $n = 4$ Werte 3, 7, 2, 8 gilt z.B.:
+
+$$\bar{x} = \frac{3 + 7 + 2 + 8}{4} = \frac{20}{4} = 5$$
+:::
+
+### Eigenschaften {.unnumbered}
+
+Das arithmetische Mittel hat zwei wichtige Eigenschaften:
+
+1. **Die Summe der Abweichungen vom Mittelwert ist immer null:**
+$$\sum_{i=1}^n (x_i - \bar{x}) = 0$$
+Das bedeutet: Positive und negative Abweichungen gleichen sich aus.
+
+2. **Das arithmetische Mittel ist nicht robust gegenüber Ausreißern.** Ein einzelner extrem großer oder kleiner Wert kann den Mittelwert stark verschieben.
+
+::: {#exm-ausreisser}
+### Ausreißer und Mittelwert
+
+<br>
+
+Stichprobe (Alter in Jahren): 21, 15, 36, 23 → $\bar{x} = 23{,}75$
+
+Mit einem Tippfehler: 21, **155**, 36, 23 → $\bar{x} = 58{,}75$
+
+Ein einzelner falscher Wert hat den Mittelwert fast verdreifacht.
+:::
+
+::: {#exr-arithm-mittel-pinguine}
+### Pinguine: Arithmetisches Mittel
+
+<br>
+
+Berechne:
+a) Das arithmetische Mittel der Schnabellänge (`bill_length_mm`) aller Pinguine.
+b) Das arithmetische Mittel getrennt nach Pinguinart (`species`). Sind die Unterschiede groß?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+import numpy as np
+
+penguins = load_penguins()
+
+# a) Mittelwert über alle Pinguine
+mittelwert_gesamt = penguins['bill_length_mm'].mean()
+print(f"Mittlere Schnabellänge (gesamt): {mittelwert_gesamt:.2f} mm")
+
+# b) Mittelwert pro Art
+mittelwert_art = penguins.groupby('species')['bill_length_mm'].mean()
+print("\nMittlere Schnabellänge nach Art:")
+print(mittelwert_art.round(2))
+```
+:::
+
+::: {.callout-python}
+#### Python: Arithmetisches Mittel
+
+```python
+# Für eine Spalte im DataFrame (NaN-Werte werden automatisch ignoriert)
+df['spalte'].mean()
+
+# Mit NumPy
+import numpy as np
+np.mean(daten_array)
+
+# Mittelwert nach Gruppe
+df.groupby('gruppe')['spalte'].mean()
+```
+:::
+
+---
+
+## Geometrisches Mittel
+
+Das **geometrische Mittel** ist ein spezielles Lagemaß für **positive** Werte. Es ist nützlich, wenn sich Werte multiplikativ verändern – z.B. bei Wachstumsraten.
+
+::: {#def-geom-mittel}
+### Geometrisches Mittel
+
+<br>
+
+Sei $(x_1, \dots, x_n)$ eine Stichprobe mit **ausschließlich positiven** Werten ($x_i > 0$). Das **geometrische Mittel** ist:
+
+$$\bar{x}_g = \sqrt[n]{x_1 \cdot x_2 \cdots x_n} = \left(\prod_{i=1}^n x_i\right)^{\frac{1}{n}}$$
+:::
+
+::: {#exm-geom-mittel}
+### Aktienkurs
+
+<br>
+
+Ein Aktienkurs verändert sich drei Jahre lang mit den Wachstumsfaktoren $f_1 = 1{,}2$, $f_2 = 1{,}25$, $f_3 = 0{,}\overline{6}$ (d.h. +20 %, +25 %, −33 %).
+
+Das geometrische Mittel der Wachstumsfaktoren:
+$$\bar{f}_g = \sqrt[3]{1{,}2 \cdot 1{,}25 \cdot 0{,}\overline{6}} = \sqrt[3]{1} = 1$$
+
+Die durchschnittliche Wachstumsrate ist also $0$ – was korrekt ist, da der Kurs am Ende wieder beim Startwert landet.
+
+Das arithmetische Mittel der Wachstumsraten würde $\approx +3{,}9\,\%$ ergeben – und wäre falsch.
+:::
+
+::: {#exr-geom-mittel}
+### Pinguine: Geometrisches Mittel
+
+<br>
+
+Berechne das geometrische Mittel der Flossenlänge (`flipper_length_mm`). Vergleiche es mit dem arithmetischen Mittel. Ist der Unterschied groß?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+from scipy.stats import gmean
+import numpy as np
+
+penguins = load_penguins()
+flossen = penguins['flipper_length_mm'].dropna()
+
+arithm = flossen.mean()
+geom = gmean(flossen)
+
+print(f"Arithmetisches Mittel: {arithm:.2f} mm")
+print(f"Geometrisches Mittel:  {geom:.2f} mm")
+print(f"Unterschied: {arithm - geom:.4f} mm")
+```
+:::
+
+::: {.callout-tip}
+#### Wann geometrisches Mittel?
+
+Verwende das geometrische Mittel, wenn Werte **multipliziert** werden (Wachstumsfaktoren, Zinssätze, Indizes). Für gewöhnliche additive Größen wie Länge, Gewicht oder Temperatur nimm das arithmetische Mittel.
+:::
+
+---
+
+## Median
+
+Der **Median** teilt die (geordnete) Stichprobe genau in der Mitte: Mindestens die Hälfte der Werte liegt unterhalb, mindestens die Hälfte oberhalb des Medians.
+
+::: {#def-median}
+### Median
+
+<br>
+
+Sei $x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)}$ die **sortierte** Stichprobe eines kardinal skalierten Merkmals. Der **Median** ist:
+
+$$\tilde{x}_{0{,}5} = \begin{cases} x_{\left(\frac{n+1}{2}\right)}, & \text{falls } n \text{ ungerade} \\[6pt] \dfrac{1}{2}\!\left(x_{\left(\frac{n}{2}\right)} + x_{\left(\frac{n}{2}+1\right)}\right), & \text{falls } n \text{ gerade} \end{cases}$$
+
+Bei **ungerader** Stichprobengröße ist der Median der mittlere Wert. Bei **gerader** Stichprobengröße ist der Median der Durchschnitt der beiden mittleren Werte.
+:::
+
+::: {.callout-rechnen}
+#### Schritt-für-Schritt: Median berechnen
+
+1. Stichprobe **aufsteigend sortieren**
+2. Anzahl der Werte $n$ bestimmen
+3. Wenn $n$ ungerade: Wert an Position $\frac{n+1}{2}$
+4. Wenn $n$ gerade: Durchschnitt der Werte an den Positionen $\frac{n}{2}$ und $\frac{n}{2}+1$
+:::
+
+::: {#exm-median-groesse}
+### Fortsetzung: Körpergröße bei 12 Personen
+
+<br>
+
+Sortierte Stichprobe ($n = 12$, also gerade):
+
+$$158{,}0 \;|\; 161{,}5 \;|\; 164{,}0 \;|\; 167{,}5 \;|\; 170{,}5 \;|\; \underbrace{174{,}5}_{\text{Pos. 6}} \;|\; \underbrace{177{,}5}_{\text{Pos. 7}} \;|\; 179{,}5 \;|\; 181{,}0 \;|\; 183{,}0 \;|\; 186{,}5 \;|\; 192{,}0$$
+
+$$\tilde{x}_{0{,}5} = \dfrac{174{,}5 + 177{,}5}{2} = 176{,}0 \text{ cm}$$
+:::
+
+### Median vs. Arithmetisches Mittel {.unnumbered}
+
+Der wichtigste Unterschied:
+
+- Das **arithmetische Mittel** ist empfindlich gegenüber **Ausreißern**.
+- Der **Median** ist **robust**: Ein einzelner extremer Wert ändert ihn kaum.
+
+Bei schiefen Verteilungen weichen Mittelwert und Median voneinander ab:
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Verteilung des Körpergewichts der Pinguine. Bei schiefen Verteilungen liegen Mittelwert und Median auseinander."
+masse = penguins['body_mass_g'].dropna()
+mean_val = masse.mean()
+median_val = masse.median()
+
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.hist(masse, bins=20, color='#0a9396', edgecolor='white', alpha=0.8, density=True)
+ax.axvline(mean_val, color='#ae2012', lw=2, linestyle='--', label=f'Mittelwert: {mean_val:.0f} g')
+ax.axvline(median_val, color='#005f73', lw=2, linestyle='-', label=f'Median: {median_val:.0f} g')
+ax.set_xlabel('Körpergewicht (g)'); ax.set_ylabel('Dichte')
+ax.legend()
+plt.tight_layout(); plt.show()
+```
+
+::: {#exr-median-pinguine}
+### Pinguine: Median und Mittelwert
+
+<br>
+
+Berechne Mittelwert und Median des Körpergewichts (`body_mass_g`) für jede Pinguinart. Gibt es Unterschiede zwischen den Arten?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+ergebnis = penguins.groupby('species')['body_mass_g'].agg(['mean', 'median'])
+ergebnis.columns = ['Mittelwert (g)', 'Median (g)']
+ergebnis = ergebnis.round(1)
+print(ergebnis)
+```
+:::
+
+::: {.callout-python}
+#### Python: Median berechnen
+
+```python
+# Median einer Spalte
+df['spalte'].median()
+
+# Mittelwert und Median im Vergleich
+print(df['spalte'].mean(), df['spalte'].median())
+```
+:::
+
+---
+
+## Quantile
+
+Eine Verallgemeinerung des Medians sind die **$p$-Quantile**. Das $p$-Quantil $\tilde{x}_p$ teilt die Stichprobe so, dass ungefähr ein Anteil von $p$ der Werte **kleiner oder gleich** und ein Anteil von $1-p$ **größer oder gleich** $\tilde{x}_p$ ist.
+
+::: {#def-quantil}
+### $p$-Quantil
+
+<br>
+
+Sei $x_{(1)} \le \cdots \le x_{(n)}$ die sortierte Stichprobe, und $p \in (0, 1)$. Das **$p$-Quantil** ist:
+
+$$\tilde{x}_p = \begin{cases} x_{(\lfloor np \rfloor + 1)}, & \text{falls } np \notin \mathbb{N} \\[6pt] \dfrac{1}{2}\!\left(x_{(np)} + x_{(np+1)}\right), & \text{falls } np \in \mathbb{N} \end{cases}$$
+
+Dabei bezeichnet $\lfloor c \rfloor$ die **untere Gaußklammer** (größte ganze Zahl $\le c$), z.B. $\lfloor 2{,}7 \rfloor = 2$.
+:::
+
+### Spezielle Quantile {.unnumbered}
+
+| Name | $p$-Wert | Bedeutung |
+|------|----------|-----------|
+| **Quartile** | 0,25 / 0,50 / 0,75 | teilen die Stichprobe in 4 gleiche Teile |
+| **Dezentile** | 0,1 / 0,2 / … / 0,9 | teilen die Stichprobe in 10 gleiche Teile |
+| **Median** | 0,50 | 2. Quartil = 5. Dezentil |
+
+Das **untere Quartil** $\tilde{x}_{0{,}25}$ (= $Q_1$) und das **obere Quartil** $\tilde{x}_{0{,}75}$ (= $Q_3$) spielen besonders beim Boxplot eine wichtige Rolle.
+
+::: {#exm-quartile-groesse}
+### Fortsetzung: Körpergröße bei 12 Personen
+
+<br>
+
+Sortierte Stichprobe: 158,0 – 161,5 – 164,0 – 167,5 – 170,5 – 174,5 – 177,5 – 179,5 – 181,0 – 183,0 – 186,5 – 192,0
+
+**Erstes Quartil** ($p = 0{,}25$, $n \cdot p = 12 \cdot 0{,}25 = 3 \in \mathbb{N}$):
+$$Q_1 = \tilde{x}_{0{,}25} = \dfrac{x_{(3)} + x_{(4)}}{2} = \dfrac{164{,}0 + 167{,}5}{2} = 165{,}75 \text{ cm}$$
+
+**Drittes Quartil** ($p = 0{,}75$, $n \cdot p = 9 \in \mathbb{N}$):
+$$Q_3 = \tilde{x}_{0{,}75} = \dfrac{x_{(9)} + x_{(10)}}{2} = \dfrac{181{,}0 + 183{,}0}{2} = 182{,}0 \text{ cm}$$
+:::
+
+::: {#exr-quantile-pinguine}
+### Pinguine: Quantile
+
+<br>
+
+Berechne das 10 %- und das 90 %-Quantil der Flossenlänge (`flipper_length_mm`). Was bedeuten diese Werte?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+q10 = penguins['flipper_length_mm'].quantile(0.10)
+q90 = penguins['flipper_length_mm'].quantile(0.90)
+
+print(f"10 %-Quantil: {q10:.1f} mm")
+print(f"90 %-Quantil: {q90:.1f} mm")
+print(f"\nInterpretation: 80 % der Pinguine haben eine Flossenlänge")
+print(f"zwischen {q10:.1f} und {q90:.1f} mm.")
+```
+:::
+
+::: {.callout-python}
+#### Python: Quantile berechnen
+
+```python
+# Ein einzelnes Quantil
+df['spalte'].quantile(0.25)   # 25%-Quantil (= Q1)
+
+# Mehrere Quantile auf einmal
+df['spalte'].quantile([0.10, 0.25, 0.50, 0.75, 0.90])
+
+# Schnelle Zusammenfassung inkl. Quartile
+df['spalte'].describe()
+```
+:::
+
+---
+
+## Boxplot
+
+Der **Boxplot** (oder Box-Whisker-Plot) ist eine grafische Darstellung, die auf fünf Lagemaßen basiert – der sogenannten **Fünf-Punkte-Zusammenfassung**:
+
+$$\text{Minimum} \quad Q_1 \quad \text{Median} \quad Q_3 \quad \text{Maximum}$$
+
+::: {#def-boxplot}
+### Boxplot
+
+<br>
+
+**a) Einfacher Boxplot:**
+Eine Rechteck-Box reicht von $Q_1$ bis $Q_3$. Im Inneren markiert eine Linie den Median. Von der Box gehen nach links und rechts **Antennen** (Whisker) bis zum Minimum bzw. Maximum.
+
+**b) Verfeinerter Boxplot** (gebräuchlicher):
+Die Antennen werden nur bis zur **letzten nicht-ausreißerhaften Beobachtung** gezeichnet. Als Ausreißer gelten Werte außerhalb des Bereichs:
+
+$$[Q_1 - 1{,}5 \cdot \text{IQR};\; Q_3 + 1{,}5 \cdot \text{IQR}]$$
+
+mit dem **Interquartilsabstand** $\text{IQR} = Q_3 - Q_1$. Ausreißer werden als einzelne Punkte eingezeichnet.
+:::
+
+::: {.callout-tip}
+#### Wie lese ich einen Boxplot?
+
+```
+     |----[   |    ]---|   o   o
+    Min  Q1  Med  Q3  Max (Ausreißer)
+         |<-- IQR -->|
+```
+
+- Die **Box** enthält ca. 50 % der Beobachtungen.
+- Die **Linie in der Box** ist der Median.
+- Die **Länge der Box** (IQR) zeigt die Streuung der mittleren 50 % der Daten.
+- Weit rechts oder links liegende **Punkte** sind potenzielle Ausreißer.
+- Liegt der Median nicht mittig in der Box → die Verteilung ist schief.
+:::
+
+::: {#exm-boxplot-groesse}
+### Fortsetzung: Körpergröße bei 12 Personen
+
+<br>
+
+Aus den berechneten Kennzahlen:
+- Minimum = 158,0 cm
+- $Q_1 = 165{,}75$ cm
+- Median = 176,0 cm
+- $Q_3 = 182{,}0$ cm
+- Maximum = 192,0 cm
+
+$\text{IQR} = 182{,}0 - 165{,}75 = 16{,}25$ cm
+
+Da alle Werte im Bereich $[165{,}75 - 1{,}5 \cdot 16{,}25;\; 182{,}0 + 1{,}5 \cdot 16{,}25] = [141{,}4;\; 206{,}4]$ liegen, gibt es keine Ausreißer – die Antennen reichen bis zu Minimum und Maximum.
+:::
+
+Für unsere Pinguine sieht der Boxplot des Körpergewichts nach Pinguinart so aus:
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Körpergewicht der Pinguine nach Art (verfeinerter Boxplot). Gentoo-Pinguine sind deutlich schwerer als Adélie und Chinstrap."
+fig, ax = plt.subplots(figsize=(7, 4.5))
+
+arten = ['Adelie', 'Chinstrap', 'Gentoo']
+farben = ['#005f73', '#0a9396', '#94d2bd']
+
+daten = [penguins[penguins['species'] == art]['body_mass_g'].dropna().values
+         for art in arten]
+
+bp = ax.boxplot(daten, labels=arten, patch_artist=True,
+                medianprops={'color': 'white', 'linewidth': 2},
+                flierprops={'marker': 'o', 'markerfacecolor': 'gray', 'markersize': 4})
+
+for patch, farbe in zip(bp['boxes'], farben):
+    patch.set_facecolor(farbe)
+    patch.set_alpha(0.85)
+
+ax.set_ylabel('Körpergewicht (g)')
+ax.set_xlabel('Pinguinart')
+ax.yaxis.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout(); plt.show()
+```
+
+::: {#exr-boxplot-pinguine}
+### Pinguine: Eigener Boxplot
+
+<br>
+
+Erstelle Boxplots der Schnabellänge (`bill_length_mm`) getrennt nach Geschlecht (`sex`). Welche Unterschiede erkennst du?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+import matplotlib.pyplot as plt
+
+penguins = load_penguins()
+pinguine_clean = penguins.dropna(subset=['bill_length_mm', 'sex'])
+
+maennlich = pinguine_clean[pinguine_clean['sex'] == 'male']['bill_length_mm']
+weiblich  = pinguine_clean[pinguine_clean['sex'] == 'female']['bill_length_mm']
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.boxplot([weiblich, maennlich], labels=['weiblich', 'männlich'], patch_artist=True)
+ax.set_ylabel('Schnabellänge (mm)')
+ax.set_title('Schnabellänge nach Geschlecht')
+plt.tight_layout()
+plt.show()
+```
+:::
+
+::: {.callout-python}
+#### Python: Boxplot erstellen
+
+```python
+import matplotlib.pyplot as plt
+
+# Einfacher Boxplot einer Spalte
+plt.boxplot(df['spalte'].dropna())
+plt.show()
+
+# Mehrere Gruppen nebeneinander
+gruppe_a = df[df['gruppe'] == 'A']['spalte'].dropna()
+gruppe_b = df[df['gruppe'] == 'B']['spalte'].dropna()
+plt.boxplot([gruppe_a, gruppe_b], labels=['A', 'B'])
+plt.show()
+
+# Schnelle Zusammenfassung (5-Punkte-Summary):
+df['spalte'].describe()
+```
+:::
+
+---
+
+## Zusammenfassung
+
+::: {.callout-tip}
+#### Das Wichtigste auf einen Blick
+
+**Kennzahlen** reduzieren eine Stichprobe auf charakteristische Einzelwerte. **Lagemaße** beschreiben, wo sich die Mitte oder der Schwerpunkt der Daten befindet.
+
+| Lagemaß | Für welche Skala? | Robust? | Python |
+|---------|------------------|---------|--------|
+| **Modalwert** | nominal, ordinal, kardinal | – | `.mode()` |
+| **Median** | ordinal, kardinal | ✓ ja | `.median()` |
+| **Arithm. Mittel** | kardinal | ✗ nein | `.mean()` |
+| **Geom. Mittel** | kardinal (nur $>0$) | – | `gmean()` |
+
+Der **Boxplot** fasst die Verteilung mit 5 Kennzahlen grafisch zusammen: Minimum, $Q_1$, Median, $Q_3$, Maximum. Er eignet sich besonders gut zum Vergleich mehrerer Gruppen.
+:::
+
+---
+
+## Wissenstest
+
+```{quizdown}
+---
+primaryColor: '#0a9396'
+shuffleQuestions: false
+shuffleAnswers: true
+---
+
+### Was ist der Modalwert einer Stichprobe?
+
+1. [ ] Das arithmetische Mittel aller Werte
+1. [x] Die Merkmalsausprägung, die am häufigsten vorkommt
+    > Richtig! Der Modalwert ist die häufigste Ausprägung.
+1. [ ] Der mittlere Wert der sortierten Stichprobe
+1. [ ] Der Durchschnitt des größten und kleinsten Werts
+
+### Eine Stichprobe enthält die Werte: 4, 7, 7, 9, 13. Wie lautet das arithmetische Mittel?
+
+1. [ ] 7
+1. [ ] 8
+1. [x] 8
+    > Das arithmetische Mittel ist $(4+7+7+9+13)/5 = 40/5 = 8$.
+1. [ ] 9
+
+Warte – zwei Antworten sehen gleich aus. Wähle 8!
+
+### Die Stichprobe 3, 5, 7, 9, 11 hat den Median 7. Jetzt wird ein Ausreißer 300 hinzugefügt: 3, 5, 7, 9, 11, 300. Was passiert mit dem Median?
+
+1. [x] Der Median verändert sich kaum (er wird 8)
+    > Richtig! Bei 6 Werten ist der Median (7+9)/2 = 8. Der Ausreißer 300 hat kaum Einfluss.
+1. [ ] Der Median springt stark nach oben
+1. [ ] Der Median bleibt genau 7
+1. [ ] Der Median kann nicht mehr berechnet werden
+
+### Du analysierst Haushaltseinkommen in Deutschland. Welches Lagemaß ist sinnvoller: Mittelwert oder Median?
+
+1. [ ] Der Mittelwert, da er alle Werte berücksichtigt
+1. [x] Der Median, da sehr hohe Einkommen den Mittelwert verzerren würden
+    > Genau! Einkommen sind rechtsschief verteilt – wenige sehr Reiche treiben den Mittelwert nach oben. Der Median bildet die „typische" Situation besser ab.
+1. [ ] Beide sind gleich gut geeignet
+1. [ ] Weder noch – man sollte nur den Modalwert verwenden
+
+### Was beschreibt das erste Quartil $Q_1$?
+
+1. [ ] Den kleinsten Wert der Stichprobe
+1. [x] Das 25 %-Quantil – 25 % der Werte liegen unterhalb davon
+    > Richtig! $Q_1 = \tilde{x}_{0{,}25}$ teilt die untersten 25 % der Daten ab.
+1. [ ] Den Mittelwert der unteren Hälfte
+1. [ ] Den Median der Stichprobe
+
+### Wie breit ist die Box in einem Boxplot?
+
+1. [ ] Vom Minimum bis zum Maximum
+1. [ ] Zweimal die Standardabweichung
+1. [x] Vom ersten Quartil $Q_1$ bis zum dritten Quartil $Q_3$ (= IQR)
+    > Korrekt! Die Boxbreite entspricht dem Interquartilsabstand IQR = $Q_3 - Q_1$ und enthält ca. 50 % der Daten.
+1. [ ] Vom Minimum bis zum Median
+
+### Im verfeinerten Boxplot werden Punkte außerhalb der Antennen als Ausreißer markiert. Wo enden die Antennen?
+
+1. [ ] Bei Minimum und Maximum
+1. [ ] Bei $Q_1 - \text{IQR}$ und $Q_3 + \text{IQR}$
+1. [x] Bei der letzten Beobachtung innerhalb von $Q_1 - 1{,}5 \cdot \text{IQR}$ bzw. $Q_3 + 1{,}5 \cdot \text{IQR}$
+    > Genau! Werte jenseits dieser Grenzen werden als einzelne Punkte (potenzielle Ausreißer) eingezeichnet.
+1. [ ] Bei einem Standardabweichung vom Mittelwert
+```

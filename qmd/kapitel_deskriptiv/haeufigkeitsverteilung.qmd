@@ -1,0 +1,433 @@
+---
+title: "1.2 Häufigkeitsverteilung"
+subtitle: "Deskriptive Statistik"
+lang: de
+format: html
+filters:
+  - pyodide
+---
+
+> **Lernziele:** Am Ende dieses Kapitels kannst du
+>
+> - eine Stichprobe sortieren (von Hand und mit Python).
+> - absolute und relative Häufigkeiten berechnen und interpretieren.
+> - Häufigkeiten für klassierte Merkmale bestimmen.
+> - die Häufigkeitsdichte erklären und berechnen.
+
+---
+
+## Einführung
+
+Du hast eine Stichprobe – aber Rohdaten in einer langen Liste lassen sich kaum überblicken. Was du brauchst, ist eine sinnvolle **Zusammenfassung**.
+
+::: {#exm-blutgruppe}
+### Blutgruppe und Körpergröße bei 12 Personen
+
+In einer Umfrage wurden 12 Personen nach Blutgruppe und Körpergröße befragt:
+
+| ID | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Blutgruppe** | A | A | B | AB | 0 | 0 | A | 0 | B | A | 0 | A |
+| **Größe (cm)** | 170.5 | 183.0 | 174.5 | 158.0 | 167.5 | 179.5 | 192.0 | 177.5 | 186.5 | 161.5 | 181.0 | 164.0 |
+
+: {.striped}
+
+Schon zwei einfache Fragen sind auf den ersten Blick schwer zu beantworten:
+
+- Wie viele Personen haben Blutgruppe A?
+- Wie viele Personen sind zwischen 170 und 180 cm groß?
+:::
+
+Die Lösung: Die **Häufigkeitsverteilung** fasst die Stichprobe kompakt zusammen – mit den Ausprägungen und wie oft sie vorkommen.
+
+---
+
+## Geordnete Stichprobe
+
+Der erste Schritt zu mehr Übersicht ist das **Sortieren** der Beobachtungen. Die ungeordnete Rohdaten-Liste heißt **Urliste**; nach dem Sortieren erhalten wir die **Ordnungsstatistik** $(x_{(1)}, x_{(2)}, \dots, x_{(n)})$, wobei $x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)}$.
+
+::: {.callout-tip}
+**Achtung:** Sortieren ist nur bei **ordinal oder kardinal** skalierten Merkmalen sinnvoll. Bei einem nominalen Merkmal wie der Blutgruppe gibt es keine natürliche Reihenfolge – man kann die Ausprägungen aber zur besseren Lesbarkeit gruppieren.
+:::
+
+::: {#exm-sortiert}
+### Fortsetzung: Blutgruppe und Körpergröße
+
+**Blutgruppe** (nominal – keine Rangfolge, aber Gruppierung möglich):
+
+$(A,\ A,\ A,\ A,\ A,\ B,\ B,\ AB,\ 0,\ 0,\ 0,\ 0)$
+
+→ Jetzt sieht man sofort: 5× A, 2× B, 1× AB, 4× 0.
+
+**Körpergröße** (kardinal – natürliche Ordnung):
+
+$(158.0,\ 161.5,\ 164.0,\ 167.5,\ 170.5,\ 174.5,\ 177.5,\ 179.5,\ 181.0,\ 183.0,\ 186.5,\ 192.0)$
+
+→ 4 Personen liegen zwischen 170 und 180 cm.
+:::
+
+::: {.callout-python}
+**Python-Tipp:** Mit `sort_values()` sortiert pandas eine Spalte. Mit `sorted()` sortierst du eine einfache Python-Liste. `head()` und `tail()` zeigen den Anfang und das Ende.
+:::
+
+```{pyodide-python}
+#| read-only: true
+import pandas as pd
+
+daten = pd.DataFrame({
+    "id":         list(range(1, 13)),
+    "blutgruppe": ["A","A","B","AB","0","0","A","0","B","A","0","A"],
+    "groesse":    [170.5,183.0,174.5,158.0,167.5,179.5,
+                   192.0,177.5,186.5,161.5,181.0,164.0]
+})
+
+# Körpergröße sortiert
+print("Sortiert (klein → groß):")
+print(sorted(daten["groesse"]))
+
+# Blutgruppen gruppiert
+print("\nBlutgruppen alphabetisch:")
+print(sorted(daten["blutgruppe"]))
+```
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+
+# Schnabellänge sortiert – was lässt sich direkt ablesen?
+print("Kleinste Schnabellängen:")
+print(penguins["bill_length_mm"].sort_values().head(6).values)
+
+print("\nGrößte Schnabellängen:")
+print(penguins["bill_length_mm"].sort_values().tail(6).values)
+```
+
+---
+
+## Absolute und relative Häufigkeiten
+
+Statt jeden Wert einzeln aufzuschreiben, notieren wir jede Ausprägung einmal – zusammen mit ihrer **Häufigkeit**.
+
+::: {#def-haeufigkeiten}
+### Absolute und relative Häufigkeit
+
+Sei $(x_1, \dots, x_n)$ eine Stichprobe des Merkmals $X$ und $a_j$ eine mögliche Merkmalsausprägung. Dann ist:
+
+$$H(a_j) = \text{Anzahl der Beobachtungen mit Ausprägung } a_j$$
+
+die **absolute Häufigkeit** von $a_j$, und
+
+$$h(a_j) = \frac{H(a_j)}{n}$$
+
+die **relative Häufigkeit** (= Anteil) von $a_j$.
+
+**Wichtige Eigenschaften:**
+
+- $\sum_j H(a_j) = n$ (alle absoluten Häufigkeiten summieren sich zum Stichprobenumfang)
+- $\sum_j h(a_j) = 1$ (alle relativen Häufigkeiten summieren sich zu 1)
+- $0 \le h(a_j) \le 1$
+:::
+
+::: {#exm-haeufigkeiten-blutgruppe}
+### Häufigkeitstabelle: Blutgruppe
+
+| Ausprägung $a_j$ | abs. Häufigkeit $H(a_j)$ | rel. Häufigkeit $h(a_j)$ |
+|:---:|:---:|:---:|
+| A  | 5 | 5/12 ≈ 0.417 |
+| B  | 2 | 2/12 ≈ 0.167 |
+| AB | 1 | 1/12 ≈ 0.083 |
+| 0  | 4 | 4/12 ≈ 0.333 |
+| **Summe** | **12** | **1** |
+
+: {.striped}
+:::
+
+::: {.callout-python}
+**Python-Tipp:** `value_counts()` berechnet absolute Häufigkeiten, `value_counts(normalize=True)` gibt relative Häufigkeiten (Anteile) zurück.
+:::
+
+```{pyodide-python}
+#| read-only: true
+import pandas as pd
+
+blutgruppen = ["A","A","B","AB","0","0","A","0","B","A","0","A"]
+s = pd.Series(blutgruppen)
+
+print("Absolute Häufigkeiten:")
+print(s.value_counts())
+
+print("\nRelative Häufigkeiten:")
+print(s.value_counts(normalize=True).round(3))
+
+print(f"\nKontrolle – Summe: {s.value_counts().sum()} / {s.value_counts(normalize=True).sum():.1f}")
+```
+
+Jetzt mit den Palmer-Pinguinen:
+
+```{pyodide-python}
+#| read-only: true
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+
+print("Absolute Häufigkeiten – Pinguinart:")
+print(penguins["species"].value_counts())
+
+print("\nRelative Häufigkeiten – Pinguinart:")
+print(penguins["species"].value_counts(normalize=True).round(3))
+```
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+
+# Aufgabe: Berechne absolute und relative Häufigkeiten für das Merkmal "island"
+# Auf welcher Insel wurden die meisten Pinguine beobachtet?
+
+print(penguins["island"].value_counts())
+print(penguins["island"].value_counts(normalize=True).round(3))
+```
+
+::: {.callout-rechnen}
+**Hinweis:** Bei quantitativen Merkmalen mit vielen verschiedenen Werten (z.B. genaue Körpergröße) hat fast jeder Wert die Häufigkeit 1 – die Tabelle wird riesig und unübersichtlich. Lösung: Klassieren (→ nächster Abschnitt).
+:::
+
+---
+
+## Häufigkeiten klassierter Merkmale
+
+Bei kardinalen Merkmalen mit vielen verschiedenen Ausprägungen ist es sinnvoller, Klassen zu bilden und deren Häufigkeiten zu berechnen.
+
+::: {#def-klass-haeufigkeiten}
+### Absolute und relative Häufigkeit von Klassen
+
+Sei $K_j = (k_{j-1}, k_j]$ die $j$-te Klasse. Dann ist:
+
+$$H(K_j) = \text{Anzahl der Beobachtungen in Klasse } K_j$$
+
+die **absolute Klassenhäufigkeit**, und $h(K_j) = \dfrac{H(K_j)}{n}$ die **relative Klassenhäufigkeit**.
+:::
+
+::: {#exm-haeufigkeiten-groesse}
+### Häufigkeitstabelle: Körpergröße (klassiert)
+
+Klassen: $(150, 160]$, $(160, 170]$, $(170, 180]$, $(180, 190]$, $(190, 200]$
+
+| Klasse $K_j$ | Beobachtungen | $H(K_j)$ | $h(K_j)$ |
+|:---:|:---:|:---:|:---:|
+| (150, 160] | 158.0 | 1 | 1/12 |
+| (160, 170] | 161.5, 164.0, 167.5 | 3 | 3/12 |
+| (170, 180] | 170.5, 174.5, 177.5, 179.5 | 4 | 4/12 |
+| (180, 190] | 181.0, 183.0, 186.5 | 3 | 3/12 |
+| (190, 200] | 192.0 | 1 | 1/12 |
+| **Summe** | | **12** | **1** |
+
+: {.striped}
+:::
+
+```{pyodide-python}
+#| read-only: true
+import pandas as pd
+
+groessen = [170.5,183.0,174.5,158.0,167.5,179.5,
+            192.0,177.5,186.5,161.5,181.0,164.0]
+s = pd.Series(groessen)
+
+klassen = pd.cut(s, bins=[150,160,170,180,190,200])
+
+print("Absolute Häufigkeiten (klassiert):")
+print(klassen.value_counts().sort_index())
+
+print("\nRelative Häufigkeiten (klassiert):")
+print(klassen.value_counts(normalize=True).sort_index().round(3))
+```
+
+Für die Pinguine – Körpergewicht klassiert:
+
+```{pyodide-python}
+#| read-only: true
+#| packages: ["palmerpenguins"]
+import pandas as pd
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+klassen = pd.cut(
+    penguins["body_mass_g"],
+    bins=[2500, 3500, 4500, 5500, 6500],
+    labels=["(2500,3500]","(3500,4500]","(4500,5500]","(5500,6500]"]
+)
+
+abs_h = klassen.value_counts().sort_index()
+rel_h = klassen.value_counts(normalize=True).sort_index().round(3)
+
+tabelle = pd.DataFrame({"Absolute H.": abs_h, "Relative H.": rel_h})
+print(tabelle)
+print(f"\nSummen: {abs_h.sum()} / {rel_h.sum():.3f}")
+```
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+import pandas as pd
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+# Aufgabe: Klassiere die Schnabellänge (bill_length_mm) in 5 gleichbreite Klassen
+# von 30 bis 60 mm. Wie viele Pinguine haben Schnabellängen im mittleren Bereich?
+
+klassen = pd.cut(penguins["bill_length_mm"], bins=[30, 36, 42, 48, 54, 60])
+print(klassen.value_counts().sort_index())
+```
+
+---
+
+## Häufigkeitsdichte
+
+Wenn alle Klassen gleich breit sind, lassen sich die relativen Häufigkeiten direkt vergleichen. Bei **unterschiedlichen Klassenbreiten** ist das problematisch: Eine breitere Klasse enthält automatisch mehr Beobachtungen – nicht weil sich dort mehr Werte häufen, sondern weil sie mehr Wertebereich abdeckt.
+
+Die Lösung: Die **Häufigkeitsdichte** normiert die relative Häufigkeit durch die Klassenbreite.
+
+::: {#def-haeufigkeitsdichte}
+### Häufigkeitsdichte
+
+$$f(K_j) = \frac{h(K_j)}{k_j - k_{j-1}} = \frac{\text{relative Häufigkeit}}{\text{Klassenbreite}}$$
+
+Die Häufigkeitsdichte ist der Wert, den ein Histogramm auf der $y$-Achse zeigt, wenn die Klassen unterschiedlich breit sind. Die Fläche des $j$-ten Balkens entspricht dann genau der relativen Häufigkeit $h(K_j)$.
+:::
+
+::: {.callout-rechnen}
+**Merke:** Wenn alle Klassen gleich breit sind, sind Häufigkeitsdichte und relative Häufigkeit proportional – der Vergleich zwischen Klassen funktioniert auch ohne Normierung. Bei unterschiedlichen Breiten **muss** man die Häufigkeitsdichte verwenden.
+:::
+
+::: {#exm-haeufigkeitsdichte}
+### Häufigkeitsdichte: Körpergröße
+
+Für das Beispiel mit gleichen Klassenbreiten (alle 10 cm):
+
+| Klasse | $H(K_j)$ | $h(K_j)$ | Breite | $f(K_j)$ |
+|:---:|:---:|:---:|:---:|:---:|
+| (150, 160] | 1 | 0.083 | 10 | 0.0083 |
+| (160, 170] | 3 | 0.250 | 10 | 0.0250 |
+| (170, 180] | 4 | 0.333 | 10 | 0.0333 |
+| (180, 190] | 3 | 0.250 | 10 | 0.0250 |
+| (190, 200] | 1 | 0.083 | 10 | 0.0083 |
+
+: {.striped}
+
+Da alle Klassen gleich breit sind, ändern sich nur die Skalierungen – die Reihenfolge bleibt gleich.
+:::
+
+```{pyodide-python}
+#| read-only: true
+import pandas as pd
+import numpy as np
+
+groessen = [170.5,183.0,174.5,158.0,167.5,179.5,
+            192.0,177.5,186.5,161.5,181.0,164.0]
+n = len(groessen)
+grenzen = [150, 160, 170, 180, 190, 200]
+
+klassen = pd.cut(groessen, bins=grenzen)
+abs_h = klassen.value_counts().sort_index()
+rel_h = abs_h / n
+breiten = pd.Series([r.right - r.left for r in abs_h.index])
+dichte = (rel_h.values / breiten.values).round(5)
+
+tabelle = pd.DataFrame({
+    "H(Kj)":    abs_h.values,
+    "h(Kj)":    rel_h.round(3).values,
+    "Breite":   breiten.values,
+    "f(Kj)":    dichte
+}, index=abs_h.index)
+print(tabelle)
+```
+
+---
+
+## Die Häufigkeitsverteilung
+
+Alle bisher berechneten Größen zusammen beschreiben die **Häufigkeitsverteilung** der Stichprobe:
+
+::: {#def-haeufigkeitsverteilung}
+### Häufigkeitsverteilung
+
+Die **Häufigkeitsverteilung** einer Stichprobe $(x_1, \dots, x_n)$ ist die Zusammenstellung aller (beobachteten) Merkmalsausprägungen mit ihren absoluten oder relativen Häufigkeiten.
+
+Bei klassierten Merkmalen werden die Häufigkeiten der Klassen oder die Häufigkeitsdichte angegeben.
+:::
+
+Die Häufigkeitsverteilung lässt sich entweder als Tabelle darstellen (wie in diesem Kapitel) oder **grafisch** – das ist oft noch übersichtlicher. Die grafischen Darstellungen lernen wir im nächsten Kapitel kennen.
+
+---
+
+## Zusammenfassung
+
+- Die **Urliste** enthält alle Rohdaten; sortiert ergibt sie die **Ordnungsstatistik**.
+- Die **absolute Häufigkeit** $H(a_j)$ zählt, wie oft eine Ausprägung vorkommt; die **relative Häufigkeit** $h(a_j) = H(a_j)/n$ gibt den Anteil an.
+- Bei kardinalen Merkmalen mit vielen Ausprägungen klassiert man die Daten und berechnet **Klassenhäufigkeiten**.
+- Bei unterschiedlichen Klassenbreiten verwendet man die **Häufigkeitsdichte** $f(K_j) = h(K_j) / \text{Breite}$ für faire Vergleiche.
+
+---
+
+## Wissens-Check
+
+```{quizdown}
+### Was versteht man unter einer "Urliste"?
+
+1. [x] Die ungeordneten Rohdaten einer Stichprobe in der Reihenfolge ihrer Erhebung.
+    > Genau! Urliste = Rohdaten wie erhoben, noch nicht sortiert.
+1. [ ] Eine alphabetisch sortierte Liste aller Merkmalsausprägungen.
+1. [ ] Eine Tabelle mit absoluten Häufigkeiten.
+1. [ ] Die Grundgesamtheit aller möglichen Beobachtungen.
+
+### Was ist die relative Häufigkeit h(a_j)?
+
+1. [ ] Die Anzahl der Beobachtungen mit Ausprägung $a_j$.
+1. [x] Der Anteil der Beobachtungen mit Ausprägung $a_j$ an allen $n$ Beobachtungen.
+    > Richtig! h(a_j) = H(a_j) / n liegt immer zwischen 0 und 1.
+1. [ ] Die Häufigkeit geteilt durch die Klassenbreite.
+1. [ ] Die Differenz zwischen Maximum und Minimum.
+
+### Zu welchem Wert summieren sich alle relativen Häufigkeiten?
+
+1. [ ] n (Stichprobenumfang)
+1. [ ] 100
+1. [x] 1
+    > Richtig! Alle Anteile zusammen ergeben immer 1 (= 100%).
+1. [ ] Es kommt auf den Datensatz an.
+
+### Warum klassiert man quantitative Merkmale?
+
+1. [ ] Weil Python nur mit Klassen rechnen kann.
+1. [ ] Weil klassierte Merkmale immer genauer sind.
+1. [x] Weil bei vielen verschiedenen Ausprägungen fast jeder Wert nur einmal vorkommt und die Häufigkeitstabelle unübersichtlich wird.
+    > Genau! Klassieren fasst ähnliche Werte zusammen und macht Muster sichtbar.
+1. [ ] Damit das Merkmal kardinal skaliert wird.
+
+### Wann muss man die Häufigkeitsdichte statt der relativen Häufigkeit verwenden?
+
+1. [ ] Immer, bei jeder Häufigkeitsberechnung.
+1. [ ] Nur bei nominalen Merkmalen.
+1. [x] Wenn die Klassen unterschiedlich breit sind, damit Klassen fair verglichen werden können.
+    > Richtig! Breitere Klassen fassen mehr Werte – die Dichte normiert das heraus.
+1. [ ] Nur wenn n > 100.
+
+### Wie berechnet man die Häufigkeitsdichte einer Klasse?
+
+1. [ ] $f(K_j) = H(K_j) \cdot \text{Breite}$
+1. [ ] $f(K_j) = H(K_j) / n$
+1. [x] $f(K_j) = h(K_j) / \text{Klassenbreite}$
+    > Korrekt! Relative Häufigkeit geteilt durch die Klassenbreite.
+1. [ ] $f(K_j) = H(K_j) / \text{Klassenbreite}$
+
+### Welche Python-Funktion liefert direkt die absoluten Häufigkeiten einer pandas-Series?
+
+1. [ ] `.sort_values()`
+1. [ ] `.count()`
+1. [x] `.value_counts()`
+    > Genau! Und mit `normalize=True` erhält man die relativen Häufigkeiten.
+1. [ ] `.describe()`
+```

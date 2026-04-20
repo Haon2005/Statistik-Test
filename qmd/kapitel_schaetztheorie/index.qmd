@@ -1,0 +1,57 @@
+---
+title: "2. Schätztheorie"
+lang: de
+filters:
+  - pyodide
+---
+
+## Was dich erwartet {.unnumbered}
+
+In der deskriptiven Statistik haben wir gelernt, Daten zu beschreiben – einen Datensatz zu
+zusammenfassen, zu visualisieren und Kennzahlen zu berechnen. Das war alles **Beschreiben, was
+wir bereits sehen**.
+
+Aber in der Praxis sehen wir fast nie alles. Wir beobachten eine **Stichprobe** und wollen daraus
+Schlüsse über die **Grundgesamtheit** ziehen, die wir nicht vollständig kennen. Genau das ist die
+Aufgabe der **schließenden** (oder **induktiven**) **Statistik**, zu der die Schätztheorie gehört.
+
+Dieses Kapitel besteht aus vier Unterkapiteln:
+
+| | Thema | Kernfrage |
+|-|-------|-----------|
+| **2.1** | Schätzer | *Was bedeutet "schätzen" mathematisch?* |
+| **2.2** | Schätzmethoden | *Wie findet man einen guten Schätzer?* |
+| **2.3** | Gütekriterien | *Wann ist ein Schätzer wirklich gut?* |
+| **2.4** | Konfidenzintervalle | *Wie genau ist unsere Schätzung?* |
+
+## Lernziele {.unnumbered}
+
+Am Ende dieses Kapitels kannst du:
+
+- erklären, was ein Schätzer ist und den Unterschied zwischen Schätzfunktion, Schätzer und
+  Schätzwert beschreiben.
+- einfache Schätzer mit der Momentenmethode und dem Plausibilitätsprinzip bestimmen.
+- Gütekriterien (Erwartungstreue, Standardfehler, Konsistenz) erläutern und anwenden.
+- Konfidenzintervalle für einen Erwartungswert berechnen – sowohl bei bekannter als auch bei
+  unbekannter Varianz – und das Ergebnis korrekt interpretieren.
+
+## Voraussetzungen {.unnumbered}
+
+Dieses Kapitel setzt Kapitel 1 (Deskriptive Statistik) voraus, insbesondere die Begriffe
+arithmetisches Mittel, Varianz, Standardabweichung und Normalverteilung. Python-Grundlagen
+findest du auf der [Python-Grundlagen Seite](../grundlagen.qmd).
+
+## Unser Datensatz {.unnumbered}
+
+Wir arbeiten weiterhin mit dem **Palmer-Pinguins-Datensatz**. Diesmal interessieren wir uns aber
+nicht mehr nur für die 344 Pinguine im Datensatz selbst, sondern für **alle Pinguine dieser
+Arten** – die Stichprobe soll uns etwas über die Grundgesamtheit verraten.
+
+```{pyodide-python}
+#| read-only: true
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+print(penguins.head())
+print(f"\n{penguins.shape[0]} Pinguine, {penguins.shape[1]} Merkmale")
+```

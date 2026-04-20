@@ -1,0 +1,425 @@
+---
+title: "Python Grundlagen"
+format: html
+filters:
+  - pyodide
+---
+
+Diese Seite gibt dir einen kompakten Überblick über die Python-Kenntnisse, die du für dieses Tutorial benötigst. Falls du noch nie mit Python gearbeitet hast, fange mit dem aufklappbaren Grundlagenblock an. Wer Python bereits kennt, kann direkt zu den [Statistik-Bibliotheken](#sec-bibliotheken) springen.
+
+::: {.callout-tip}
+**Keine Panik!** Du musst Python nicht perfekt beherrschen. Die wichtigsten Konzepte werden in den Kapiteln immer dann erklärt, wenn sie gebraucht werden. Diese Seite ist dein Nachschlagewerk.
+:::
+
+---
+
+## Python-Grundlagen zum Auffrischen {#sec-grundlagen}
+
+<details>
+<summary>**Hier aufklappen: Python von Null – Variablen, Listen, Schleifen, Funktionen**</summary>
+
+::: {.panel-tabset}
+
+## Variablen
+
+Eine **Variable** ist ein benannter Speicherplatz für einen Wert. Anders als in der Mathematik kann sich eine Variable in Python jederzeit ändern – sie enthält immer den *zuletzt zugewiesenen* Wert.
+
+```{pyodide-python}
+#| read-only: true
+alter = 20
+print(alter)
+
+alter = alter + 1   # Variable wird überschrieben
+print(alter)
+```
+
+Rechenoperationen in Python:
+
+| Operation | Symbol | Beispiel |
+|-----------|--------|---------|
+| Addition | `+` | `3 + 2 = 5` |
+| Subtraktion | `-` | `5 - 2 = 3` |
+| Multiplikation | `*` | `3 * 4 = 12` |
+| Division | `/` | `10 / 4 = 2.5` |
+| Potenz | `**` | `2 ** 3 = 8` |
+| Rest (Modulo) | `%` | `10 % 3 = 1` |
+
+```{pyodide-python}
+# Probiere selbst: Berechne deinen Körper-Massen-Index (BMI = Gewicht / Größe²)
+gewicht = 75    # kg
+groesse = 1.80  # m
+bmi = gewicht / groesse**2
+print(f"BMI: {bmi:.1f}")
+```
+
+## Datentypen
+
+Python unterscheidet verschiedene Typen:
+
+- **Integer** (`int`): Ganzzahlen wie `5`, `-3`, `100`
+- **Float** (`float`): Dezimalzahlen wie `3.14`, `-0.5`
+- **String** (`str`): Text wie `"Hallo"`, `"Pinguin"`
+- **Boolean** (`bool`): Wahrheitswerte `True` oder `False`
+
+```{pyodide-python}
+#| read-only: true
+n = 42          # int
+pi = 3.14159    # float
+art = "Adélie"  # str
+ist_gross = True  # bool
+
+print(type(n), type(pi), type(art), type(ist_gross))
+```
+
+::: {.callout-rechnen}
+**Hinweis:** Eine Division `/` liefert in Python immer einen Float – auch `10 / 2` ergibt `5.0`, nicht `5`. Für ganzzahlige Division gibt es `//`.
+:::
+
+## Fallunterscheidungen
+
+Mit `if`, `elif` und `else` reagiert Python auf verschiedene Bedingungen:
+
+```{pyodide-python}
+#| read-only: true
+bmi = 22.5
+
+if bmi < 18.5:
+    print("Untergewicht")
+elif bmi < 25:
+    print("Normalgewicht")
+elif bmi < 30:
+    print("Übergewicht")
+else:
+    print("Adipositas")
+```
+
+**Vergleichsoperatoren:** `==` (gleich), `!=` (ungleich), `<`, `>`, `<=`, `>=`
+
+```{pyodide-python}
+# Ändere den BMI-Wert und schau, was sich ändert
+bmi = 27.3
+
+if bmi < 18.5:
+    print("Untergewicht")
+elif bmi < 25:
+    print("Normalgewicht")
+elif bmi < 30:
+    print("Übergewicht")
+else:
+    print("Adipositas")
+```
+
+## Listen
+
+Eine **Liste** speichert mehrere Werte in einer geordneten Reihenfolge. Der Index beginnt bei `0`.
+
+```{pyodide-python}
+#| read-only: true
+noten = [1, 2, 3, 2, 1, 4, 2, 3]
+
+print(f"Alle Noten:       {noten}")
+print(f"Erste Note:       {noten[0]}")
+print(f"Letzte Note:      {noten[-1]}")
+print(f"Noten 2 bis 4:    {noten[1:4]}")
+print(f"Anzahl:           {len(noten)}")
+```
+
+Nützliche Listen-Operationen:
+
+```{pyodide-python}
+#| read-only: true
+noten = [1, 2, 3, 2, 1, 4]
+
+noten.append(2)         # Element hinzufügen
+print(noten)
+
+noten.sort()            # Sortieren
+print(noten)
+
+print(f"Min: {min(noten)}, Max: {max(noten)}, Summe: {sum(noten)}")
+```
+
+## Schleifen
+
+**For-Schleifen** wiederholen Code für jedes Element einer Folge:
+
+```{pyodide-python}
+#| read-only: true
+noten = [2, 1, 3, 2, 4]
+
+summe = 0
+for note in noten:
+    summe = summe + note
+
+durchschnitt = summe / len(noten)
+print(f"Durchschnittsnote: {durchschnitt:.2f}")
+```
+
+**While-Schleifen** wiederholen Code, solange eine Bedingung erfüllt ist:
+
+```{pyodide-python}
+#| read-only: true
+i = 1
+while i <= 5:
+    print(f"Durchgang {i}")
+    i = i + 1  # Wichtig: Zähler erhöhen, sonst Endlosschleife!
+```
+
+::: {.callout-caution}
+**Endlosschleifen:** Bei `while`-Schleifen muss die Bedingung irgendwann `False` werden. Vergisst man den Zähler zu erhöhen, läuft die Schleife ewig.
+:::
+
+## Funktionen
+
+Eine **Funktion** bündelt Code, der mehrfach gebraucht wird. Sie wird mit `def` definiert und mit `return` gibt sie ein Ergebnis zurück:
+
+```{pyodide-python}
+#| read-only: true
+def berechne_durchschnitt(werte):
+    return sum(werte) / len(werte)
+
+noten_klasse_a = [2, 1, 3, 2, 1, 4]
+noten_klasse_b = [3, 3, 2, 4, 3, 2, 1]
+
+print(f"Klasse A: {berechne_durchschnitt(noten_klasse_a):.2f}")
+print(f"Klasse B: {berechne_durchschnitt(noten_klasse_b):.2f}")
+```
+
+**f-Strings** (mit `f"..."`) erlauben es, Variablen direkt in Text einzubetten. `:.2f` formatiert eine Zahl auf zwei Dezimalstellen.
+
+```{pyodide-python}
+# Schreibe eine Funktion, die die Spannweite (Max - Min) berechnet
+def spannweite(werte):
+    pass  # Ersetze "pass" durch deinen Code
+
+print(spannweite([3, 7, 1, 9, 2]))  # Erwartet: 8
+```
+
+:::
+
+</details>
+
+---
+
+## Die Statistik-Bibliotheken {#sec-bibliotheken}
+
+Für dieses Tutorial arbeiten wir mit vier Bibliotheken. Jede muss am Anfang eines Codeblocks mit `import` geladen werden.
+
+::: {.panel-tabset}
+
+## NumPy
+
+**NumPy** (Numerical Python) ist die Grundlage für numerische Berechnungen. Es stellt Arrays bereit – effiziente Zahlenlisten, auf die man direkt mathematische Operationen anwenden kann.
+
+```{pyodide-python}
+#| read-only: true
+import numpy as np
+
+# Arrays erstellen
+schnabellaenge = np.array([39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 41.1])
+
+# Operationen auf dem ganzen Array
+print(f"Mittelwert:     {np.mean(schnabellaenge):.2f} mm")
+print(f"Standardabw.:   {np.std(schnabellaenge):.2f} mm")
+print(f"Minimum:        {np.min(schnabellaenge):.2f} mm")
+print(f"Maximum:        {np.max(schnabellaenge):.2f} mm")
+```
+
+::: {.callout-python}
+**Python-Tipp:** `np.mean()`, `np.std()`, `np.min()`, `np.max()` – diese vier Funktionen wirst du in fast jedem Kapitel brauchen. NumPy wird immer mit `import numpy as np` eingebunden.
+:::
+
+```{pyodide-python}
+import numpy as np
+
+# Probiere es: Erstelle ein Array mit Körpermassen von 5 Pinguinen (in g)
+# und berechne Mittelwert und Standardabweichung
+massen = np.array([3750, 3800, 3250, 3450, 3650])
+
+# Dein Code hier:
+print(np.mean(massen))
+```
+
+## pandas
+
+**pandas** ist das Hauptwerkzeug für die Arbeit mit Datensätzen. Ein `DataFrame` ist wie eine Tabelle – mit Spalten (Merkmale) und Zeilen (Beobachtungen).
+
+```{pyodide-python}
+#| read-only: true
+import pandas as pd
+
+# Kleinen Datensatz manuell erstellen
+daten = pd.DataFrame({
+    "art":          ["Adélie", "Adélie", "Chinstrap", "Gentoo", "Gentoo"],
+    "schnabel_mm":  [39.1, 39.5, 46.5, 46.1, 50.0],
+    "masse_g":      [3750, 3800, 3500, 4500, 5700]
+})
+
+print(daten)
+```
+
+Auf Spalten zugreifen und filtern:
+
+```{pyodide-python}
+#| read-only: true
+import pandas as pd
+
+daten = pd.DataFrame({
+    "art":         ["Adélie", "Adélie", "Chinstrap", "Gentoo", "Gentoo"],
+    "schnabel_mm": [39.1, 39.5, 46.5, 46.1, 50.0],
+    "masse_g":     [3750, 3800, 3500, 4500, 5700]
+})
+
+# Einzelne Spalte
+print(daten["art"])
+
+# Filtern: nur Gentoo-Pinguine
+gentoo = daten[daten["art"] == "Gentoo"]
+print(gentoo)
+
+# Schnelle Übersicht über alle Spalten
+print(daten.describe())
+```
+
+::: {.callout-python}
+**Python-Tipp:** `daten.describe()` ist dein bester Freund am Anfang jeder Analyse – es zeigt Mittelwert, Standardabweichung, Min/Max und Quartile auf einen Blick.
+:::
+
+## matplotlib
+
+**matplotlib** erstellt Grafiken. Im Browser (Pyodide) funktionieren einfache Plots direkt – für aufwändigere Visualisierungen werden die Grafiken im Tutorial als Bild eingebunden.
+
+```{pyodide-python}
+#| read-only: true
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Einfaches Balkendiagramm
+arten = ["Adélie", "Chinstrap", "Gentoo"]
+anzahl = [152, 68, 124]
+
+plt.figure(figsize=(6, 4))
+plt.bar(arten, anzahl, color=["steelblue", "coral", "seagreen"])
+plt.title("Anzahl Pinguine pro Art")
+plt.ylabel("Anzahl")
+plt.tight_layout()
+plt.show()
+```
+
+```{pyodide-python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Histogramm – für Häufigkeitsverteilungen (Kapitel 1)
+schnabellaenge = np.array([39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 41.1,
+                            42.0, 37.8, 40.6, 38.2, 41.5, 39.8, 40.0])
+
+plt.figure(figsize=(6, 4))
+plt.hist(schnabellaenge, bins=5, color="steelblue", edgecolor="white")
+plt.title("Schnabellänge (Adélie-Pinguine)")
+plt.xlabel("Schnabellänge (mm)")
+plt.ylabel("Häufigkeit")
+plt.show()
+```
+
+::: {.callout-rechnen}
+**Hinweis:** In jedem Pyodide-Codeblock müssen Bibliotheken neu importiert werden. `plt.figure(figsize=(6, 4))` setzt die Größe des Plots – `(Breite, Höhe)` in Zoll.
+:::
+
+## scipy
+
+**scipy** stellt statistische Testverfahren bereit. Das Untermodul `scipy.stats` wird in Kapitel 2 und 3 intensiv genutzt.
+
+```{pyodide-python}
+#| read-only: true
+from scipy import stats
+import numpy as np
+
+# Normalverteilungstest (wird in Kapitel 3 erklärt)
+daten = np.array([39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 41.1, 42.0, 37.8])
+
+# Mittelwert und Standardabweichung der Normalverteilung schätzen
+mittelwert, std = np.mean(daten), np.std(daten)
+print(f"Geschätzter Mittelwert: {mittelwert:.2f}")
+print(f"Geschätzte Std.-Abw.:   {std:.2f}")
+
+# Wahrscheinlichkeit, einen Wert ≤ 40 zu beobachten
+p = stats.norm.cdf(40, loc=mittelwert, scale=std)
+print(f"P(X ≤ 40): {p:.3f}")
+```
+
+::: {.callout-python}
+**Python-Tipp:** `from scipy import stats` – beachte die etwas andere Import-Syntax. Damit ist `stats.norm`, `stats.ttest_1samp` etc. direkt verfügbar. In Kapitel 3 wird jede Funktion ausführlich erklärt.
+:::
+
+:::
+
+---
+
+## Wissens-Check
+
+```{quizdown}
+### Was gibt `type(3.14)` in Python zurück?
+
+1. [ ] `int`
+1. [x] `float`
+    > Richtig! Dezimalzahlen sind in Python vom Typ `float`.
+1. [ ] `str`
+1. [ ] `bool`
+
+### Wie importiert man NumPy üblicherweise?
+
+1. [ ] `import numpy`
+1. [x] `import numpy as np`
+    > Genau! Das Kürzel `np` ist Standard – so schreibt man `np.mean()` statt `numpy.mean()`.
+1. [ ] `from numpy import *`
+1. [ ] `use numpy as np`
+
+### Welche Bibliothek nutzt man für Tabellen und Datensätze?
+
+1. [ ] `numpy`
+1. [ ] `matplotlib`
+1. [x] `pandas`
+    > Richtig! `pandas` stellt DataFrames bereit – die Tabellen für die Datenanalyse.
+1. [ ] `scipy`
+
+### Was macht `daten.describe()`?
+
+1. [ ] Es zeigt die ersten 5 Zeilen des DataFrames.
+1. [x] Es zeigt eine statistische Zusammenfassung aller Spalten (Mittelwert, Std., Min, Max, ...).
+    > Genau! `describe()` ist der schnellste Weg, einen Überblick über einen Datensatz zu bekommen.
+1. [ ] Es löscht fehlende Werte.
+1. [ ] Es gibt den Datentyp jeder Spalte aus.
+
+### Welchen Index hat das erste Element einer Liste?
+
+1. [x] `0`
+    > Richtig! Python zählt ab 0. Das erste Element ist immer bei Index 0.
+1. [ ] `1`
+1. [ ] `-1`
+1. [ ] `start`
+
+### Was berechnet `np.std(daten)`?
+
+1. [ ] Den Mittelwert
+1. [ ] Den Median
+1. [x] Die Standardabweichung
+    > Richtig! `std` steht für *standard deviation* – Standardabweichung.
+1. [ ] Die Spannweite
+
+### Womit erstellt man eine leere pandas-Tabelle?
+
+1. [ ] `pd.list()`
+1. [x] `pd.DataFrame({})`
+    > Richtig! Ein leerer DataFrame wird mit einem leeren Dictionary erstellt.
+1. [ ] `pd.table()`
+1. [ ] `pandas.create()`
+
+### Welches Modul von scipy brauchen wir für statistische Tests?
+
+1. [ ] `scipy.math`
+1. [ ] `scipy.data`
+1. [x] `scipy.stats`
+    > Richtig! `from scipy import stats` lädt alle statistischen Testfunktionen.
+1. [ ] `scipy.numpy`
+```

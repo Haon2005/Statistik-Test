@@ -1,0 +1,273 @@
+---
+title: "3.6 Der F-Test"
+lang: de
+execute:
+  eval: false
+  echo: true
+  warning: false
+filters:
+  - pyodide
+---
+
+```{python}
+#| include: true
+#| echo: false
+#| eval: true
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+import pandas as pd
+from scipy import stats
+
+matplotlib.rcParams['figure.dpi'] = 110
+matplotlib.rcParams['font.size'] = 11
+
+try:
+    from palmerpenguins import load_penguins
+    penguins = load_penguins()
+except Exception:
+    url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"
+    penguins = pd.read_csv(url)
+```
+
+## Lernziele {.unnumbered}
+
+Am Ende dieses Unterkapitels kannst du:
+
+- erklären, was der F-Test testet und wann er eingesetzt wird.
+- die Teststatistik $F = s_1^2 / s_2^2$ berechnen und interpretieren.
+- den Test in Python mit `scipy.stats.levene()` durchführen.
+
+---
+
+## Warum Varianzen vergleichen?
+
+Bisher haben wir Mittelwerte verglichen. Manchmal ist aber die **Streuung** entscheidend:
+
+- Ist die Qualitätsschwankung in Produktion A geringer als in Produktion B?
+- Ist eine Messmethode präziser (weniger variabel) als eine andere?
+- Haben zwei Pinguinarten unterschiedlich homogene Körpermassen?
+
+Der **F-Test** prüft, ob zwei Grundgesamtheiten dieselbe Varianz haben.
+
+::: {.callout-note icon=false}
+## F-Test: Voraussetzungen & Hypothesen
+
+**Voraussetzungen:**
+- Beide Stichproben sind **normalverteilt** (F-Test ist empfindlich gegenüber Abweichungen!)
+- Unabhängige Beobachtungen
+
+**Hypothesen:**
+
+| Testart | $H_0$ | $H_1$ |
+|---------|--------|-------|
+| Zweiseitig | $\sigma_1^2 = \sigma_2^2$ | $\sigma_1^2 \neq \sigma_2^2$ |
+| Rechtsseitig | $\sigma_1^2 \leq \sigma_2^2$ | $\sigma_1^2 > \sigma_2^2$ |
+| Linksseitig | $\sigma_1^2 \geq \sigma_2^2$ | $\sigma_1^2 < \sigma_2^2$ |
+:::
+
+---
+
+## Die Teststatistik
+
+Die Idee ist einfach: Wenn beide Varianzen gleich sind, sollte ihr Verhältnis nahe bei 1 liegen.
+
+$$F = \frac{s_1^2}{s_2^2}$$
+
+Unter $H_0$ folgt $F$ einer **F-Verteilung** mit $df_1 = n_1 - 1$ und $df_2 = n_2 - 1$ Freiheitsgraden.
+
+```{python}
+#| echo: false
+#| eval: true
+fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+
+# F-Verteilungen für verschiedene df
+x = np.linspace(0, 5, 500)
+ax = axes[0]
+params = [(5, 5), (10, 10), (20, 20), (50, 50)]
+colors = ['#0a9396', '#005f73', '#ae2012', '#ca6702']
+for (d1, d2), col in zip(params, colors):
+    ax.plot(x, stats.f.pdf(x, d1, d2), col, lw=2, label=f'df₁={d1}, df₂={d2}')
+ax.set_xlim(0, 5)
+ax.set_xlabel('F')
+ax.set_ylabel('Dichte')
+ax.set_title('F-Verteilungen für verschiedene Freiheitsgrade')
+ax.legend(fontsize=9)
+
+# Kritischer Bereich (zweiseitig)
+ax2 = axes[1]
+df1, df2 = 10, 15
+x2 = np.linspace(0, 6, 500)
+ax2.plot(x2, stats.f.pdf(x2, df1, df2), '#0a9396', lw=2.5,
+         label=f'F-Verteilung (df₁={df1}, df₂={df2})')
+f_low = stats.f.ppf(0.025, df1, df2)
+f_high = stats.f.ppf(0.975, df1, df2)
+ax2.fill_between(x2[x2 <= f_low], stats.f.pdf(x2[x2 <= f_low], df1, df2),
+                 alpha=0.5, color='#ae2012', label=f'Verwerfungsber. (α=0,05)')
+ax2.fill_between(x2[x2 >= f_high], stats.f.pdf(x2[x2 >= f_high], df1, df2),
+                 alpha=0.5, color='#ae2012')
+ax2.axvline(1, color='gray', lw=1.5, ls='--', label='F = 1 (H₀)')
+ax2.set_xlim(0, 6)
+ax2.set_xlabel('F')
+ax2.set_ylabel('Dichte')
+ax2.set_title('Zweiseitiger F-Test (α = 0,05)')
+ax2.legend(fontsize=9)
+
+plt.tight_layout()
+plt.show()
+```
+
+Die F-Verteilung ist **rechtssteil** und beginnt bei 0. Unter $H_0: \sigma_1^2 = \sigma_2^2$
+sollte $F \approx 1$ liegen.
+
+---
+
+## Beispiel: Varianzen der Körpermasse
+
+**Fragestellung:** Haben Adélie- und Chinstrap-Pinguine unterschiedliche Varianz in der Körpermasse?
+
+**Hypothesen:** $H_0: \sigma_{\text{Adélie}}^2 = \sigma_{\text{Chinstrap}}^2$ vs. $H_1: \sigma_{\text{Adélie}}^2 \neq \sigma_{\text{Chinstrap}}^2$
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+from scipy import stats
+import numpy as np
+
+penguins = load_penguins()
+adelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()
+chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
+
+print(f"Adélie:    n={len(adelie)},  s²={adelie.var(ddof=1):.1f},  s={adelie.std(ddof=1):.1f} g")
+print(f"Chinstrap: n={len(chinstrap)},  s²={chinstrap.var(ddof=1):.1f},  s={chinstrap.std(ddof=1):.1f} g")
+print()
+
+# Manueller F-Test
+F = adelie.var(ddof=1) / chinstrap.var(ddof=1)
+df1 = len(adelie) - 1
+df2 = len(chinstrap) - 1
+
+# Zweiseitiger p-Wert
+p_value = 2 * min(stats.f.cdf(F, df1, df2), stats.f.sf(F, df1, df2))
+
+print(f"F = {F:.4f}")
+print(f"df₁ = {df1}, df₂ = {df2}")
+print(f"p-Wert (zweiseitig) = {p_value:.4f}")
+print()
+if p_value < 0.05:
+    print("→ H₀ wird verworfen: Die Varianzen unterscheiden sich signifikant.")
+else:
+    print("→ H₀ wird nicht verworfen: Keine signifikante Varianzunterschied.")
+```
+
+### Robustere Alternative: Levene-Test
+
+Der klassische F-Test reagiert sehr empfindlich auf Abweichungen von der Normalverteilung.
+**Levenes Test** ist robuster und in der Praxis oft vorzuziehen:
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+from scipy import stats
+
+penguins = load_penguins()
+adelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()
+chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
+
+# Levene-Test (robuster als F-Test)
+stat, p = stats.levene(adelie, chinstrap)
+print(f"Levene-Teststatistik = {stat:.4f}")
+print(f"p-Wert = {p:.4f}")
+print()
+if p < 0.05:
+    print("→ Varianzen unterscheiden sich signifikant (Levene).")
+else:
+    print("→ Keine signifikante Varianzunterschied (Levene).")
+    print("  → Beim Zweistichproben-t-Test wäre Student-Test vertretbar.")
+```
+
+::: {.callout-python appearance="minimal"}
+**Python-Tipp: Varianzgleichheit prüfen**
+
+```python
+# Klassischer F-Test (nur bei sicherer Normalverteilung)
+F = s1**2 / s2**2
+p = 2 * min(stats.f.cdf(F, df1, df2), stats.f.sf(F, df1, df2))
+
+# Levene-Test (robust, empfohlen)
+stats.levene(gruppe1, gruppe2)
+
+# Bartlett-Test (auch möglich, aber ebenfalls normalverteilungsempfindlich)
+stats.bartlett(gruppe1, gruppe2)
+```
+:::
+
+---
+
+## Zusammenfassung: Wann welchen Test?
+
+| Situation | Empfohlener Test |
+|-----------|-----------------|
+| Varianzen testen, Normalverteilung sicher | F-Test (manuell) |
+| Varianzen testen, robust | **Levene-Test** |
+| Vor Zweistichproben-t-Test prüfen | Levene-Test → dann `equal_var=True/False` |
+
+::: {.callout-caution}
+## Warnung: F-Test und Normalverteilung
+
+Der F-Test reagiert **sehr empfindlich** auf Abweichungen von der Normalverteilung – viel
+stärker als der t-Test. Deshalb: Bei Unsicherheit über die Normalverteilung lieber den
+**Levene-Test** verwenden.
+:::
+
+---
+
+## Wissensüberprüfung
+
+```{quizdown}
+---
+primaryColor: '#0a9396'
+shuffleQuestions: false
+shuffleAnswers: true
+---
+
+### Was testet der F-Test?
+
+1. [x] Ob zwei Grundgesamtheiten die gleiche Varianz haben.
+    > Richtig! Der F-Test prüft die Hypothese σ₁² = σ₂².
+1. [ ] Ob zwei Mittelwerte gleich sind.
+1. [ ] Ob eine Stichprobe normalverteilt ist.
+1. [ ] Ob ein Mittelwert einem Sollwert entspricht.
+
+### Die F-Teststatistik berechnet sich als:
+
+1. [ ] F = (x̄₁ − x̄₂) / (s₁ + s₂)
+1. [x] F = s₁² / s₂²
+    > Richtig! F ist das Verhältnis der beiden Stichprobenvarianzen.
+1. [ ] F = n₁ · s₁² / (n₂ · s₂²)
+1. [ ] F = |s₁ − s₂| / √(s₁² + s₂²)
+
+### Unter H₀ (σ₁² = σ₂²) sollte die Teststatistik F näherungsweise:
+
+1. [ ] Sehr groß sein (F >> 1).
+1. [ ] Sehr klein sein (F ≈ 0).
+1. [x] Nahe bei 1 liegen.
+    > Richtig! Wenn beide Varianzen gleich sind, ist ihr Verhältnis ≈ 1.
+1. [ ] Exakt 0 sein.
+
+### Warum ist der Levene-Test oft dem klassischen F-Test vorzuziehen?
+
+1. [ ] Weil er immer größere p-Werte liefert.
+1. [x] Weil er robuster gegenüber Abweichungen von der Normalverteilung ist.
+    > Richtig! Der F-Test ist sehr empfindlich gegenüber Nicht-Normalverteilung; Levene ist stabiler.
+1. [ ] Weil er keine Freiheitsgrade benötigt.
+1. [ ] Weil er auch für verbundene Stichproben geeignet ist.
+
+### Welches Ergebnis des Levene-Tests (p = 0,42) bedeutet für den nachfolgenden Zweistichproben-t-Test?
+
+1. [ ] Der t-Test darf nicht durchgeführt werden.
+1. [x] Es gibt keinen signifikanten Varianzunterschied → `equal_var=True` (Student-Test) wäre vertretbar.
+    > Richtig! p = 0,42 > 0,05: Varianzgleichheit wird nicht verworfen. Trotzdem ist Welch (equal_var=False) immer sicher.
+1. [ ] Die Varianzen sind nachweislich gleich.
+1. [ ] Man muss den Levene-Test mit mehr Daten wiederholen.
+```

@@ -1,0 +1,284 @@
+---
+title: "3.3 Der Einstichproben-t-Test"
+lang: de
+execute:
+  eval: false
+  echo: true
+  warning: false
+filters:
+  - pyodide
+---
+
+```{python}
+#| include: true
+#| echo: false
+#| eval: true
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+import pandas as pd
+from scipy import stats
+
+matplotlib.rcParams['figure.dpi'] = 110
+matplotlib.rcParams['font.size'] = 11
+
+try:
+    from palmerpenguins import load_penguins
+    penguins = load_penguins()
+except Exception:
+    url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"
+    penguins = pd.read_csv(url)
+```
+
+## Lernziele {.unnumbered}
+
+Am Ende dieses Unterkapitels kannst du:
+
+- den Einstichproben-t-Test anwenden und von Gauß-Test abgrenzen.
+- Voraussetzungen des Tests prüfen (Normalverteilung, QQ-Plot).
+- ein- und zweiseitige Tests mit `scipy.stats.ttest_1samp()` durchführen.
+- das Ergebnis korrekt interpretieren.
+
+---
+
+## Vom Gauß-Test zum t-Test
+
+Der Gauß-Test setzt eine **bekannte** Varianz $\sigma^2$ voraus. Das ist in der Praxis fast nie
+der Fall. Wenn wir stattdessen $\sigma$ durch die Stichprobenstandardabweichung $s$ ersetzen,
+ändert sich die Verteilung der Teststatistik:
+
+$$T = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \sim t_{n-1}$$
+
+Unter $H_0$ folgt $T$ einer **t-Verteilung mit $n-1$ Freiheitsgraden** – nicht mehr der
+Standardnormalverteilung. Die t-Verteilung hat schwerere Ränder und berücksichtigt so die
+zusätzliche Unsicherheit durch das Schätzen von $\sigma$.
+
+::: {.callout-note icon=false}
+## Einstichproben-t-Test: Voraussetzungen & Hypothesen
+
+**Voraussetzungen:**
+- Daten stammen aus Normalverteilung *oder* $n \geq 30$ (dann reicht der zentrale Grenzwertsatz)
+- Unabhängige Beobachtungen
+- Mindestens intervallskaliert
+
+**Hypothesen:**
+
+| Testart | $H_0$ | $H_1$ |
+|---------|--------|-------|
+| Zweiseitig | $\mu = \mu_0$ | $\mu \neq \mu_0$ |
+| Rechtsseitig | $\mu \leq \mu_0$ | $\mu > \mu_0$ |
+| Linksseitig | $\mu \geq \mu_0$ | $\mu < \mu_0$ |
+:::
+
+---
+
+## Normalverteilung prüfen: Der QQ-Plot
+
+Vor dem t-Test sollte man prüfen, ob die Normalverteilungsannahme plausibel ist. Das wichtigste
+Werkzeug dafür ist der **QQ-Plot** (Quantil-Quantil-Plot):
+
+```{python}
+#| echo: false
+#| eval: true
+adelie = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+# Histogramm
+ax = axes[0]
+ax.hist(adelie, bins=15, color='#0a9396', edgecolor='white', alpha=0.8, density=True)
+xr = np.linspace(adelie.min(), adelie.max(), 200)
+ax.plot(xr, stats.norm.pdf(xr, adelie.mean(), adelie.std()), '#ae2012', lw=2.5,
+        label='Normalverteilung')
+ax.set_xlabel('Schnabellänge (mm)')
+ax.set_ylabel('Dichte')
+ax.set_title('Histogramm mit Normalverteilungs-Fit')
+ax.legend()
+
+# QQ-Plot
+ax2 = axes[1]
+(osm, osr), (slope, intercept, r) = stats.probplot(adelie, dist='norm')
+ax2.plot(osm, osr, 'o', color='#0a9396', ms=5, alpha=0.7, label='Datenpunkte')
+ax2.plot(osm, slope*np.array(osm)+intercept, '#ae2012', lw=2, label='Erwartete Linie')
+ax2.set_xlabel('Theoretische Quantile')
+ax2.set_ylabel('Stichprobenquantile')
+ax2.set_title('QQ-Plot: Schnabellänge Adélie')
+ax2.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+## QQ-Plot lesen
+
+- Liegen die Punkte **nahe an der Referenzlinie** → Normalverteilung plausibel.
+- Starke Abweichungen an den Rändern → Ränder der Verteilung sind schwerer/leichter als erwartet.
+- S-Form → schiefe Verteilung.
+
+Hier: Die Punkte liegen nahe an der Linie → Normalverteilungsannahme ist gerechtfertigt.
+:::
+
+---
+
+## Beispiel: Körpermasse der Gentoo-Pinguine
+
+**Fragestellung:** Ist das mittlere Körpergewicht der Gentoo-Pinguine größer als 5000 g?
+
+**Hypothesen:** $H_0: \mu \leq 5000$ g vs. $H_1: \mu > 5000$ g (rechtsseitig)
+
+**Signifikanzniveau:** $\alpha = 0{,}05$
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+from scipy import stats
+import numpy as np
+
+penguins = load_penguins()
+gentoo = penguins[penguins['species'] == 'Gentoo']['body_mass_g'].dropna()
+
+n = len(gentoo)
+x_bar = gentoo.mean()
+s = gentoo.std()
+mu0 = 5000.0
+
+# Teststatistik
+T = (x_bar - mu0) / (s / np.sqrt(n))
+
+# p-Wert (rechtsseitig)
+p_value = stats.t.sf(T, df=n-1)
+
+print(f"n = {n},  x̄ = {x_bar:.1f} g,  s = {s:.1f} g")
+print(f"Teststatistik T = {T:.4f}")
+print(f"p-Wert (rechtsseitig) = {p_value:.4f}")
+print()
+if p_value < 0.05:
+    print("→ H₀ wird verworfen (p < 0,05).")
+    print("  Das mittlere Körpergewicht der Gentoo-Pinguine ist signifikant > 5000 g.")
+else:
+    print("→ H₀ wird nicht verworfen (p ≥ 0,05).")
+```
+
+### Mit `scipy.stats.ttest_1samp`
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+from scipy import stats
+
+penguins = load_penguins()
+gentoo = penguins[penguins['species'] == 'Gentoo']['body_mass_g'].dropna()
+
+# Direkter t-Test: alternative='greater' für rechtsseitigen Test
+result = stats.ttest_1samp(gentoo, popmean=5000, alternative='greater')
+print(f"Teststatistik T = {result.statistic:.4f}")
+print(f"p-Wert = {result.pvalue:.4f}")
+print(f"Freiheitsgrade = {result.df:.0f}")
+```
+
+::: {.callout-python appearance="minimal"}
+**Python-Tipp: `alternative`-Parameter**
+
+```python
+stats.ttest_1samp(x, mu0, alternative='two-sided')  # Standard: zweiseitig
+stats.ttest_1samp(x, mu0, alternative='greater')    # rechtsseitig: H₁: μ > μ₀
+stats.ttest_1samp(x, mu0, alternative='less')       # linksseitig:  H₁: μ < μ₀
+```
+:::
+
+---
+
+## Visualisierung: Testentscheidung
+
+```{python}
+#| echo: false
+#| eval: true
+gentoo = penguins[penguins['species'] == 'Gentoo']['body_mass_g'].dropna()
+n = len(gentoo); x_bar = gentoo.mean(); s = gentoo.std(); mu0 = 5000.0
+T_obs = (x_bar - mu0) / (s / np.sqrt(n))
+p_val = stats.t.sf(T_obs, df=n-1)
+
+x = np.linspace(-5, 5, 500)
+df = n - 1
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+ax.plot(x, stats.t.pdf(x, df), '#0a9396', lw=2.5, label=f't-Verteilung (df={df})')
+t_crit = stats.t.ppf(0.95, df)
+ax.fill_between(x[x >= t_crit], stats.t.pdf(x[x >= t_crit], df), alpha=0.45, color='#ae2012',
+                label=f'Verwerfungsbereich (T > {t_crit:.2f})')
+ax.fill_between(x[x >= T_obs], stats.t.pdf(x[x >= T_obs], df), alpha=0.3, color='#005f73',
+                label=f'p-Wert = {p_val:.4f}')
+ax.axvline(T_obs, color='#005f73', lw=2.5, ls='--', label=f'T = {T_obs:.3f}')
+ax.set_xlabel('Teststatistik T')
+ax.set_ylabel('Dichte')
+ax.set_title(f'Einstichproben-t-Test: Körpermasse Gentoo (rechtsseitig)')
+ax.legend(fontsize=9)
+ax.set_xlim(-5, 5)
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## Zusammenfassung: Gauß-Test vs. t-Test
+
+| | Gauß-Test | Einstichproben-t-Test |
+|---|---|---|
+| **Varianz** | $\sigma^2$ bekannt | $\sigma^2$ unbekannt (durch $s^2$ geschätzt) |
+| **Teststatistik** | $Z = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}$ | $T = \frac{\bar{x}-\mu_0}{s/\sqrt{n}}$ |
+| **Verteilung unter $H_0$** | $\mathcal{N}(0,1)$ | $t_{n-1}$ |
+| **Praxisrelevanz** | Gering | Sehr hoch |
+
+---
+
+## Wissensüberprüfung
+
+```{quizdown}
+---
+primaryColor: '#0a9396'
+shuffleQuestions: false
+shuffleAnswers: true
+---
+
+### Warum folgt die Teststatistik des t-Tests einer t-Verteilung und nicht N(0,1)?
+
+1. [x] Weil die Standardabweichung σ durch s geschätzt wird, was zusätzliche Unsicherheit einführt.
+    > Richtig! Das Ersetzen von σ durch s verändert die Verteilung der Teststatistik.
+1. [ ] Weil der Stichprobenumfang zu klein ist.
+1. [ ] Weil die Daten nicht normalverteilt sind.
+1. [ ] Weil der p-Wert kleiner als 0,05 ist.
+
+### Ein QQ-Plot zeigt, dass alle Punkte nahe an der Referenzlinie liegen. Was bedeutet das?
+
+1. [x] Die Normalverteilungsannahme ist plausibel.
+    > Richtig! Bei guter Übereinstimmung mit der Linie passt die Normalverteilung gut zu den Daten.
+1. [ ] Die Daten sind perfekt normalverteilt.
+1. [ ] Der t-Test darf nicht angewendet werden.
+1. [ ] Der Stichprobenumfang ist zu groß.
+
+### Welchen Python-Befehl nutzt man für den rechtsseitigen Einstichproben-t-Test?
+
+1. [ ] `stats.ttest_1samp(x, mu0, alternative='less')`
+1. [x] `stats.ttest_1samp(x, mu0, alternative='greater')`
+    > Richtig! 'greater' entspricht H₁: μ > μ₀.
+1. [ ] `stats.ttest_ind(x, mu0)`
+1. [ ] `stats.norm.sf(x, mu0)`
+
+### Der t-Test liefert T = 1,8 bei df = 25. Der p-Wert für den rechtsseitigen Test ist:
+
+1. [ ] P(T ≤ 1,8) bei df = 25
+1. [x] P(T ≥ 1,8) bei df = 25
+    > Richtig! Beim rechtsseitigen Test ist der p-Wert die Wahrscheinlichkeit, einen mindestens so großen T-Wert zu beobachten.
+1. [ ] 2 · P(T ≥ 1,8) bei df = 25
+1. [ ] P(T ≥ 1,8) bei der Standardnormalverteilung
+
+### Ab welchem Stichprobenumfang ist die Normalverteilungsannahme beim t-Test nicht mehr zwingend?
+
+1. [ ] n ≥ 10
+1. [ ] n ≥ 20
+1. [x] n ≥ 30 (dann reicht der zentrale Grenzwertsatz)
+    > Richtig! Für n ≥ 30 ist das Stichprobenmittel näherungsweise normalverteilt, auch wenn die Daten selbst es nicht sind.
+1. [ ] n ≥ 100
+```
+

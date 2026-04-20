@@ -1,0 +1,104 @@
+project:
+  type: website
+  output-dir: docs
+
+crossref:
+  def-title: "Definition"
+  def-prefix: "Definition"
+  exm-title: "Beispiel"
+  exm-prefix: "Beispiel"
+  exr-title: "Aufgabe"
+  exr-prefix: "Aufgabe"
+  thm-title: "Theorem"
+  thm-prefix: "Theorem"
+
+website:
+  title: "Grundlagen der Statistik mit Python"
+  reader-mode: true
+  navbar:
+    search: true
+    right:
+      - icon: github
+        # href: "Link zum GitHub Repository"
+  sidebar:
+    collapse-level: 1
+    style: "floating"
+    contents:
+      - text: "Startseite"
+        href: index.qmd
+      - text: "Python Grundlagen"
+        href: qmd/grundlagen.qmd
+      - section: "1. Deskriptive Statistik"
+        href: qmd/kapitel_deskriptiv/index.qmd
+        contents:
+          - text: "1.1 Eine statistische Untersuchung"
+            href: qmd/kapitel_deskriptiv/statistische_untersuchung.qmd
+          - text: "1.2 Häufigkeitsverteilung"
+            href: qmd/kapitel_deskriptiv/haeufigkeitsverteilung.qmd
+          - text: "1.3 Grafische Darstellungen"
+            href: qmd/kapitel_deskriptiv/grafische_darstellungen.qmd
+          - text: "1.4 Kennzahlen: Lage"
+            href: qmd/kapitel_deskriptiv/kennzahlen_lage.qmd
+          - text: "1.5 Kennzahlen: Streuung, Schiefe & Wölbung"
+            href: qmd/kapitel_deskriptiv/kennzahlen_streuung.qmd
+          - text: "1.6 Zweidimensionale Datenanalyse"
+            href: qmd/kapitel_deskriptiv/zweidimensional.qmd
+      - section: "2. Schätztheorie"
+        href: qmd/kapitel_schaetztheorie/index.qmd
+        contents:
+          - text: "2.1 Schätzer"
+            href: qmd/kapitel_schaetztheorie/schaetzer.qmd
+          - text: "2.2 Schätzmethoden"
+            href: qmd/kapitel_schaetztheorie/schaetzmethoden.qmd
+          - text: "2.3 Gütekriterien für Punktschätzer"
+            href: qmd/kapitel_schaetztheorie/guetekriterien.qmd
+          - text: "2.4 Konfidenzintervalle"
+            href: qmd/kapitel_schaetztheorie/konfidenzintervalle.qmd
+      - section: "3. Hypothesentests"
+        href: qmd/kapitel_hypothesentests/index.qmd
+        contents:
+          - text: "3.1 Statistische Signifikanz & p-Werte"
+            href: qmd/kapitel_hypothesentests/signifikanz_p_werte.qmd
+          - text: "3.2 Einführung: Der Gauß-Test"
+            href: qmd/kapitel_hypothesentests/gauss_test.qmd
+          - text: "3.3 Der Einstichproben-t-Test"
+            href: qmd/kapitel_hypothesentests/t_test_einstichprobe.qmd
+          - text: "3.4 t-Test für unverbundene Stichproben"
+            href: qmd/kapitel_hypothesentests/t_test_unverbunden.qmd
+          - text: "3.5 t-Test für verbundene Stichproben"
+            href: qmd/kapitel_hypothesentests/t_test_verbunden.qmd
+          - text: "3.6 Der F-Test"
+            href: qmd/kapitel_hypothesentests/f_test.qmd
+          - text: "3.7 Der Mann-Whitney-U-Test"
+            href: qmd/kapitel_hypothesentests/mann_whitney.qmd
+          - text: "3.8 Der Chi-Quadrat-Test"
+            href: qmd/kapitel_hypothesentests/chi_quadrat.qmd
+
+format:
+  html:
+    code-fold: false
+    code-line-numbers: false
+    code-link: true
+    code-summary: "Code anzeigen"
+    code-tools: true
+    highlight-style: github
+    html-math-method: katex
+    number-sections: false
+    toc: true
+    lang: de
+    theme:
+      light: [morph, Theme/morph_custom.scss]
+      dark: [slate, Theme/slate_custom.scss]
+    respect-user-color-scheme: true
+    include-in-header:
+      - text: |
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+filters:
+  - quizdown
+
+execute:
+  eval: false
+  echo: true
+  warning: false
+  freeze: auto
