@@ -550,6 +550,53 @@ df['spalte'].kurt()
 ```
 :::
 
+:::: {.theorem .exercise}
+#### Aufgabe: Streuungsmaße der Schnabellänge
+
+Streuungsmaße zeigen, wie stark die Werte um die Mitte streuen. Berechne verschiedene Streuungsmaße für die Schnabellänge und interpretiere sie.
+
+**Aufgabe:**
+1. Berechne Spannweite, Interquartilsabstand (IQR) und Standardabweichung der Schnabellänge (`bill_length_mm`).
+2. Warum ist der IQR kleiner als die Spannweite? Was sagt das über die Verteilung aus?
+3. Vergleiche die Standardabweichung nach Pinguinart – bei welcher Art streut die Schnabellänge am stärksten?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Spannweite = `bill.max() - bill.min()`, IQR = `bill.quantile(0.75) - bill.quantile(0.25)`, Standardabweichung = `bill.std()`. Mit `.dropna()` vorab fehlende Werte entfernen.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+`penguins.groupby('species')['bill_length_mm'].std()` gibt die Standardabweichung je Art. Mit `describe()` bekommst du auf einen Blick alle wichtigen Kennzahlen inklusive Quartile.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+bill = penguins['bill_length_mm'].dropna()
+
+spannweite = bill.max() - bill.min()
+iqr = bill.quantile(0.75) - bill.quantile(0.25)
+std = bill.std()
+
+print(f"Spannweite: {spannweite:.2f} mm")
+print(f"IQR:        {iqr:.2f} mm")
+print(f"Std.-abw.:  {std:.2f} mm")
+
+print("\nStandardabweichung nach Art:")
+print(penguins.groupby('species')['bill_length_mm'].std().round(2))
+```
+:::
+::::
+
 ---
 
 ## Zusammenfassung

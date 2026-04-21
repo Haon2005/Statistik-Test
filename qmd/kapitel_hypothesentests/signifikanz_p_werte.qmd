@@ -1,5 +1,5 @@
 ---
-title: "3.1 Statistische Signifikanz & p-Werte"
+title: "2.5 Statistische Signifikanz & p-Werte"
 lang: de
 execute:
   eval: false
@@ -266,6 +266,59 @@ Ein statistisch signifikantes Ergebnis zeigt nur: **Die Stichprobe ist groß gen
 Effekt nachzuweisen.** Ob dieser Effekt praktisch wichtig ist, muss inhaltlich beurteilt werden –
 zum Beispiel durch die Effektgröße (Cohens d, relative Differenz etc.).
 :::
+
+:::: {.theorem .exercise}
+#### Aufgabe: Hypothesentest zur Flossenlänge
+
+In einem Lehrbuch steht, die durchschnittliche Flossenlänge von Adélie-Pinguinen betrage 190 mm. Überprüfe diese Behauptung mit einem Hypothesentest.
+
+**Aufgabe:**
+1. Formuliere $H_0$ und $H_1$ für den Test ($\alpha = 0{,}05$).
+2. Berechne den p-Wert mit einem Einstichproben-t-Test.
+3. Triff eine Entscheidung und formuliere sie in einem vollständigen Satz.
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from scipy import stats
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+adelie_flipper = penguins[penguins['species'] == 'Adelie']['flipper_length_mm'].dropna()
+
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Formuliere die Hypothesen: $H_0$: μ = 190 mm (die mittlere Flossenlänge ist 190 mm), $H_1$: μ ≠ 190 mm (zweiseitiger Test). Dann: `t_stat, p_val = stats.ttest_1samp(adelie_flipper, popmean=190)`.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Entscheidungsregel: Wenn `p_val <= 0.05` → $H_0$ ablehnen. Wenn `p_val > 0.05` → $H_0$ beibehalten. Schreibe den Befund vollständig auf: "Bei einem Signifikanzniveau von α = 0,05 wird H₀ [abgelehnt / nicht abgelehnt], da p = ... [≤ / >] 0,05."
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+from scipy import stats
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+flipper = penguins[penguins['species'] == 'Adelie']['flipper_length_mm'].dropna()
+
+t_stat, p_val = stats.ttest_1samp(flipper, popmean=190)
+alpha = 0.05
+
+print(f"n = {len(flipper)},  x̄ = {flipper.mean():.2f} mm")
+print(f"t = {t_stat:.4f},  p = {p_val:.4f}")
+
+if p_val <= alpha:
+    print(f"\n→ H₀ ablehnen (p = {p_val:.4f} ≤ α = {alpha})")
+    print("Die Daten liefern signifikante Evidenz, dass die mittlere")
+    print("Flossenlänge der Adélie-Pinguine ≠ 190 mm ist.")
+else:
+    print(f"\n→ H₀ nicht ablehnen (p = {p_val:.4f} > α = {alpha})")
+```
+:::
+::::
 
 ---
 

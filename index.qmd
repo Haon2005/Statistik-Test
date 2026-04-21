@@ -84,7 +84,7 @@ print(f"Durchschnittsalter: {durchschnitt} Jahre")
 <details>
 <summary>KI-Feedback einrichten</summary>
 
-Um das KI-Feedback nutzen zu können, gibst du zu Beginn jeder Seite deine **Base-URL** und deinen **API-Key** ein. Diese erhältst du über den KI-Dienst deiner Einrichtung (z.B. das GPT-Modell der Ruhr-Universität Bochum).
+Um das KI-Feedback nutzen zu können, gibst du zu Beginn jeder Seite deine **Base-URL** und deinen **API-Key** ein. Diese erhältst von dem KI Provider deiner Wahl.
 
 </details>
 

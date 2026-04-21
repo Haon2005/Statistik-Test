@@ -699,160 +699,61 @@ class InteractiveCell extends BaseCell {
 
             
 
-                if(globalThis.backend == "groq"){
-                    const url = document.getElementById('baseUrlInput').value; 
-                    const apiKey = document.getElementById('apiKeyInput').value;
-                    const modelsUrl = `${url}/models`; 
-                    const feedbackUrl = `${url}/chat/completions`;
-                    if (!apiKey) {
-                        alert('Please enter your API Key.');
-                        return;
-                    }
-                    // Send the request to the API
-                    fetch(modelsUrl, {
-                        method: "GET",
-                        headers: {
-                            "Authorization": `Bearer ${apiKey}`,
-                            "Content-Type": "application/json"
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(modelsData => {
-                        console.log("Model list:", modelsData);
+                if(globalThis.backend == "copyPrompt"){
+                    // Generate a copyable prompt for any AI chatbot
+                    const promptText =
+`Ich brauche Hilfe mit meinem Python-Code aus einem Statistik-Tutorial.
 
-                         // Extrahiere die Modell-IDs aus dem `data`-Array
-                        const modelIds = modelsData.data.map(model => model.id);
-                        let selectedModel = "mixtral-8x7b-32768";
-                        if (!modelIds.includes(selectedModel)) {
-                            selectedModel = modelIds[0];
-                        }
-                        console.log("Selected model:", selectedModel);
-                    
-                    
-                        // Prepare the request data
-                        const requestData = {
-                            messages:  
-                            [{role: "system", content: system_prompt},
-                            {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }],
-                            model: selectedModel
-                        };
-                        
+**Mein Code:**
+\`\`\`python
+${data}
+\`\`\`
 
-                        
+**Ausgabe / Fehlermeldung:**
+\`\`\`
+${runtime_message || "(keine Ausgabe)"}
+\`\`\`
 
-                        fetch(feedbackUrl, {
-                            method: "POST",
-                            headers: {
-                                "Authorization": `Bearer ${apiKey}`,
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(requestData)
-                        })
-                        .then(feedbackresponse => feedbackresponse.json())
-                        .then(data => {
-                            // Clear the existing feedback in the outputFeedbackDiv
-                            thiz.outputFeedbackDiv.innerHTML = "";
-                            // Get the feedback from the API response
-                            const feedback = data.choices[0].message.content;
+Bitte erkläre mir, was der Code macht, ob es Fehler gibt und wie ich sie beheben kann. Gib mir keine fertige Lösung, sondern hilf mir zu verstehen, was falsch ist.`;
 
-                            // Function to replace \n with <br>
-                            function replaceNewlinesWithBr(text) {
-                                return text.replace(/\n/g, '<br>');
-                            }
+                    thiz.outputFeedbackDiv.innerHTML = "";
 
-                            // Create the inner div element for the feedback header 
-                            const feedbackHeaderDiv = document.createElement("div");
-                            feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                            feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                            thiz.outputFeedbackDiv.appendChild(feedbackHeaderDiv);
-                            thiz.outputFeedbackDiv.firstChild.style.textDecoration = "underline";
-                            thiz.outputFeedbackDiv.firstChild.style.marginBottom = "20px";
-                            thiz.outputFeedbackDiv.firstChild.style.fontSize = "large";
+                    const headerDiv = document.createElement("div");
+                    headerDiv.style.fontWeight = "bold";
+                    headerDiv.style.marginBottom = "8px";
+                    headerDiv.style.fontSize = "1em";
+                    headerDiv.textContent = "💡 KI-Prompt generiert – kopiere ihn in ChatGPT, Claude oder einen anderen KI-Assistenten:";
+                    thiz.outputFeedbackDiv.appendChild(headerDiv);
 
-                            // Create a new element to display the feedback
-                            const feedbackElement = document.createElement('div');
-                            feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
+                    const preEl = document.createElement("pre");
+                    preEl.style.cssText = "white-space:pre-wrap;background:#f4f4f4;color:#222;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:0.85em;margin:6px 0;";
+                    preEl.textContent = promptText;
+                    thiz.outputFeedbackDiv.appendChild(preEl);
 
-                            // Append the feedback element below the code field
-                            thiz.outputFeedbackDiv.appendChild(feedbackElement);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Error requesting the API: ' + error);
+                    const copyBtn = document.createElement("button");
+                    copyBtn.textContent = "📋 Prompt kopieren";
+                    copyBtn.style.cssText = "margin-top:4px;padding:4px 12px;cursor:pointer;border-radius:4px;border:1px solid #aaa;background:#e8e8e8;";
+                    copyBtn.onclick = function() {
+                        navigator.clipboard.writeText(promptText).then(() => {
+                            copyBtn.textContent = "✅ Kopiert!";
+                            setTimeout(() => { copyBtn.textContent = "📋 Prompt kopieren"; }, 2000);
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching models:', error);
-                        alert('Error when retrieving the model list: ' + error);
-                    });
+                    };
+                    thiz.outputFeedbackDiv.appendChild(copyBtn);
                 }
 
+                if(globalThis.backend == "groq"){
+                    alert('Kein API-Key konfiguriert. Bitte nutze den "copyPrompt"-Modus.');
+                }
 
                 if(globalThis.backend == "flask"){
-                    // Prepare the request data
-                    const requestData = {
-                        messages:  
-                        [{role: "system", content: system_prompt},
-                        {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }]
-                    };
-                    // URL of the Flask server
-                    const url = "http://127.0.0.1:5000/api/feedback"; 
-
-                    // Send the request to the server
-                    fetch(url, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.choices && data.choices.length > 0) {
-                            // Clear the existing feedback in the outputFeedbackDiv
-                            thiz.outputFeedbackDiv.innerHTML = "";
-                            // Get the feedback from the API response
-                            const feedback = data.choices[0].message.content;
-
-                             // Log the entire model list and the selected model
-                            console.log("Model list: ", data.model_list); 
-                            console.log("Selected model: ", data.selected_model);
-
-                            // Function to replace \n with <br>
-                            function replaceNewlinesWithBr(text) {
-                                return text.replace(/\n/g, '<br>');
-                            }
-
-                            // Create the inner div element for the feedback header 
-                            const feedbackHeaderDiv = document.createElement("div");
-                            feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                            feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                            thiz.outputFeedbackDiv.appendChild(feedbackHeaderDiv);
-                            thiz.outputFeedbackDiv.firstChild.style.textDecoration = "underline";
-                            thiz.outputFeedbackDiv.firstChild.style.marginBottom = "20px";
-                            thiz.outputFeedbackDiv.firstChild.style.fontSize = "large";
-
-                            // Create a new element to display the feedback
-                            const feedbackElement = document.createElement('div');
-                            feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
-
-                            // Append the feedback element below the code field
-                            thiz.outputFeedbackDiv.appendChild(feedbackElement);
-                        }else {
-                            console.error("Error: 'choices' field is missing or empty in the API response.");
-                            alert("Error when retrieving feedback: 'choices' field not available or empty.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error when requesting the API:  ' + error);
-                    });
+                    alert('Flask-Backend nicht verfügbar.');
                 }
 
                 thiz.outputFeedbackDiv.classList.add('has-content');
                 };
             })};
-            
+
 
             // Add an event listener to call the function when the button is clicked
             thiz.addCodeBlockButton.onclick = function () {
@@ -1088,152 +989,52 @@ class InteractiveCell extends BaseCell {
 
         
 
-            if(globalThis.backend == "groq"){
-                const url = document.getElementById('baseUrlInput').value; 
-                const apiKey = document.getElementById('apiKeyInput').value;
-                const modelsUrl = `${url}/models`; 
-                const feedbackUrl = `${url}/chat/completions`;
-                if (!apiKey) {
-                    alert('Please enter your API Key.');
-                    return;
-                }
-                // Send the request to the API
-                fetch(modelsUrl, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${apiKey}`,
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then(modelsData => {
-                    console.log("Model list:", modelsData);
+            if(globalThis.backend == "copyPrompt"){
+                const promptText =
+`Ich brauche Hilfe mit meinem Python-Code aus einem Statistik-Tutorial.
 
-                    const modelIds = modelsData.data.map(model => model.id);
-                    let selectedModel = "mixtral-8x7b-32768";
-                    if (!modelIds.includes(selectedModel)) {
-                        selectedModel = modelIds[0];
-                    }
-                    console.log("Selected model:", selectedModel);
-                
-                
-                    // Prepare the request data
-                    const requestData = {
-                        messages:  
-                        [{role: "system", content: system_prompt},
-                        {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }],
-                        model: selectedModel
-                    };
-                    
+**Mein Code:**
+\`\`\`python
+${data}
+\`\`\`
 
-                    
+**Ausgabe / Fehlermeldung:**
+\`\`\`
+${runtime_message || "(keine Ausgabe)"}
+\`\`\`
 
-                    fetch(feedbackUrl, {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${apiKey}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(feedbackresponse => feedbackresponse.json())
-                    .then(data => {
-                        // Clear the existing feedback in the outputFeedbackDiv
-                        thiz.outputFeedbackDiv2.innerHTML = "";
-                        // Get the feedback from the API response
-                        const feedback = data.choices[0].message.content;
+Bitte erkläre mir, was der Code macht, ob es Fehler gibt und wie ich sie beheben kann. Gib mir keine fertige Lösung, sondern hilf mir zu verstehen, was falsch ist.`;
 
-                        // Function to replace \n with <br>
-                        function replaceNewlinesWithBr(text) {
-                            return text.replace(/\n/g, '<br>');
-                        }
+                thiz.outputFeedbackDiv2.innerHTML = "";
 
-                        // Create the inner div element for the feedback header 
-                        const feedbackHeaderDiv = document.createElement("div");
-                        feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                        feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                        thiz.outputFeedbackDiv2.appendChild(feedbackHeaderDiv);
-                        thiz.outputFeedbackDiv2.firstChild.style.textDecoration = "underline";
-                        thiz.outputFeedbackDiv2.firstChild.style.marginBottom = "20px";
-                        thiz.outputFeedbackDiv2.firstChild.style.fontSize = "large";
+                const headerDiv = document.createElement("div");
+                headerDiv.style.fontWeight = "bold";
+                headerDiv.style.marginBottom = "8px";
+                headerDiv.textContent = "KI-Prompt zum Kopieren:";
+                thiz.outputFeedbackDiv2.appendChild(headerDiv);
 
-                        // Create a new element to display the feedback
-                        const feedbackElement = document.createElement('div');
-                        feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
+                const pre = document.createElement("pre");
+                pre.style.whiteSpace = "pre-wrap";
+                pre.style.wordBreak = "break-word";
+                pre.style.fontSize = "0.85em";
+                pre.style.padding = "8px";
+                pre.style.borderRadius = "4px";
+                pre.style.userSelect = "all";
+                pre.textContent = promptText;
+                thiz.outputFeedbackDiv2.appendChild(pre);
 
-                        // Append the feedback element below the code field
-                        thiz.outputFeedbackDiv2.appendChild(feedbackElement);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error when requesting the API: ' + error);
+                const copyBtn = document.createElement("button");
+                copyBtn.textContent = "Prompt kopieren";
+                copyBtn.style.marginTop = "6px";
+                copyBtn.style.padding = "4px 12px";
+                copyBtn.style.cursor = "pointer";
+                copyBtn.addEventListener("click", () => {
+                    navigator.clipboard.writeText(promptText).then(() => {
+                        copyBtn.textContent = "Kopiert!";
+                        setTimeout(() => { copyBtn.textContent = "Prompt kopieren"; }, 2000);
                     });
-                })
-                .catch(error => {
-                    console.error('Error fetching models:', error);
-                    alert('Error when retrieving the model list: ' + error);
                 });
-            }
-            
-            if(globalThis.backend == "flask"){
-                // Prepare the request data
-                const requestData = {
-                    messages:  
-                    [{role: "system", content: system_prompt},
-                    {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }]
-                };
-                // URL of the Flask server
-                const url = "http://127.0.0.1:5000/api/feedback"; 
-
-                // Send the request to the server
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(requestData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.choices && data.choices.length > 0) {
-                        // Clear the existing feedback in the outputFeedbackDiv
-                        thiz.outputFeedbackDiv2.innerHTML = "";
-                        // Get the feedback from the API response
-                        const feedback = data.choices[0].message.content;
-
-                         // Log the entire model list and the selected model
-                        console.log("Model list: ", data.model_list); 
-                        console.log("Selected model: ", data.selected_model);
-
-                        // Function to replace \n with <br>
-                        function replaceNewlinesWithBr(text) {
-                            return text.replace(/\n/g, '<br>');
-                        }
-
-                        // Create the inner div element for the feedback header 
-                        const feedbackHeaderDiv = document.createElement("div");
-                        feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                        feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                        thiz.outputFeedbackDiv2.appendChild(feedbackHeaderDiv);
-                        thiz.outputFeedbackDiv2.firstChild.style.textDecoration = "underline";
-                        thiz.outputFeedbackDiv2.firstChild.style.marginBottom = "20px";
-                        thiz.outputFeedbackDiv2.firstChild.style.fontSize = "large";
-
-                        // Create a new element to display the feedback
-                        const feedbackElement = document.createElement('div');
-                        feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
-
-                        // Append the feedback element below the code field
-                        thiz.outputFeedbackDiv2.appendChild(feedbackElement);
-                    }else {
-                        console.error("Error: 'choices' field is missing or empty in the API response.");
-                        alert("Error when retrieving feedback: 'choices' field not available or empty.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error when requesting the API:  ' + error);
-                });
+                thiz.outputFeedbackDiv2.appendChild(copyBtn);
             }
             
             thiz.outputFeedbackDiv2.classList.add('has-content');

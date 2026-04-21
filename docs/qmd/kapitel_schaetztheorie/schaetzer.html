@@ -77,9 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-48b6c99aae84b305e9489527fcccca6d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-f46e89e01760d204cc3de78ee2608884.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-48b6c99aae84b305e9489527fcccca6d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-382d17d2ec91494e2875e3b7d66d3210.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-bee068d14591db49783478d131c4b8dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-382d17d2ec91494e2875e3b7d66d3210.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
@@ -331,12 +331,13 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nimport numpy as np\n\npenguins = load_penguins()\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\n\nmu_hat   = adelie.mean()           # Schätzwert für μ\ns2_hat   = adelie.var()            # Schätzwert für σ² (mit n-1)\ns_hat    = adelie.std()            # Schätzwert für σ\nn        = len(adelie)\n\nprint(f\"Stichprobengröße n = {n}\")\nprint(f\"Geschätzter Erwartungswert: μ̂ = {mu_hat:.1f} g\")\nprint(f\"Geschätzte Varianz:         σ̂² = {s2_hat:.1f} g²\")\nprint(f\"Geschätzte Standardabw.:    σ̂  = {s_hat:.1f} g\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\n# Anteil der weiblichen Tiere unter den Adélie-Pinguinen schätzen\nadelie = penguins[penguins['species'] == 'Adelie'].dropna(subset=['sex'])\np_hat = (adelie['sex'] == 'female').mean()\nprint(f\"Geschätzter Anteil weiblicher Adélie-Pinguine: p̂ = {p_hat:.3f} ({p_hat*100:.1f}%)\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nimport numpy as np\n\npenguins = load_penguins()\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\n\nmu_hat   = adelie.mean()           # Schätzwert für μ\ns2_hat   = adelie.var()            # Schätzwert für σ² (mit n-1)\ns_hat    = adelie.std()            # Schätzwert für σ\nn        = len(adelie)\n\nprint(f\"Stichprobengröße n = {n}\")\nprint(f\"Geschätzter Erwartungswert: μ̂ = {mu_hat:.1f} g\")\nprint(f\"Geschätzte Varianz:         σ̂² = {s2_hat:.1f} g²\")\nprint(f\"Geschätzte Standardabw.:    σ̂  = {s_hat:.1f} g\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\n# Anteil der weiblichen Tiere unter den Adélie-Pinguinen schätzen\nadelie = penguins[penguins['species'] == 'Adelie'].dropna(subset=['sex'])\np_hat = (adelie['sex'] == 'female').mean()\nprint(f\"Geschätzter Anteil weiblicher Adélie-Pinguine: p̂ = {p_hat:.3f} ({p_hat*100:.1f}%)\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"import numpy as np\nimport matplotlib.pyplot as plt\nfrom palmerpenguins import load_penguins\n\npenguins = load_penguins()\nchinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()\n\n# Dein Code hier","id":3,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
 
-/* Set variable for backend 
+/* Set variable for backend
 for Groq Server: "groq"
-for flask Server: "flask"*/
-globalThis.backend = "groq";
+for flask Server: "flask"
+for copy-prompt mode: "copyPrompt" */
+globalThis.backend = "copyPrompt";
 
 /* Set if there should be a button for feedback
 with feedback button: true
@@ -995,67 +996,20 @@ window.Quarto = {
  <span class="menu-text">2.4 Konfidenzintervalle</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../qmd/kapitel_hypothesentests/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Hypothesentests</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Abschnitt umschalten">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../qmd/kapitel_hypothesentests/signifikanz_p_werte.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.1 Statistische Signifikanz &amp; p-Werte</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/gauss_test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.2 Einführung: Der Gauß-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/t_test_einstichprobe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.3 Der Einstichproben-t-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/t_test_unverbunden.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.4 t-Test für unverbundene Stichproben</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/t_test_verbunden.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5 t-Test für verbundene Stichproben</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/f_test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.6 Der F-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/mann_whitney.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.7 Der Mann-Whitney-U-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/chi_quadrat.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.8 Der Chi-Quadrat-Test</span></a>
+ <span class="menu-text">2.5 Statistische Signifikanz &amp; p-Werte</span></a>
   </div>
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../qmd/cheatsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cheatsheet &amp; Quiz</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -1126,7 +1080,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="das-schätzproblem">Das Schätzproblem</h2>
 <p>Stell dir vor, du möchtest wissen, wie schwer Adélie-Pinguine <strong>im Durchschnitt</strong> sind – nicht nur die 146 Tiere in unserem Datensatz, sondern <strong>alle</strong> Adélie-Pinguine weltweit. Die Grundgesamtheit umfasst Tausende von Tieren, die wir nie alle vermessen können.</p>
 <p>Das ist das typische Ausgangsproblem der Schätztheorie:</p>
-<div id="c02806a8" class="cell" data-execution_count="2">
+<div id="5dbfa3e6" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1244,7 +1198,7 @@ window.Quarto = {
 <section id="schätzer-für-mehrere-stichproben" class="level2">
 <h2 class="anchored" data-anchor-id="schätzer-für-mehrere-stichproben">Schätzer für mehrere Stichproben</h2>
 <p>Um zu verstehen, warum ein Schätzer eine Zufallsvariable ist, können wir simulieren, was passiert, wenn wir mehrmals zufällig aus derselben Grundgesamtheit ziehen:</p>
-<div id="d5aa5e02" class="cell" data-execution_count="3">
+<div id="64d04701" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1262,6 +1216,82 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">3700</span>, scale<span class="op">=</span><span class="dv">460</span>, size<span class="op">=</span><span class="dv">30</span>)   <span class="co"># 30 normalverteilte Zufallszahlen</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sample.mean())                        <span class="co"># Schätzwert für μ</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<section id="aufgabe-μ-und-σ-aus-einer-stichprobe-schätzen" class="level4 theorem exercise">
+<h4 class="anchored" data-anchor-id="aufgabe-μ-und-σ-aus-einer-stichprobe-schätzen">Aufgabe: μ und σ aus einer Stichprobe schätzen</h4>
+<p>Du hast Zugriff auf die Körpermassen der Chinstrap-Pinguine. Schätze daraus die unbekannten Parameter der Grundgesamtheit.</p>
+<p><strong>Aufgabe:</strong> 1. Berechne die Punkt-Schätzer <span class="math inline">\hat{\mu} = \bar{x}</span> und <span class="math inline">\hat{\sigma} = s</span> für das Körpergewicht (<code>body_mass_g</code>) der Chinstrap-Pinguine. 2. Simuliere 500 Stichproben der Größe <span class="math inline">n = 20</span> aus einer Normalverteilung mit den geschätzten Parametern. Berechne für jede den Mittelwert. 3. Erstelle ein Histogramm der 500 Stichprobenmittelwerte. Was beobachtest du?</p>
+<div id="qpyodide-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled" title="Tipp 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tipp</span>Tipp 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Punkt-Schätzer: <code>mu_hat = chinstrap.mean()</code> und <code>sigma_hat = chinstrap.std()</code> (pandas <code>.std()</code> nutzt automatisch <span class="math inline">n-1</span>, also korrigiert). Das sind deine besten Schätzwerte für die Grundgesamtheit.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Tipp 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tipp</span>Tipp 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Simulierte Stichproben: <code>np.random.normal(loc=mu_hat, scale=sigma_hat, size=20)</code> liefert eine Stichprobe. Wiederhole das 500-mal z.B. mit einer List-Comprehension: <code>[np.random.normal(mu_hat, sigma_hat, 20).mean() for _ in range(500)]</code>. Das Histogramm zeigt die Streuung des Schätzers – die sogenannte Stichprobenverteilung.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Minimale Lösung">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Vorsicht</span>Minimale Lösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>chinstrap <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Chinstrap'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="op">=</span> chinstrap.mean()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>sigma_hat <span class="op">=</span> chinstrap.std()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Schätzer: μ̂ = </span><span class="sc">{</span>mu_hat<span class="sc">:.1f}</span><span class="ss"> g,  σ̂ = </span><span class="sc">{</span>sigma_hat<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>mittelwerte <span class="op">=</span> [np.random.normal(mu_hat, sigma_hat, <span class="dv">20</span>).mean() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">500</span>)]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>plt.hist(mittelwerte, bins<span class="op">=</span><span class="dv">25</span>, color<span class="op">=</span><span class="st">'steelblue'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>plt.axvline(mu_hat, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'μ̂ = </span><span class="sc">{</span>mu_hat<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Stichprobenmittelwert (g)'</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Häufigkeit'</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'500 simulierte Stichprobenmittelwerte (n = 20)'</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
 <hr>
 </section>
 <section id="zusammenfassung" class="level2">
@@ -1827,321 +1857,407 @@ shuffleAnswers: true
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Quellcode</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "2.1 Schätzer"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> de</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">  eval: false</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">  - pyodide</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: true</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'figure.dpi'</span>] <span class="op">=</span> <span class="dv">110</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'font.size'</span>] <span class="op">=</span> <span class="dv">11</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span>:</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    penguins <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lernziele {.unnumbered}</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>Am Ende dieses Unterkapitels kannst du:</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>das Problem der Schätzung beschreiben: Grundgesamtheit vs. Stichprobe.</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>die Begriffe Parameter, Schätzfunktion, Schätzwert und Schätzer voneinander unterscheiden.</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>die wichtigsten Standardschätzer (x̄, s², p̂) benennen und in Python berechnen.</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Das Schätzproblem</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>Stell dir vor, du möchtest wissen, wie schwer Adélie-Pinguine **im Durchschnitt** sind –</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>nicht nur die 146 Tiere in unserem Datensatz, sondern **alle** Adélie-Pinguine weltweit.</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>Die Grundgesamtheit umfasst Tausende von Tieren, die wir nie alle vermessen können.</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>Das ist das typische Ausgangsproblem der Schätztheorie:</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>pop_true_mu <span class="op">=</span> <span class="dv">3700</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>pop_true_sigma <span class="op">=</span> <span class="dv">460</span></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>n_pop <span class="op">=</span> <span class="dv">5000</span></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">0</span>]</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> np.random.normal(pop_true_mu, pop_true_sigma, n_pop)</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>ax.hist(pop, bins<span class="op">=</span><span class="dv">40</span>, color<span class="op">=</span><span class="st">'#0a9396'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, density<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>xr <span class="op">=</span> np.linspace(<span class="dv">2000</span>, <span class="dv">5500</span>, <span class="dv">300</span>)</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>ax.plot(xr, stats.norm.pdf(xr, pop_true_mu, pop_true_sigma), <span class="st">'#005f73'</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>ax.axvline(pop_true_mu, color<span class="op">=</span><span class="st">'#005f73'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Wahrer Mittelwert μ = </span><span class="sc">{</span>pop_true_mu<span class="sc">}</span><span class="ss"> g'</span>)</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Grundgesamtheit</span><span class="ch">\n</span><span class="st">(alle Adélie-Pinguine, unbekannt)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Körpergewicht (g)'</span>)</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Dichte'</span>)</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.05</span>, <span class="fl">0.92</span>, <span class="st">'❓ μ unbekannt'</span>, transform<span class="op">=</span>ax.transAxes,</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>        fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">'darkred'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axes[<span class="dv">1</span>]</span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>ax2.hist(sample, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'#ae2012'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, density<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>ax2.axvline(sample.mean(), color<span class="op">=</span><span class="st">'#9b2226'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Stichprobenmittel x̄ = </span><span class="sc">{</span>sample<span class="sc">.</span>mean()<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="ss">f'Stichprobe</span><span class="ch">\n</span><span class="ss">(n = </span><span class="sc">{</span><span class="bu">len</span>(sample)<span class="sc">}</span><span class="ss"> Tiere im Datensatz)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Körpergewicht (g)'</span>)</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Dichte'</span>)</span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>ax2.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>ax2.text(<span class="fl">0.05</span>, <span class="fl">0.92</span>, <span class="st">'✓ x̄ bekannt'</span>, transform<span class="op">=</span>ax2.transAxes,</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>         fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">'darkgreen'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>Wir kennen die Stichprobe (rechts), nicht aber die Grundgesamtheit (links). Unsere Aufgabe ist es,</span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>aus der Stichprobe auf Eigenschaften der Grundgesamtheit zu **schließen**.</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parameter und Schätzer</span></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>Die unbekannten Größen der Grundgesamtheit nennen wir **Parameter**. Wichtige Parameter sind:</span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Symbol <span class="pp">|</span> Beschreibung <span class="pp">|</span></span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|--------|--------------|</span></span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Erwartungswert (Mittelwert) <span class="pp">|</span> $\mu$ <span class="pp">|</span> Durchschnittswert in der Grundgesamtheit <span class="pp">|</span></span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Varianz <span class="pp">|</span> $\sigma^2$ <span class="pp">|</span> Streuung in der Grundgesamtheit <span class="pp">|</span></span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Standardabweichung <span class="pp">|</span> $\sigma$ <span class="pp">|</span> Wurzel aus der Varianz <span class="pp">|</span></span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Anteilswert <span class="pp">|</span> $p$ <span class="pp">|</span> Anteil einer Eigenschaft in der Grundgesamtheit <span class="pp">|</span></span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>Die Parameter sind **unbekannt und fest** – es gibt zwar einen wahren Wert, aber wir kennen ihn nicht.</span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>Aus der Stichprobe berechnen wir **Schätzwerte**, die den wahren Parametern möglichst nah kommen</span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>sollen. Die Funktion, die aus einer Stichprobe einen Schätzwert berechnet, heißt **Schätzfunktion**:</span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Definition: Schätzfunktion, Schätzwert, Schätzer</span></span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>Eine **Schätzfunktion** $T$ ist eine Rechenvorschrift, die aus einer Stichprobe $(x_1, \ldots, x_n)$</span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>einen Schätzwert $T(x_1, \ldots, x_n)$ für den unbekannten Parameter berechnet.</span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>Der **Schätzwert** $T(x_1, \ldots, x_n)$ ist das konkrete Ergebnis der Rechnung für eine bestimmte</span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>Stichprobe – eine feste Zahl.</span>
-<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>Der **Schätzer** $T(X_1, \ldots, X_n)$ ist dieselbe Rechenvorschrift, aber auf *zufällige*</span>
-<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>Variablen $(X_1, \ldots, X_n)$ angewendet – damit ist er selbst zufällig und hat eine eigene</span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>Verteilung.</span>
-<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## Der Unterschied kurz erklärt</span></span>
-<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>Schätzfunktion = die Formel (z.B. "nimm das arithmetische Mittel")</span>
-<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>Schätzwert = das konkrete Ergebnis (z.B. "3700 g")</span>
-<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>Schätzer = die Formel angewandt auf zufällige Daten = selbst eine Zufallsvariable</span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>(z.B. "das Stichprobenmittel $\overline{X}_n$")</span>
-<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>**Warum ist das wichtig?** Weil wir denselben Schätzer auf viele verschiedene Stichproben anwenden</span>
-<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>könnten – und jedes Mal ein etwas anderes Ergebnis bekämen. Diese Streuung der Schätzwerte um den</span>
-<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>wahren Parameter ist der Kern der Schätztheorie.</span>
-<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="fu">## Die wichtigsten Standardschätzer</span></span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>In den meisten Situationen sind drei Schätzer besonders wichtig:</span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
-<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schätzer für Erwartungswert, Varianz und Anteil</span></span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>Für eine Stichprobe $(x_1, \ldots, x_n)$ schätzen wir:</span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>**Erwartungswert** $\mu$:</span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>$$\hat{\mu} = \bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$$</span>
-<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>**Varianz** $\sigma^2$:</span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>$$\hat{\sigma}^2 = s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2$$</span>
-<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>**Anteil** $p$ (z.B. Anteil einer Tierart):</span>
-<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>$$\hat{p} = \frac{\text{Anzahl der Treffer}}{n}$$</span>
-<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>Das Warum des Faktors $1/(n-1)$ statt $1/n$ beim Varianz-Schätzer erklären wir in Kapitel 2.3.</span>
-<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="fu">### Beispiel: Pinguindaten</span></span>
-<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
-<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>mu_hat   <span class="op">=</span> adelie.mean()           <span class="co"># Schätzwert für μ</span></span>
-<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>s2_hat   <span class="op">=</span> adelie.var()            <span class="co"># Schätzwert für σ² (mit n-1)</span></span>
-<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>s_hat    <span class="op">=</span> adelie.std()            <span class="co"># Schätzwert für σ</span></span>
-<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>n        <span class="op">=</span> <span class="bu">len</span>(adelie)</span>
-<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Stichprobengröße n = </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzter Erwartungswert: μ̂ = </span><span class="sc">{</span>mu_hat<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
-<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzte Varianz:         σ̂² = </span><span class="sc">{</span>s2_hat<span class="sc">:.1f}</span><span class="ss"> g²"</span>)</span>
-<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzte Standardabw.:    σ̂  = </span><span class="sc">{</span>s_hat<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
-<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Anteil der weiblichen Tiere unter den Adélie-Pinguinen schätzen</span></span>
-<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>].dropna(subset<span class="op">=</span>[<span class="st">'sex'</span>])</span>
-<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>p_hat <span class="op">=</span> (adelie[<span class="st">'sex'</span>] <span class="op">==</span> <span class="st">'female'</span>).mean()</span>
-<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzter Anteil weiblicher Adélie-Pinguine: p̂ = </span><span class="sc">{</span>p_hat<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>p_hat<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%)"</span>)</span>
-<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schätzer für mehrere Stichproben</span></span>
-<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>Um zu verstehen, warum ein Schätzer eine Zufallsvariable ist, können wir simulieren, was passiert,</span>
-<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>wenn wir mehrmals zufällig aus derselben Grundgesamtheit ziehen:</span>
-<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">7</span>)</span>
-<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>true_mu <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna().mean()</span>
-<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>true_sigma <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna().std()</span>
-<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>estimates <span class="op">=</span> []</span>
-<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">500</span>):</span>
-<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>    sample <span class="op">=</span> np.random.normal(true_mu, true_sigma, <span class="dv">30</span>)</span>
-<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a>    estimates.append(sample.mean())</span>
-<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>estimates <span class="op">=</span> np.array(estimates)</span>
-<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a>ax.hist(estimates, bins<span class="op">=</span><span class="dv">25</span>, color<span class="op">=</span><span class="st">'#0a9396'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, density<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>xr <span class="op">=</span> np.linspace(estimates.<span class="bu">min</span>(), estimates.<span class="bu">max</span>(), <span class="dv">300</span>)</span>
-<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>kde <span class="op">=</span> stats.gaussian_kde(estimates)</span>
-<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>ax.plot(xr, kde(xr), <span class="st">'#005f73'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'Dichte der Schätzwerte'</span>)</span>
-<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>ax.axvline(true_mu, color<span class="op">=</span><span class="st">'#ae2012'</span>, lw<span class="op">=</span><span class="fl">2.5</span>, ls<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Wahrer Wert μ = </span><span class="sc">{</span>true_mu<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
-<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>ax.axvline(estimates.mean(), color<span class="op">=</span><span class="st">'#ca6702'</span>, lw<span class="op">=</span><span class="fl">1.5</span>, ls<span class="op">=</span><span class="st">':'</span>, label<span class="op">=</span><span class="ss">f'Mittl. Schätzwert = </span><span class="sc">{</span>estimates<span class="sc">.</span>mean()<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
-<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Schätzwert für μ (g)'</span>)</span>
-<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Dichte'</span>)</span>
-<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'500 Stichproben der Größe n = 30: Verteilung der Stichprobenmittel'</span>)</span>
-<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>Jede der 500 Stichproben ergibt einen etwas anderen Schätzwert – der Schätzer $\overline{X}_n$ ist</span>
-<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>**selbst zufällig verteilt**. Im Schnitt treffen die Schätzwerte aber den wahren Wert $\mu$ sehr</span>
-<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>gut (roter und oranger Strich liegen fast übereinander). Das ist die Eigenschaft der</span>
-<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>**Erwartungstreue**, die wir in Kapitel 2.3 genauer untersuchen.</span>
-<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>::: {.callout-python appearance="minimal"}</span>
-<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a>**Python-Tipp: Stichproben ziehen**</span>
-<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)                          <span class="co"># Zufallszahl reproduzierbar machen</span></span>
-<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">3700</span>, scale<span class="op">=</span><span class="dv">460</span>, size<span class="op">=</span><span class="dv">30</span>)   <span class="co"># 30 normalverteilte Zufallszahlen</span></span>
-<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sample.mean())                        <span class="co"># Schätzwert für μ</span></span>
-<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
-<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Begriff <span class="pp">|</span> Bedeutung <span class="pp">|</span> Beispiel <span class="pp">|</span></span>
-<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-----------|---------|</span></span>
-<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Parameter** ($\mu$, $\sigma^2$, $p$) <span class="pp">|</span> Unbekannte Größe der Grundgesamtheit <span class="pp">|</span> Mittl. Körpermasse aller Adélie-Pinguine <span class="pp">|</span></span>
-<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schätzfunktion** <span class="pp">|</span> Rechenvorschrift auf konkreten Daten <span class="pp">|</span> $T(\boldsymbol{x}) = \bar{x}$ <span class="pp">|</span></span>
-<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schätzwert** <span class="pp">|</span> Konkrete Zahl aus einer Stichprobe <span class="pp">|</span> $\bar{x} = 3700{,}7$ g <span class="pp">|</span></span>
-<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schätzer** <span class="pp">|</span> Schätzfunktion auf Zufallsvariablen <span class="pp">|</span> $\overline{X}_n = \frac{1}{n}\sum X_i$ <span class="pp">|</span></span>
-<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissensüberprüfung</span></span>
-<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
-<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
-<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
-<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
-<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="in">### Ein Forscher berechnet aus einer Stichprobe von 50 Pinguinen den Mittelwert der Flossenlänge. Wie heißt dieser berechnete Zahlenwert?</span></span>
-<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Schätzwert</span></span>
-<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der konkrete Zahlenwert aus einer Stichprobe ist der Schätzwert.</span></span>
-<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Schätzer</span></span>
-<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Der Schätzer ist die Rechenvorschrift als Zufallsvariable – nicht das konkrete Ergebnis.</span></span>
-<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Parameter</span></span>
-<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Der Parameter ist die unbekannte Größe der Grundgesamtheit.</span></span>
-<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Estimat</span></span>
-<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Das ist kein Fachbegriff in diesem Kontext.</span></span>
-<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a><span class="in">### Welche der folgenden Aussagen beschreibt einen **Schätzer** (im statistischen Sinne)?</span></span>
-<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Eine konkrete Zahl, die aus Daten berechnet wurde.</span></span>
-<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Eine Zufallsvariable, die aus zufälligen Daten einen Wert für einen Parameter berechnet.</span></span>
-<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Schätzer ist die Rechenvorschrift als Zufallsvariable.</span></span>
-<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der unbekannte wahre Wert des Parameters.</span></span>
-<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Stichprobe selbst.</span></span>
-<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a><span class="in">### Wie heißt der gängige Schätzer für den Anteilswert $p$ in einer Grundgesamtheit?</span></span>
-<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Arithmetisches Mittel aller Werte</span></span>
-<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Varianz der Stichprobe</span></span>
-<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Relative Häufigkeit des Merkmals in der Stichprobe</span></span>
-<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! $\hat{p} = \text{Anzahl der Treffer} / n$.</span></span>
-<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Median der Stichprobe</span></span>
-<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a><span class="in">### Warum ist der Schätzer $\overline{X}_n$ selbst eine Zufallsvariable?</span></span>
-<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil er immer einen anderen Wert liefert als der wahre Parameter.</span></span>
-<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Weil er aus zufälligen Stichproben berechnet wird und deshalb bei jeder neuen Stichprobe einen anderen Wert annehmen kann.</span></span>
-<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Zufall steckt in den Daten – und damit auch im Schätzer.</span></span>
-<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil Zufallsvariablen immer zwischen 0 und 1 liegen.</span></span>
-<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil man ihn nicht genau berechnen kann.</span></span>
-<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a><span class="in">### Die korrigierte Stichprobenvarianz $s^2$ verwendet den Faktor $1/(n-1)$ statt $1/n$. Was ist der Grund?</span></span>
-<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Damit die Berechnung einfacher wird.</span></span>
-<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil $n-1$ immer kleiner ist als $n$.</span></span>
-<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Damit $s^2$ ein erwartungstreuer Schätzer für die Populationsvarianz $\sigma^2$ ist.</span></span>
-<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Mit $1/n$ würde die Varianz systematisch unterschätzt. Der Faktor $1/(n-1)$ korrigiert das.</span></span>
-<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil der Median von $n-1$ Datenpunkten verwendet wird.</span></span>
-<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "2.1 Schätzer"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> de</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">  eval: false</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">  - pyodide</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: true</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'figure.dpi'</span>] <span class="op">=</span> <span class="dv">110</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'font.size'</span>] <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    penguins <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lernziele {.unnumbered}</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>Am Ende dieses Unterkapitels kannst du:</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>das Problem der Schätzung beschreiben: Grundgesamtheit vs. Stichprobe.</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>die Begriffe Parameter, Schätzfunktion, Schätzwert und Schätzer voneinander unterscheiden.</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>die wichtigsten Standardschätzer (x̄, s², p̂) benennen und in Python berechnen.</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Das Schätzproblem</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>Stell dir vor, du möchtest wissen, wie schwer Adélie-Pinguine **im Durchschnitt** sind –</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>nicht nur die 146 Tiere in unserem Datensatz, sondern **alle** Adélie-Pinguine weltweit.</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>Die Grundgesamtheit umfasst Tausende von Tieren, die wir nie alle vermessen können.</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>Das ist das typische Ausgangsproblem der Schätztheorie:</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>pop_true_mu <span class="op">=</span> <span class="dv">3700</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>pop_true_sigma <span class="op">=</span> <span class="dv">460</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>n_pop <span class="op">=</span> <span class="dv">5000</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">0</span>]</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> np.random.normal(pop_true_mu, pop_true_sigma, n_pop)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>ax.hist(pop, bins<span class="op">=</span><span class="dv">40</span>, color<span class="op">=</span><span class="st">'#0a9396'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>xr <span class="op">=</span> np.linspace(<span class="dv">2000</span>, <span class="dv">5500</span>, <span class="dv">300</span>)</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>ax.plot(xr, stats.norm.pdf(xr, pop_true_mu, pop_true_sigma), <span class="st">'#005f73'</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>ax.axvline(pop_true_mu, color<span class="op">=</span><span class="st">'#005f73'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Wahrer Mittelwert μ = </span><span class="sc">{</span>pop_true_mu<span class="sc">}</span><span class="ss"> g'</span>)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Grundgesamtheit</span><span class="ch">\n</span><span class="st">(alle Adélie-Pinguine, unbekannt)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Körpergewicht (g)'</span>)</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Dichte'</span>)</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.05</span>, <span class="fl">0.92</span>, <span class="st">'❓ μ unbekannt'</span>, transform<span class="op">=</span>ax.transAxes,</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>        fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">'darkred'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axes[<span class="dv">1</span>]</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>ax2.hist(sample, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'#ae2012'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>ax2.axvline(sample.mean(), color<span class="op">=</span><span class="st">'#9b2226'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Stichprobenmittel x̄ = </span><span class="sc">{</span>sample<span class="sc">.</span>mean()<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="ss">f'Stichprobe</span><span class="ch">\n</span><span class="ss">(n = </span><span class="sc">{</span><span class="bu">len</span>(sample)<span class="sc">}</span><span class="ss"> Tiere im Datensatz)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Körpergewicht (g)'</span>)</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Dichte'</span>)</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>ax2.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>ax2.text(<span class="fl">0.05</span>, <span class="fl">0.92</span>, <span class="st">'✓ x̄ bekannt'</span>, transform<span class="op">=</span>ax2.transAxes,</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>         fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">'darkgreen'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>Wir kennen die Stichprobe (rechts), nicht aber die Grundgesamtheit (links). Unsere Aufgabe ist es,</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>aus der Stichprobe auf Eigenschaften der Grundgesamtheit zu **schließen**.</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parameter und Schätzer</span></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>Die unbekannten Größen der Grundgesamtheit nennen wir **Parameter**. Wichtige Parameter sind:</span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Symbol <span class="pp">|</span> Beschreibung <span class="pp">|</span></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|--------|--------------|</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Erwartungswert (Mittelwert) <span class="pp">|</span> $\mu$ <span class="pp">|</span> Durchschnittswert in der Grundgesamtheit <span class="pp">|</span></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Varianz <span class="pp">|</span> $\sigma^2$ <span class="pp">|</span> Streuung in der Grundgesamtheit <span class="pp">|</span></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Standardabweichung <span class="pp">|</span> $\sigma$ <span class="pp">|</span> Wurzel aus der Varianz <span class="pp">|</span></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Anteilswert <span class="pp">|</span> $p$ <span class="pp">|</span> Anteil einer Eigenschaft in der Grundgesamtheit <span class="pp">|</span></span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>Die Parameter sind **unbekannt und fest** – es gibt zwar einen wahren Wert, aber wir kennen ihn nicht.</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>Aus der Stichprobe berechnen wir **Schätzwerte**, die den wahren Parametern möglichst nah kommen</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>sollen. Die Funktion, die aus einer Stichprobe einen Schätzwert berechnet, heißt **Schätzfunktion**:</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Definition: Schätzfunktion, Schätzwert, Schätzer</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>Eine **Schätzfunktion** $T$ ist eine Rechenvorschrift, die aus einer Stichprobe $(x_1, \ldots, x_n)$</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>einen Schätzwert $T(x_1, \ldots, x_n)$ für den unbekannten Parameter berechnet.</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>Der **Schätzwert** $T(x_1, \ldots, x_n)$ ist das konkrete Ergebnis der Rechnung für eine bestimmte</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>Stichprobe – eine feste Zahl.</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>Der **Schätzer** $T(X_1, \ldots, X_n)$ ist dieselbe Rechenvorschrift, aber auf *zufällige*</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>Variablen $(X_1, \ldots, X_n)$ angewendet – damit ist er selbst zufällig und hat eine eigene</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>Verteilung.</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## Der Unterschied kurz erklärt</span></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>Schätzfunktion = die Formel (z.B. "nimm das arithmetische Mittel")</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>Schätzwert = das konkrete Ergebnis (z.B. "3700 g")</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>Schätzer = die Formel angewandt auf zufällige Daten = selbst eine Zufallsvariable</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>(z.B. "das Stichprobenmittel $\overline{X}_n$")</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>**Warum ist das wichtig?** Weil wir denselben Schätzer auf viele verschiedene Stichproben anwenden</span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>könnten – und jedes Mal ein etwas anderes Ergebnis bekämen. Diese Streuung der Schätzwerte um den</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>wahren Parameter ist der Kern der Schätztheorie.</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="fu">## Die wichtigsten Standardschätzer</span></span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>In den meisten Situationen sind drei Schätzer besonders wichtig:</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schätzer für Erwartungswert, Varianz und Anteil</span></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>Für eine Stichprobe $(x_1, \ldots, x_n)$ schätzen wir:</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>**Erwartungswert** $\mu$:</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>$$\hat{\mu} = \bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$$</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>**Varianz** $\sigma^2$:</span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>$$\hat{\sigma}^2 = s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2$$</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>**Anteil** $p$ (z.B. Anteil einer Tierart):</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>$$\hat{p} = \frac{\text{Anzahl der Treffer}}{n}$$</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>Das Warum des Faktors $1/(n-1)$ statt $1/n$ beim Varianz-Schätzer erklären wir in Kapitel 2.3.</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a><span class="fu">### Beispiel: Pinguindaten</span></span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>mu_hat   <span class="op">=</span> adelie.mean()           <span class="co"># Schätzwert für μ</span></span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>s2_hat   <span class="op">=</span> adelie.var()            <span class="co"># Schätzwert für σ² (mit n-1)</span></span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>s_hat    <span class="op">=</span> adelie.std()            <span class="co"># Schätzwert für σ</span></span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>n        <span class="op">=</span> <span class="bu">len</span>(adelie)</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Stichprobengröße n = </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzter Erwartungswert: μ̂ = </span><span class="sc">{</span>mu_hat<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzte Varianz:         σ̂² = </span><span class="sc">{</span>s2_hat<span class="sc">:.1f}</span><span class="ss"> g²"</span>)</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzte Standardabw.:    σ̂  = </span><span class="sc">{</span>s_hat<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Anteil der weiblichen Tiere unter den Adélie-Pinguinen schätzen</span></span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>].dropna(subset<span class="op">=</span>[<span class="st">'sex'</span>])</span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a>p_hat <span class="op">=</span> (adelie[<span class="st">'sex'</span>] <span class="op">==</span> <span class="st">'female'</span>).mean()</span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Geschätzter Anteil weiblicher Adélie-Pinguine: p̂ = </span><span class="sc">{</span>p_hat<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>p_hat<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%)"</span>)</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schätzer für mehrere Stichproben</span></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a>Um zu verstehen, warum ein Schätzer eine Zufallsvariable ist, können wir simulieren, was passiert,</span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a>wenn wir mehrmals zufällig aus derselben Grundgesamtheit ziehen:</span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">7</span>)</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>true_mu <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna().mean()</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a>true_sigma <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna().std()</span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>estimates <span class="op">=</span> []</span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">500</span>):</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>    sample <span class="op">=</span> np.random.normal(true_mu, true_sigma, <span class="dv">30</span>)</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>    estimates.append(sample.mean())</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>estimates <span class="op">=</span> np.array(estimates)</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>ax.hist(estimates, bins<span class="op">=</span><span class="dv">25</span>, color<span class="op">=</span><span class="st">'#0a9396'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>xr <span class="op">=</span> np.linspace(estimates.<span class="bu">min</span>(), estimates.<span class="bu">max</span>(), <span class="dv">300</span>)</span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a>kde <span class="op">=</span> stats.gaussian_kde(estimates)</span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>ax.plot(xr, kde(xr), <span class="st">'#005f73'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'Dichte der Schätzwerte'</span>)</span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>ax.axvline(true_mu, color<span class="op">=</span><span class="st">'#ae2012'</span>, lw<span class="op">=</span><span class="fl">2.5</span>, ls<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Wahrer Wert μ = </span><span class="sc">{</span>true_mu<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>ax.axvline(estimates.mean(), color<span class="op">=</span><span class="st">'#ca6702'</span>, lw<span class="op">=</span><span class="fl">1.5</span>, ls<span class="op">=</span><span class="st">':'</span>, label<span class="op">=</span><span class="ss">f'Mittl. Schätzwert = </span><span class="sc">{</span>estimates<span class="sc">.</span>mean()<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Schätzwert für μ (g)'</span>)</span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Dichte'</span>)</span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'500 Stichproben der Größe n = 30: Verteilung der Stichprobenmittel'</span>)</span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>Jede der 500 Stichproben ergibt einen etwas anderen Schätzwert – der Schätzer $\overline{X}_n$ ist</span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a>**selbst zufällig verteilt**. Im Schnitt treffen die Schätzwerte aber den wahren Wert $\mu$ sehr</span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a>gut (roter und oranger Strich liegen fast übereinander). Das ist die Eigenschaft der</span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a>**Erwartungstreue**, die wir in Kapitel 2.3 genauer untersuchen.</span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a>::: {.callout-python appearance="minimal"}</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a>**Python-Tipp: Stichproben ziehen**</span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)                          <span class="co"># Zufallszahl reproduzierbar machen</span></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">3700</span>, scale<span class="op">=</span><span class="dv">460</span>, size<span class="op">=</span><span class="dv">30</span>)   <span class="co"># 30 normalverteilte Zufallszahlen</span></span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sample.mean())                        <span class="co"># Schätzwert für μ</span></span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: μ und σ aus einer Stichprobe schätzen</span></span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a>Du hast Zugriff auf die Körpermassen der Chinstrap-Pinguine. Schätze daraus die unbekannten Parameter der Grundgesamtheit.</span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a>**Aufgabe:**</span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Berechne die Punkt-Schätzer $\hat{\mu} = \bar{x}$ und $\hat{\sigma} = s$ für das Körpergewicht (<span class="in">`body_mass_g`</span>) der Chinstrap-Pinguine.</span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Simuliere 500 Stichproben der Größe $n = 20$ aus einer Normalverteilung mit den geschätzten Parametern. Berechne für jede den Mittelwert.</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Erstelle ein Histogramm der 500 Stichprobenmittelwerte. Was beobachtest du?</span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a>chinstrap <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Chinstrap'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 1" collapse="true"}</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a>Punkt-Schätzer: <span class="in">`mu_hat = chinstrap.mean()`</span> und <span class="in">`sigma_hat = chinstrap.std()`</span> (pandas <span class="in">`.std()`</span> nutzt automatisch $n-1$, also korrigiert). Das sind deine besten Schätzwerte für die Grundgesamtheit.</span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 2" collapse="true"}</span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a>Simulierte Stichproben: <span class="in">`np.random.normal(loc=mu_hat, scale=sigma_hat, size=20)`</span> liefert eine Stichprobe. Wiederhole das 500-mal z.B. mit einer List-Comprehension: <span class="in">`[np.random.normal(mu_hat, sigma_hat, 20).mean() for _ in range(500)]`</span>. Das Histogramm zeigt die Streuung des Schätzers – die sogenannte Stichprobenverteilung.</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a>chinstrap <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Chinstrap'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="op">=</span> chinstrap.mean()</span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a>sigma_hat <span class="op">=</span> chinstrap.std()</span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Schätzer: μ̂ = </span><span class="sc">{</span>mu_hat<span class="sc">:.1f}</span><span class="ss"> g,  σ̂ = </span><span class="sc">{</span>sigma_hat<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a>mittelwerte <span class="op">=</span> [np.random.normal(mu_hat, sigma_hat, <span class="dv">20</span>).mean() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">500</span>)]</span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>plt.hist(mittelwerte, bins<span class="op">=</span><span class="dv">25</span>, color<span class="op">=</span><span class="st">'steelblue'</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>plt.axvline(mu_hat, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'μ̂ = </span><span class="sc">{</span>mu_hat<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Stichprobenmittelwert (g)'</span>)</span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Häufigkeit'</span>)</span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'500 simulierte Stichprobenmittelwerte (n = 20)'</span>)</span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Begriff <span class="pp">|</span> Bedeutung <span class="pp">|</span> Beispiel <span class="pp">|</span></span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-----------|---------|</span></span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Parameter** ($\mu$, $\sigma^2$, $p$) <span class="pp">|</span> Unbekannte Größe der Grundgesamtheit <span class="pp">|</span> Mittl. Körpermasse aller Adélie-Pinguine <span class="pp">|</span></span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schätzfunktion** <span class="pp">|</span> Rechenvorschrift auf konkreten Daten <span class="pp">|</span> $T(\boldsymbol{x}) = \bar{x}$ <span class="pp">|</span></span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schätzwert** <span class="pp">|</span> Konkrete Zahl aus einer Stichprobe <span class="pp">|</span> $\bar{x} = 3700{,}7$ g <span class="pp">|</span></span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schätzer** <span class="pp">|</span> Schätzfunktion auf Zufallsvariablen <span class="pp">|</span> $\overline{X}_n = \frac{1}{n}\sum X_i$ <span class="pp">|</span></span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissensüberprüfung</span></span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a><span class="in">### Ein Forscher berechnet aus einer Stichprobe von 50 Pinguinen den Mittelwert der Flossenlänge. Wie heißt dieser berechnete Zahlenwert?</span></span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Schätzwert</span></span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der konkrete Zahlenwert aus einer Stichprobe ist der Schätzwert.</span></span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Schätzer</span></span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Der Schätzer ist die Rechenvorschrift als Zufallsvariable – nicht das konkrete Ergebnis.</span></span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Parameter</span></span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Der Parameter ist die unbekannte Größe der Grundgesamtheit.</span></span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Estimat</span></span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Das ist kein Fachbegriff in diesem Kontext.</span></span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a><span class="in">### Welche der folgenden Aussagen beschreibt einen **Schätzer** (im statistischen Sinne)?</span></span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Eine konkrete Zahl, die aus Daten berechnet wurde.</span></span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Eine Zufallsvariable, die aus zufälligen Daten einen Wert für einen Parameter berechnet.</span></span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Schätzer ist die Rechenvorschrift als Zufallsvariable.</span></span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der unbekannte wahre Wert des Parameters.</span></span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Stichprobe selbst.</span></span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a><span class="in">### Wie heißt der gängige Schätzer für den Anteilswert $p$ in einer Grundgesamtheit?</span></span>
+<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Arithmetisches Mittel aller Werte</span></span>
+<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Varianz der Stichprobe</span></span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Relative Häufigkeit des Merkmals in der Stichprobe</span></span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! $\hat{p} = \text{Anzahl der Treffer} / n$.</span></span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Median der Stichprobe</span></span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a><span class="in">### Warum ist der Schätzer $\overline{X}_n$ selbst eine Zufallsvariable?</span></span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil er immer einen anderen Wert liefert als der wahre Parameter.</span></span>
+<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Weil er aus zufälligen Stichproben berechnet wird und deshalb bei jeder neuen Stichprobe einen anderen Wert annehmen kann.</span></span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Zufall steckt in den Daten – und damit auch im Schätzer.</span></span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil Zufallsvariablen immer zwischen 0 und 1 liegen.</span></span>
+<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil man ihn nicht genau berechnen kann.</span></span>
+<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a><span class="in">### Die korrigierte Stichprobenvarianz $s^2$ verwendet den Faktor $1/(n-1)$ statt $1/n$. Was ist der Grund?</span></span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Damit die Berechnung einfacher wird.</span></span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil $n-1$ immer kleiner ist als $n$.</span></span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Damit $s^2$ ein erwartungstreuer Schätzer für die Populationsvarianz $\sigma^2$ ist.</span></span>
+<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Mit $1/n$ würde die Varianz systematisch unterschätzt. Der Faktor $1/(n-1)$ korrigiert das.</span></span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weil der Median von $n-1$ Datenpunkten verwendet wird.</span></span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var sidebar = document.getElementById("quarto-sidebar");
+  if (!sidebar) return;
+  var navContainer = sidebar.querySelector(".sidebar-menu-container");
+  if (!navContainer) return;
+  var expanded = false;
+  var btn = document.createElement("button");
+  btn.id = "sidebar-toggle-all";
+  btn.textContent = "\u25bc Alle ausklappen";
+  btn.style.cssText = "display:block;width:calc(100% - 24px);margin:12px 12px 6px;padding:5px 10px;font-size:0.78em;cursor:pointer;border:1px solid rgba(128,128,128,0.3);border-radius:4px;background:transparent;color:inherit;opacity:0.65;text-align:center;";
+  btn.addEventListener("mouseenter", function () { btn.style.opacity = "1"; });
+  btn.addEventListener("mouseleave", function () { btn.style.opacity = "0.65"; });
+  btn.addEventListener("click", function () {
+    expanded = !expanded;
+    sidebar.querySelectorAll(".collapse").forEach(function (el) {
+      el.classList.toggle("show", expanded);
+      var id = el.id;
+      if (id) {
+        var trigger = sidebar.querySelector('[data-bs-target="#' + id + '"]');
+        if (trigger) trigger.setAttribute("aria-expanded", String(expanded));
+      }
+    });
+    btn.textContent = expanded ? "\u25b2 Alle einklappen" : "\u25bc Alle ausklappen";
+  });
+  navContainer.appendChild(btn);
+});
+</script>
 <script type="module">
 /**
  * Factory function to create different types of cells based on options.
@@ -2844,160 +2960,61 @@ class InteractiveCell extends BaseCell {
 
             
 
-                if(globalThis.backend == "groq"){
-                    const url = document.getElementById('baseUrlInput').value; 
-                    const apiKey = document.getElementById('apiKeyInput').value;
-                    const modelsUrl = `${url}/models`; 
-                    const feedbackUrl = `${url}/chat/completions`;
-                    if (!apiKey) {
-                        alert('Please enter your API Key.');
-                        return;
-                    }
-                    // Send the request to the API
-                    fetch(modelsUrl, {
-                        method: "GET",
-                        headers: {
-                            "Authorization": `Bearer ${apiKey}`,
-                            "Content-Type": "application/json"
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(modelsData => {
-                        console.log("Model list:", modelsData);
+                if(globalThis.backend == "copyPrompt"){
+                    // Generate a copyable prompt for any AI chatbot
+                    const promptText =
+`Ich brauche Hilfe mit meinem Python-Code aus einem Statistik-Tutorial.
 
-                         // Extrahiere die Modell-IDs aus dem `data`-Array
-                        const modelIds = modelsData.data.map(model => model.id);
-                        let selectedModel = "mixtral-8x7b-32768";
-                        if (!modelIds.includes(selectedModel)) {
-                            selectedModel = modelIds[0];
-                        }
-                        console.log("Selected model:", selectedModel);
-                    
-                    
-                        // Prepare the request data
-                        const requestData = {
-                            messages:  
-                            [{role: "system", content: system_prompt},
-                            {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }],
-                            model: selectedModel
-                        };
-                        
+**Mein Code:**
+\`\`\`python
+${data}
+\`\`\`
 
-                        
+**Ausgabe / Fehlermeldung:**
+\`\`\`
+${runtime_message || "(keine Ausgabe)"}
+\`\`\`
 
-                        fetch(feedbackUrl, {
-                            method: "POST",
-                            headers: {
-                                "Authorization": `Bearer ${apiKey}`,
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(requestData)
-                        })
-                        .then(feedbackresponse => feedbackresponse.json())
-                        .then(data => {
-                            // Clear the existing feedback in the outputFeedbackDiv
-                            thiz.outputFeedbackDiv.innerHTML = "";
-                            // Get the feedback from the API response
-                            const feedback = data.choices[0].message.content;
+Bitte erkläre mir, was der Code macht, ob es Fehler gibt und wie ich sie beheben kann. Gib mir keine fertige Lösung, sondern hilf mir zu verstehen, was falsch ist.`;
 
-                            // Function to replace \n with <br>
-                            function replaceNewlinesWithBr(text) {
-                                return text.replace(/\n/g, '<br>');
-                            }
+                    thiz.outputFeedbackDiv.innerHTML = "";
 
-                            // Create the inner div element for the feedback header 
-                            const feedbackHeaderDiv = document.createElement("div");
-                            feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                            feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                            thiz.outputFeedbackDiv.appendChild(feedbackHeaderDiv);
-                            thiz.outputFeedbackDiv.firstChild.style.textDecoration = "underline";
-                            thiz.outputFeedbackDiv.firstChild.style.marginBottom = "20px";
-                            thiz.outputFeedbackDiv.firstChild.style.fontSize = "large";
+                    const headerDiv = document.createElement("div");
+                    headerDiv.style.fontWeight = "bold";
+                    headerDiv.style.marginBottom = "8px";
+                    headerDiv.style.fontSize = "1em";
+                    headerDiv.textContent = "💡 KI-Prompt generiert – kopiere ihn in ChatGPT, Claude oder einen anderen KI-Assistenten:";
+                    thiz.outputFeedbackDiv.appendChild(headerDiv);
 
-                            // Create a new element to display the feedback
-                            const feedbackElement = document.createElement('div');
-                            feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
+                    const preEl = document.createElement("pre");
+                    preEl.style.cssText = "white-space:pre-wrap;background:#f4f4f4;color:#222;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:0.85em;margin:6px 0;";
+                    preEl.textContent = promptText;
+                    thiz.outputFeedbackDiv.appendChild(preEl);
 
-                            // Append the feedback element below the code field
-                            thiz.outputFeedbackDiv.appendChild(feedbackElement);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Error requesting the API: ' + error);
+                    const copyBtn = document.createElement("button");
+                    copyBtn.textContent = "📋 Prompt kopieren";
+                    copyBtn.style.cssText = "margin-top:4px;padding:4px 12px;cursor:pointer;border-radius:4px;border:1px solid #aaa;background:#e8e8e8;";
+                    copyBtn.onclick = function() {
+                        navigator.clipboard.writeText(promptText).then(() => {
+                            copyBtn.textContent = "✅ Kopiert!";
+                            setTimeout(() => { copyBtn.textContent = "📋 Prompt kopieren"; }, 2000);
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching models:', error);
-                        alert('Error when retrieving the model list: ' + error);
-                    });
+                    };
+                    thiz.outputFeedbackDiv.appendChild(copyBtn);
                 }
 
+                if(globalThis.backend == "groq"){
+                    alert('Kein API-Key konfiguriert. Bitte nutze den "copyPrompt"-Modus.');
+                }
 
                 if(globalThis.backend == "flask"){
-                    // Prepare the request data
-                    const requestData = {
-                        messages:  
-                        [{role: "system", content: system_prompt},
-                        {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }]
-                    };
-                    // URL of the Flask server
-                    const url = "http://127.0.0.1:5000/api/feedback"; 
-
-                    // Send the request to the server
-                    fetch(url, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.choices && data.choices.length > 0) {
-                            // Clear the existing feedback in the outputFeedbackDiv
-                            thiz.outputFeedbackDiv.innerHTML = "";
-                            // Get the feedback from the API response
-                            const feedback = data.choices[0].message.content;
-
-                             // Log the entire model list and the selected model
-                            console.log("Model list: ", data.model_list); 
-                            console.log("Selected model: ", data.selected_model);
-
-                            // Function to replace \n with <br>
-                            function replaceNewlinesWithBr(text) {
-                                return text.replace(/\n/g, '<br>');
-                            }
-
-                            // Create the inner div element for the feedback header 
-                            const feedbackHeaderDiv = document.createElement("div");
-                            feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                            feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                            thiz.outputFeedbackDiv.appendChild(feedbackHeaderDiv);
-                            thiz.outputFeedbackDiv.firstChild.style.textDecoration = "underline";
-                            thiz.outputFeedbackDiv.firstChild.style.marginBottom = "20px";
-                            thiz.outputFeedbackDiv.firstChild.style.fontSize = "large";
-
-                            // Create a new element to display the feedback
-                            const feedbackElement = document.createElement('div');
-                            feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
-
-                            // Append the feedback element below the code field
-                            thiz.outputFeedbackDiv.appendChild(feedbackElement);
-                        }else {
-                            console.error("Error: 'choices' field is missing or empty in the API response.");
-                            alert("Error when retrieving feedback: 'choices' field not available or empty.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error when requesting the API:  ' + error);
-                    });
+                    alert('Flask-Backend nicht verfügbar.');
                 }
 
                 thiz.outputFeedbackDiv.classList.add('has-content');
                 };
             })};
-            
+
 
             // Add an event listener to call the function when the button is clicked
             thiz.addCodeBlockButton.onclick = function () {
@@ -3233,152 +3250,52 @@ class InteractiveCell extends BaseCell {
 
         
 
-            if(globalThis.backend == "groq"){
-                const url = document.getElementById('baseUrlInput').value; 
-                const apiKey = document.getElementById('apiKeyInput').value;
-                const modelsUrl = `${url}/models`; 
-                const feedbackUrl = `${url}/chat/completions`;
-                if (!apiKey) {
-                    alert('Please enter your API Key.');
-                    return;
-                }
-                // Send the request to the API
-                fetch(modelsUrl, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${apiKey}`,
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then(modelsData => {
-                    console.log("Model list:", modelsData);
+            if(globalThis.backend == "copyPrompt"){
+                const promptText =
+`Ich brauche Hilfe mit meinem Python-Code aus einem Statistik-Tutorial.
 
-                    const modelIds = modelsData.data.map(model => model.id);
-                    let selectedModel = "mixtral-8x7b-32768";
-                    if (!modelIds.includes(selectedModel)) {
-                        selectedModel = modelIds[0];
-                    }
-                    console.log("Selected model:", selectedModel);
-                
-                
-                    // Prepare the request data
-                    const requestData = {
-                        messages:  
-                        [{role: "system", content: system_prompt},
-                        {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }],
-                        model: selectedModel
-                    };
-                    
+**Mein Code:**
+\`\`\`python
+${data}
+\`\`\`
 
-                    
+**Ausgabe / Fehlermeldung:**
+\`\`\`
+${runtime_message || "(keine Ausgabe)"}
+\`\`\`
 
-                    fetch(feedbackUrl, {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${apiKey}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(feedbackresponse => feedbackresponse.json())
-                    .then(data => {
-                        // Clear the existing feedback in the outputFeedbackDiv
-                        thiz.outputFeedbackDiv2.innerHTML = "";
-                        // Get the feedback from the API response
-                        const feedback = data.choices[0].message.content;
+Bitte erkläre mir, was der Code macht, ob es Fehler gibt und wie ich sie beheben kann. Gib mir keine fertige Lösung, sondern hilf mir zu verstehen, was falsch ist.`;
 
-                        // Function to replace \n with <br>
-                        function replaceNewlinesWithBr(text) {
-                            return text.replace(/\n/g, '<br>');
-                        }
+                thiz.outputFeedbackDiv2.innerHTML = "";
 
-                        // Create the inner div element for the feedback header 
-                        const feedbackHeaderDiv = document.createElement("div");
-                        feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                        feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                        thiz.outputFeedbackDiv2.appendChild(feedbackHeaderDiv);
-                        thiz.outputFeedbackDiv2.firstChild.style.textDecoration = "underline";
-                        thiz.outputFeedbackDiv2.firstChild.style.marginBottom = "20px";
-                        thiz.outputFeedbackDiv2.firstChild.style.fontSize = "large";
+                const headerDiv = document.createElement("div");
+                headerDiv.style.fontWeight = "bold";
+                headerDiv.style.marginBottom = "8px";
+                headerDiv.textContent = "KI-Prompt zum Kopieren:";
+                thiz.outputFeedbackDiv2.appendChild(headerDiv);
 
-                        // Create a new element to display the feedback
-                        const feedbackElement = document.createElement('div');
-                        feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
+                const pre = document.createElement("pre");
+                pre.style.whiteSpace = "pre-wrap";
+                pre.style.wordBreak = "break-word";
+                pre.style.fontSize = "0.85em";
+                pre.style.padding = "8px";
+                pre.style.borderRadius = "4px";
+                pre.style.userSelect = "all";
+                pre.textContent = promptText;
+                thiz.outputFeedbackDiv2.appendChild(pre);
 
-                        // Append the feedback element below the code field
-                        thiz.outputFeedbackDiv2.appendChild(feedbackElement);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error when requesting the API: ' + error);
+                const copyBtn = document.createElement("button");
+                copyBtn.textContent = "Prompt kopieren";
+                copyBtn.style.marginTop = "6px";
+                copyBtn.style.padding = "4px 12px";
+                copyBtn.style.cursor = "pointer";
+                copyBtn.addEventListener("click", () => {
+                    navigator.clipboard.writeText(promptText).then(() => {
+                        copyBtn.textContent = "Kopiert!";
+                        setTimeout(() => { copyBtn.textContent = "Prompt kopieren"; }, 2000);
                     });
-                })
-                .catch(error => {
-                    console.error('Error fetching models:', error);
-                    alert('Error when retrieving the model list: ' + error);
                 });
-            }
-            
-            if(globalThis.backend == "flask"){
-                // Prepare the request data
-                const requestData = {
-                    messages:  
-                    [{role: "system", content: system_prompt},
-                    {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }]
-                };
-                // URL of the Flask server
-                const url = "http://127.0.0.1:5000/api/feedback"; 
-
-                // Send the request to the server
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(requestData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.choices && data.choices.length > 0) {
-                        // Clear the existing feedback in the outputFeedbackDiv
-                        thiz.outputFeedbackDiv2.innerHTML = "";
-                        // Get the feedback from the API response
-                        const feedback = data.choices[0].message.content;
-
-                         // Log the entire model list and the selected model
-                        console.log("Model list: ", data.model_list); 
-                        console.log("Selected model: ", data.selected_model);
-
-                        // Function to replace \n with <br>
-                        function replaceNewlinesWithBr(text) {
-                            return text.replace(/\n/g, '<br>');
-                        }
-
-                        // Create the inner div element for the feedback header 
-                        const feedbackHeaderDiv = document.createElement("div");
-                        feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                        feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                        thiz.outputFeedbackDiv2.appendChild(feedbackHeaderDiv);
-                        thiz.outputFeedbackDiv2.firstChild.style.textDecoration = "underline";
-                        thiz.outputFeedbackDiv2.firstChild.style.marginBottom = "20px";
-                        thiz.outputFeedbackDiv2.firstChild.style.fontSize = "large";
-
-                        // Create a new element to display the feedback
-                        const feedbackElement = document.createElement('div');
-                        feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
-
-                        // Append the feedback element below the code field
-                        thiz.outputFeedbackDiv2.appendChild(feedbackElement);
-                    }else {
-                        console.error("Error: 'choices' field is missing or empty in the API response.");
-                        alert("Error when retrieving feedback: 'choices' field not available or empty.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error when requesting the API:  ' + error);
-                });
+                thiz.outputFeedbackDiv2.appendChild(copyBtn);
             }
             
             thiz.outputFeedbackDiv2.classList.add('has-content');

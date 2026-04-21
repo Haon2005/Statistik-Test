@@ -19,10 +19,11 @@ Dieses Kapitel besteht aus vier Unterkapiteln:
 
 | | Thema | Kernfrage |
 |-|-------|-----------|
-| **2.1** | Schätzer | *Was bedeutet "schätzen" mathematisch?* |
-| **2.2** | Schätzmethoden | *Wie findet man einen guten Schätzer?* |
-| **2.3** | Gütekriterien | *Wann ist ein Schätzer wirklich gut?* |
-| **2.4** | Konfidenzintervalle | *Wie genau ist unsere Schätzung?* |
+| **2.1** | [Schätzer](schaetzer.qmd) | *Was bedeutet "schätzen" mathematisch?* |
+| **2.2** | [Schätzmethoden](schaetzmethoden.qmd) | *Wie findet man einen guten Schätzer?* |
+| **2.3** | [Gütekriterien](guetekriterien.qmd) | *Wann ist ein Schätzer wirklich gut?* |
+| **2.4** | [Konfidenzintervalle](konfidenzintervalle.qmd) | *Wie genau ist unsere Schätzung?* |
+| **2.5** | [Statistische Signifikanz & p-Werte](../kapitel_hypothesentests/signifikanz_p_werte.qmd) | *Was bedeutet ein Ergebnis statistisch?* |
 
 ## Lernziele {.unnumbered}
 
@@ -34,6 +35,8 @@ Am Ende dieses Kapitels kannst du:
 - Gütekriterien (Erwartungstreue, Standardfehler, Konsistenz) erläutern und anwenden.
 - Konfidenzintervalle für einen Erwartungswert berechnen – sowohl bei bekannter als auch bei
   unbekannter Varianz – und das Ergebnis korrekt interpretieren.
+- den Begriff der statistischen Signifikanz erklären, p-Werte korrekt interpretieren und den
+  Unterschied zwischen statistischer und praktischer Bedeutsamkeit benennen.
 
 ## Voraussetzungen {.unnumbered}
 

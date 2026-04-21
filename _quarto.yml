@@ -54,25 +54,10 @@ website:
             href: qmd/kapitel_schaetztheorie/guetekriterien.qmd
           - text: "2.4 Konfidenzintervalle"
             href: qmd/kapitel_schaetztheorie/konfidenzintervalle.qmd
-      - section: "3. Hypothesentests"
-        href: qmd/kapitel_hypothesentests/index.qmd
-        contents:
-          - text: "3.1 Statistische Signifikanz & p-Werte"
+          - text: "2.5 Statistische Signifikanz & p-Werte"
             href: qmd/kapitel_hypothesentests/signifikanz_p_werte.qmd
-          - text: "3.2 Einführung: Der Gauß-Test"
-            href: qmd/kapitel_hypothesentests/gauss_test.qmd
-          - text: "3.3 Der Einstichproben-t-Test"
-            href: qmd/kapitel_hypothesentests/t_test_einstichprobe.qmd
-          - text: "3.4 t-Test für unverbundene Stichproben"
-            href: qmd/kapitel_hypothesentests/t_test_unverbunden.qmd
-          - text: "3.5 t-Test für verbundene Stichproben"
-            href: qmd/kapitel_hypothesentests/t_test_verbunden.qmd
-          - text: "3.6 Der F-Test"
-            href: qmd/kapitel_hypothesentests/f_test.qmd
-          - text: "3.7 Der Mann-Whitney-U-Test"
-            href: qmd/kapitel_hypothesentests/mann_whitney.qmd
-          - text: "3.8 Der Chi-Quadrat-Test"
-            href: qmd/kapitel_hypothesentests/chi_quadrat.qmd
+      - text: "Cheatsheet & Quiz"
+        href: qmd/cheatsheet.qmd
 
 format:
   html:
@@ -93,6 +78,36 @@ format:
     include-in-header:
       - text: |
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    include-after-body:
+      - text: |
+          <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var sidebar = document.getElementById("quarto-sidebar");
+            if (!sidebar) return;
+            var navContainer = sidebar.querySelector(".sidebar-menu-container");
+            if (!navContainer) return;
+            var expanded = false;
+            var btn = document.createElement("button");
+            btn.id = "sidebar-toggle-all";
+            btn.textContent = "\u25bc Alle ausklappen";
+            btn.style.cssText = "display:block;width:calc(100% - 24px);margin:12px 12px 6px;padding:5px 10px;font-size:0.78em;cursor:pointer;border:1px solid rgba(128,128,128,0.3);border-radius:4px;background:transparent;color:inherit;opacity:0.65;text-align:center;";
+            btn.addEventListener("mouseenter", function () { btn.style.opacity = "1"; });
+            btn.addEventListener("mouseleave", function () { btn.style.opacity = "0.65"; });
+            btn.addEventListener("click", function () {
+              expanded = !expanded;
+              sidebar.querySelectorAll(".collapse").forEach(function (el) {
+                el.classList.toggle("show", expanded);
+                var id = el.id;
+                if (id) {
+                  var trigger = sidebar.querySelector('[data-bs-target="#' + id + '"]');
+                  if (trigger) trigger.setAttribute("aria-expanded", String(expanded));
+                }
+              });
+              btn.textContent = expanded ? "\u25b2 Alle einklappen" : "\u25bc Alle ausklappen";
+            });
+            navContainer.appendChild(btn);
+          });
+          </script>
 
 filters:
   - quizdown

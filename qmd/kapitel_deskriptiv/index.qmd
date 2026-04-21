@@ -1,8 +1,6 @@
 ---
 title: "1. Deskriptive Statistik"
 lang: de
-filters:
-  - pyodide
 ---
 
 ## Was dich erwartet {.unnumbered}
@@ -13,12 +11,12 @@ Dieses Kapitel besteht aus sechs Unterkapiteln:
 
 | | Thema | Kernfrage |
 |-|-------|-----------|
-| **1.1** | Eine statistische Untersuchung | *Was untersuchen wir eigentlich und wie?* |
-| **1.2** | Häufigkeitsverteilung | *Wie oft kommt welcher Wert vor?* |
-| **1.3** | Grafische Darstellungen | *Wie visualisiere ich meine Daten sinnvoll?* |
-| **1.4** | Kennzahlen: Lage | *Wo liegt das „Zentrum" meiner Daten?* |
-| **1.5** | Kennzahlen: Streuung, Schiefe & Wölbung | *Wie stark streuen meine Daten?* |
-| **1.6** | Zweidimensionale Datenanalyse | *Gibt es Zusammenhänge zwischen zwei Merkmalen?* |
+| **1.1** | [Eine statistische Untersuchung](statistische_untersuchung.qmd) | *Was untersuchen wir eigentlich und wie?* |
+| **1.2** | [Häufigkeitsverteilung](haeufigkeitsverteilung.qmd) | *Wie oft kommt welcher Wert vor?* |
+| **1.3** | [Grafische Darstellungen](grafische_darstellungen.qmd) | *Wie visualisiere ich meine Daten sinnvoll?* |
+| **1.4** | [Kennzahlen: Lage](kennzahlen_lage.qmd) | *Wo liegt das „Zentrum" meiner Daten?* |
+| **1.5** | [Kennzahlen: Streuung, Schiefe & Wölbung](kennzahlen_streuung.qmd) | *Wie stark streuen meine Daten?* |
+| **1.6** | [Zweidimensionale Datenanalyse](zweidimensional.qmd) | *Gibt es Zusammenhänge zwischen zwei Merkmalen?* |
 
 ## Lernziele {.unnumbered}
 
@@ -32,16 +30,3 @@ Am Ende dieses Kapitels kannst du:
 ## Voraussetzungen {.unnumbered}
 
 Dieses Kapitel setzt nur grundlegende Mathematikkenntnisse voraus. Python-Vorkenntnisse sind hilfreich, aber nicht zwingend nötig – auf der [Python-Grundlagen Seite](../grundlagen.qmd) findest du alles, was du für dieses Tutorial brauchst.
-
-## Unser Datensatz {.unnumbered}
-
-Durch das gesamte Kapitel arbeiten wir mit dem **Palmer-Pinguins-Datensatz**: 344 Pinguine, drei Arten (Adélie, Chinstrap, Gentoo), drei Inseln, sechs Merkmale. Er ist klein genug, um ihn vollständig zu überblicken, und vielfältig genug, um alle Methoden der deskriptiven Statistik zu zeigen.
-
-```{pyodide-python}
-#| read-only: true
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
-print(penguins.head())
-print(f"\n{penguins.shape[0]} Pinguine, {penguins.shape[1]} Merkmale")
-```

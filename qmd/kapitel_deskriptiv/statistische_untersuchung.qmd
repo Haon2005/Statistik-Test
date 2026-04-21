@@ -278,6 +278,15 @@ penguins["gewichtsklasse"] = pd.cut(
 print(penguins["gewichtsklasse"].value_counts().sort_index())
 ```
 
+:::: {.theorem .exercise}
+#### Aufgabe: Schnabellänge klassieren
+
+Die Schnabellängen der Pinguine variieren von etwa 32 mm bis 60 mm. Teile dieses Merkmal in drei gleichbreite Klassen ein und zähle, wie viele Pinguine in jede Klasse fallen.
+
+**Aufgabe:**
+1. Klassiere `bill_length_mm` in drei Klassen: `"kurz"` = (30, 40], `"mittel"` = (40, 50], `"lang"` = (50, 60].
+2. Gib die absolute Häufigkeit jeder Klasse aus.
+
 ```{pyodide-python}
 #| packages: ["palmerpenguins"]
 import pandas as pd
@@ -285,11 +294,23 @@ from palmerpenguins import load_penguins
 
 penguins = load_penguins()
 
-# Aufgabe: Klassiere die Schnabellänge (bill_length_mm) in 3 Klassen:
-# "kurz" = (30, 40], "mittel" = (40, 50], "lang" = (50, 60]
-# Wie viele Pinguine fallen in jede Klasse?
+# Dein Code hier
+```
 
-# Dein Code hier:
+::: {.callout-tip title="Tipp 1" collapse="true"}
+`pd.cut()` klassiert eine Spalte direkt. Übergib `bins=` als Liste der Klassengrenzen und `labels=` als Liste der Klassennamen.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Nach der Klassierung kannst du `value_counts().sort_index()` verwenden, um die Häufigkeiten in der richtigen Reihenfolge (kurz → mittel → lang) anzuzeigen.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+import pandas as pd
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+
 penguins["schnabelklasse"] = pd.cut(
     penguins["bill_length_mm"],
     bins=[30, 40, 50, 60],
@@ -297,6 +318,8 @@ penguins["schnabelklasse"] = pd.cut(
 )
 print(penguins["schnabelklasse"].value_counts().sort_index())
 ```
+:::
+::::
 
 ---
 

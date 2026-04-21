@@ -739,6 +739,90 @@ df['spalte'].describe()
 ```
 :::
 
+:::: {.theorem .exercise}
+#### Aufgabe: Lagemaße der Schnabellänge
+
+Die Schnabellänge der Pinguine variiert je nach Art stark. Berechne die wichtigsten Lagemaße und vergleiche die Arten.
+
+**Aufgabe:**
+1. Berechne Mittelwert, Median und Modalwert der Schnabellänge (`bill_length_mm`) aller Pinguine.
+2. Berechne den Mittelwert getrennt nach Pinguinart (`species`). Welche Art hat die längsten Schnäbel im Durchschnitt?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Für eine einzelne Spalte: `.mean()` → Mittelwert, `.median()` → Median, `.mode()[0]` → Modalwert (häufigster Wert). Denk daran, fehlende Werte mit `.dropna()` zu entfernen.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Für den artweisen Mittelwert nutze `penguins.groupby('species')['bill_length_mm'].mean()`. Das gibt dir für jede Art separat den Mittelwert.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+bill = penguins['bill_length_mm'].dropna()
+
+print(f"Mittelwert: {bill.mean():.2f} mm")
+print(f"Median:     {bill.median():.2f} mm")
+print(f"Modalwert:  {bill.mode()[0]:.2f} mm")
+
+print("\nMittelwert nach Art:")
+print(penguins.groupby('species')['bill_length_mm'].mean().round(2))
+```
+:::
+::::
+
+:::: {.theorem .exercise}
+#### Aufgabe: Mittelwert vs. Median beim Körpergewicht
+
+Mittelwert und Median können bei schiefen Verteilungen stark voneinander abweichen.
+
+**Aufgabe:**
+1. Berechne Mittelwert und Median des Körpergewichts (`body_mass_g`) aller Pinguine. Ist die Verteilung eher rechts- oder linksschief?
+2. Filtere die Gentoo-Pinguine heraus (die sind deutlich schwerer als die anderen Arten) und vergleiche Mittelwert und Median erneut. Was ändert sich?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Mit `penguins[penguins['species'] != 'Gentoo']` filterst du alle Pinguine heraus, die **nicht** Gentoo sind. Danach wieder `.mean()` und `.median()` auf `body_mass_g` anwenden.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Wenn Mittelwert > Median: rechtsschiefe Verteilung (langer Schweif nach rechts). Wenn Mittelwert < Median: linksschiefe Verteilung. Gentoo-Pinguine sind schwere Ausreißer nach oben – ihr Entfernen sollte den Mittelwert stärker verschieben als den Median.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+
+masse_alle = penguins['body_mass_g'].dropna()
+print("Alle Pinguine:")
+print(f"  Mittelwert: {masse_alle.mean():.1f} g,  Median: {masse_alle.median():.1f} g")
+
+ohne_gentoo = penguins[penguins['species'] != 'Gentoo']['body_mass_g'].dropna()
+print("\nOhne Gentoo:")
+print(f"  Mittelwert: {ohne_gentoo.mean():.1f} g,  Median: {ohne_gentoo.median():.1f} g")
+```
+:::
+::::
+
 ---
 
 ## Zusammenfassung

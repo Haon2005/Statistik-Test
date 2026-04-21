@@ -651,6 +651,62 @@ for key, text in beispiele.items():
 ```
 :::
 
+:::: {.theorem .exercise}
+#### Aufgabe: Schnabellänge vs. Schnabeltiefe
+
+Auf den ersten Blick wirkt es seltsam: Längere Schnäbel könnten tiefere Schnäbel bedeuten – oder doch nicht?
+
+**Aufgabe:**
+1. Berechne die Pearson-Korrelation zwischen Schnabellänge (`bill_length_mm`) und Schnabeltiefe (`bill_depth_mm`) für **alle** Pinguine zusammen.
+2. Berechne dieselbe Korrelation **getrennt nach Pinguinart**. Was fällt auf?
+3. Erstelle ein Streudiagramm und färbe die Punkte nach Art ein – lässt sich das Ergebnis visuell erklären?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+import matplotlib.pyplot as plt
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Für die Gesamt-Korrelation: `penguins[['bill_length_mm', 'bill_depth_mm']].corr()`. Für die artweise Korrelation: `penguins.groupby('species')[['bill_length_mm', 'bill_depth_mm']].corr()` – oder eine Schleife über die Arten.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Gesamt ist die Korrelation negativ, innerhalb jeder Art positiv – das ist das **Simpson-Paradoxon**: Eine globale Tendenz kann sich umkehren, wenn man nach einer dritten Variablen (hier: Art) gruppiert. Für das Streudiagramm: Nutze eine Schleife über die Arten und rufe `plt.scatter()` für jede Art mit einer eigenen Farbe auf.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+import matplotlib.pyplot as plt
+from palmerpenguins import load_penguins
+penguins = load_penguins().dropna(subset=['bill_length_mm', 'bill_depth_mm'])
+
+# Korrelationen
+r_gesamt = penguins[['bill_length_mm', 'bill_depth_mm']].corr().iloc[0, 1]
+print(f"Gesamt: r = {r_gesamt:.3f}")
+
+for art, gr in penguins.groupby('species'):
+    r = gr[['bill_length_mm', 'bill_depth_mm']].corr().iloc[0, 1]
+    print(f"  {art}: r = {r:.3f}")
+
+# Streudiagramm
+farben = {'Adelie': '#4c72b0', 'Chinstrap': '#dd8452', 'Gentoo': '#55a868'}
+for art, gr in penguins.groupby('species'):
+    plt.scatter(gr['bill_length_mm'], gr['bill_depth_mm'],
+                label=art, color=farben[art], alpha=0.6, s=20)
+plt.xlabel('Schnabellänge (mm)')
+plt.ylabel('Schnabeltiefe (mm)')
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+:::
+::::
+
 ---
 
 ## Zusammenfassung

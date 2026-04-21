@@ -178,17 +178,45 @@ print("\nRelative Häufigkeiten – Pinguinart:")
 print(penguins["species"].value_counts(normalize=True).round(3))
 ```
 
+:::: {.theorem .exercise}
+#### Aufgabe: Häufigkeitstabelle für Inseln
+
+Im Datensatz wurden Pinguine auf drei verschiedenen Inseln beobachtet. Erstelle eine Häufigkeitstabelle für das Merkmal `island`.
+
+**Aufgabe:**
+1. Berechne die absolute Häufigkeit jeder Insel.
+2. Berechne die relative Häufigkeit (auf 3 Nachkommastellen gerundet).
+3. Auf welcher Insel wurden die meisten Pinguine beobachtet? Wie hoch ist ihr Anteil?
+
 ```{pyodide-python}
 #| packages: ["palmerpenguins"]
 from palmerpenguins import load_penguins
 penguins = load_penguins()
 
-# Aufgabe: Berechne absolute und relative Häufigkeiten für das Merkmal "island"
-# Auf welcher Insel wurden die meisten Pinguine beobachtet?
+# Dein Code hier
+```
 
+::: {.callout-tip title="Tipp 1" collapse="true"}
+`value_counts()` berechnet die absoluten Häufigkeiten einer Spalte. Mit dem Parameter `normalize=True` erhältst du die relativen Häufigkeiten (Anteile zwischen 0 und 1).
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Mit `.round(3)` kannst du die relativen Häufigkeiten auf 3 Nachkommastellen runden. Rufe die Funktion direkt nach `value_counts(normalize=True)` auf.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+
+print("Absolute Häufigkeiten:")
 print(penguins["island"].value_counts())
+
+print("\nRelative Häufigkeiten:")
 print(penguins["island"].value_counts(normalize=True).round(3))
 ```
+:::
+::::
 
 ::: {.callout-rechnen}
 **Hinweis:** Bei quantitativen Merkmalen mit vielen verschiedenen Werten (z.B. genaue Körpergröße) hat fast jeder Wert die Häufigkeit 1 – die Tabelle wird riesig und unübersichtlich. Lösung: Klassieren (→ nächster Abschnitt).

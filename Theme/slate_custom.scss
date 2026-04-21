@@ -11,10 +11,12 @@ h1, h2, h3, h4, h5, h6 {
 
 blockquote, .blockquote {
   color: #d3d3d3ea !important;
-  border-left: none;
-  border-top: 2px solid #fd0d0d;
-  border-bottom: 2px solid #fd0d0d;
-  border-radius: 10px;
+  border-left: 4px solid #b8aa6e;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 6px;
+  background-color: #3a3320;
+  padding: 0.6rem 1rem;
 }
 
 .theorem.definition {
@@ -116,9 +118,22 @@ i.python,
   border-bottom: 1px solid rgba(0,0,0,.6) !important;
 }
 
+code {
+  color: var(--bs-code-color);
+}
+
+.callout-note {
+  background-color: #1e2a38 !important;
+}
+
+.callout-tip {
+  background-color: #535523 !important;
+}
+
 .callout-header, .callout-header *, .callout-title, .callout-title strong {
   color: #b8aa6e !important;
 }
+
 
 /* ── Custom Callout: Python-Tipp ───────────────────────────────────────── */
 .callout-python {
@@ -136,7 +151,7 @@ i.python,
 /* ── Custom Callout: Rechenhinweis (Bleistift) ─────────────────────────── */
 .callout-rechnen {
   border-left-color: #b8aa6e !important;
-  background-color: #2e2c1e !important;
+  background-color: #3e3b26 !important;
 }
 .callout-rechnen .callout-icon::before {
   background-image: none !important;
@@ -172,6 +187,25 @@ figcaption, .figure-caption {
 #fig-schema-mermaid {
   font-size: 16px;                 // ← Schriftgröße (kannst du anpassen)
   // font-family: sans-serif;      // ← auskommentiert – Original bleibt
+}
+
+/* Titel in der Navbar zentrieren */
+.navbar {
+  min-height: 56px;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+.navbar > .container-fluid {
+  min-height: 56px;
+}
+.navbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-right: none !important;
+}
+.navbar-brand-logo {
+  border-right: none !important;
 }
 
 /* Deutlicheres Highlighting für den aktiven Navbar-Tab */

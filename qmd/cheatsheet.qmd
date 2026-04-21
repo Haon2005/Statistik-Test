@@ -1,0 +1,264 @@
+---
+title: "Cheatsheet & Quiz"
+lang: de
+filters:
+  - quizdown
+---
+
+Auf dieser Seite findest du eine kompakte Übersicht aller Konzepte, Formeln und Python-Befehle aus dem Tutorial – ideal zum Nachschlagen und Wiederholen.
+
+---
+
+## 1. Deskriptive Statistik
+
+### Häufigkeiten
+
+| Begriff | Formel / Bedeutung |
+|---|---|
+| Absolute Häufigkeit | $h_j$ – Anzahl der Beobachtungen mit Wert $a_j$ |
+| Relative Häufigkeit | $f_j = \dfrac{h_j}{n}$ |
+| Kumulierte relative Häufigkeit | $F_j = \sum_{i \le j} f_i$ |
+
+```python
+df["spalte"].value_counts()                    # absolute Häufigkeiten
+df["spalte"].value_counts(normalize=True)      # relative Häufigkeiten
+df["spalte"].value_counts(normalize=True).cumsum()  # kumuliert
+```
+
+### Lagemaße
+
+| Maß | Formel |
+|---|---|
+| Arithmetisches Mittel | $\bar{x} = \dfrac{1}{n}\sum_{i=1}^n x_i$ |
+| Median ($Q_2$) | mittlerer Wert der sortierten Reihe |
+| Modus | häufigster Wert |
+| Geometrisches Mittel | $\bar{x}_{\text{geo}} = \sqrt[n]{x_1 \cdot x_2 \cdots x_n}$ |
+| 1. Quartil $Q_1$ | Wert, unter dem 25 % der Daten liegen |
+| 3. Quartil $Q_3$ | Wert, unter dem 75 % der Daten liegen |
+
+```python
+np.mean(x)               # Arithmetisches Mittel
+np.median(x)             # Median
+df["spalte"].mode()[0]   # Modus
+gmean(x)                 # Geometrisches Mittel
+np.percentile(x, [25, 75])  # Q1, Q3
+```
+
+### Streuungsmaße
+
+| Maß | Formel |
+|---|---|
+| Spannweite | $R = x_{\max} - x_{\min}$ |
+| Varianz (Stichprobe) | $s^2 = \dfrac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2$ |
+| Standardabweichung | $s = \sqrt{s^2}$ |
+| Interquartilsabstand | $\text{IQR} = Q_3 - Q_1$ |
+| Variationskoeffizient | $v = \dfrac{s}{\bar{x}}$ |
+
+```python
+np.ptp(x)                        # Spannweite (max - min)
+np.var(x, ddof=1)                # Varianz (Stichprobe)
+np.std(x, ddof=1)                # Standardabweichung
+iqr(x)                           # Interquartilsabstand
+np.std(x, ddof=1) / np.mean(x)  # Variationskoeffizient
+```
+
+### Schiefe & Wölbung
+
+| Begriff | Bedeutung |
+|---|---|
+| Schiefe $> 0$ | rechtsschiefe (linksstielige) Verteilung |
+| Schiefe $< 0$ | linksschiefe (rechtsstielige) Verteilung |
+| Kurtosis $> 3$ | spitzer als Normalverteilung (leptokurtisch) |
+| Kurtosis $< 3$ | flacher als Normalverteilung (platykurtisch) |
+
+```python
+skew(x)                    # Schiefe
+kurtosis(x, fisher=False)  # Wölbung (Pearson-Kurtosis, Normalverteilung = 3)
+df.describe()              # Schnellübersicht: Mittelwert, Std, Min, Quartile, Max
+```
+
+### Zweidimensionale Analyse
+
+| Begriff | Formel |
+|---|---|
+| Kovarianz | $s_{xy} = \dfrac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})$ |
+| Pearson-Korrelation | $r = \dfrac{s_{xy}}{s_x \cdot s_y}$, $\quad r \in [-1, 1]$ |
+| Interpretation | $|r| < 0.3$ schwach · $0.3$–$0.7$ mittel · $> 0.7$ stark |
+
+```python
+np.cov(x, y, ddof=1)[0, 1]   # Kovarianz
+pearsonr(x, y)                 # Pearson r + p-Wert
+spearmanr(x, y)                # Spearman ρ + p-Wert (robust, nicht-linear)
+df.corr()                      # Korrelationsmatrix aller Spalten
+```
+
+---
+
+## 2. Schätztheorie
+
+### Grundbegriffe
+
+| Begriff | Bedeutung |
+|---|---|
+| Erwartungswert | $\mu = E[X]$ – theoretischer Mittelwert der Grundgesamtheit |
+| Schätzfunktion | Rechenvorschrift auf Basis der Stichprobe |
+| Schätzwert | konkretes Ergebnis für eine konkrete Stichprobe |
+| Erwartungstreue | $E[\hat{\theta}] = \theta$ – kein systematischer Fehler |
+| Konsistenz | Schätzwert konvergiert mit wachsendem $n$ gegen $\theta$ |
+| Effizienz | minimale Varianz unter allen erwartungstreuen Schätzern |
+
+### Schätzmethoden
+
+| Methode | Idee |
+|---|---|
+| Momentenmethode | Stichprobenmomente = theoretische Momente, nach $\theta$ auflösen |
+| Maximum-Likelihood | maximiere $L(\theta) = \prod_{i=1}^n f(x_i;\theta)$ |
+
+```python
+mu_hat    = np.mean(x)          # Schätzer für Erwartungswert μ
+sigma_hat = np.std(x, ddof=1)   # Schätzer für Standardabweichung σ
+mu_mle, sigma_mle = norm.fit(x) # MLE für Normalverteilung
+```
+
+### Konfidenzintervalle
+
+| Situation | Intervall |
+|---|---|
+| $\sigma$ bekannt | $\bar{x} \pm z_{1-\alpha/2} \cdot \dfrac{\sigma}{\sqrt{n}}$ |
+| $\sigma$ unbekannt | $\bar{x} \pm t_{n-1;\,1-\alpha/2} \cdot \dfrac{s}{\sqrt{n}}$ |
+
+$1-\alpha$ = Konfidenzniveau · $z$ = Normalverteilungsquantil · $t$ = $t$-Verteilungsquantil
+
+```python
+# σ unbekannt → t-Verteilung (Standardfall)
+stats.t.interval(0.95, df=n-1, loc=np.mean(x), scale=np.std(x,ddof=1)/np.sqrt(n))
+
+# σ bekannt → Normalverteilung
+stats.norm.interval(0.95, loc=np.mean(x), scale=sigma/np.sqrt(n))
+
+# Quantile nachschlagen
+stats.norm.ppf(0.975)        # z_{0.975} ≈ 1.96
+stats.t.ppf(0.975, df=n-1)  # t-Quantil
+```
+
+---
+
+### Statistische Signifikanz & p-Werte
+
+| Begriff | Bedeutung |
+|---|---|
+| $H_0$ | Nullhypothese – der „nichts passiert"-Zustand |
+| $H_1$ | Alternativhypothese – was wir zeigen wollen |
+| Signifikanzniveau $\alpha$ | maximal tolerierte Fehler-1.-Art-Wahrscheinlichkeit (oft 5 %) |
+| p-Wert | Wahrscheinlichkeit, das beobachtete Ergebnis (oder extremer) zu erhalten, **wenn $H_0$ wahr ist** |
+| Entscheidung | $p \le \alpha$ → $H_0$ ablehnen · $p > \alpha$ → $H_0$ beibehalten |
+| Fehler 1. Art | $H_0$ fälschlicherweise abgelehnt ($P = \alpha$) |
+| Fehler 2. Art | $H_0$ fälschlicherweise beibehalten ($P = \beta$) |
+
+> **Wichtig:** Ein kleiner p-Wert bedeutet statistische Signifikanz – nicht unbedingt praktische Bedeutsamkeit!
+
+```python
+from scipy import stats
+import numpy as np
+
+# Einstichproben-t-Test (H0: μ = mu0)
+t_stat, p_val = stats.ttest_1samp(x, popmean=mu0)
+
+# Zweistichproben-t-Test (H0: μ1 = μ2, Welch)
+t_stat, p_val = stats.ttest_ind(gruppe1, gruppe2, equal_var=False)
+
+# Entscheidung
+alpha = 0.05
+if p_val <= alpha:
+    print(f"p = {p_val:.4f} → H0 ablehnen (signifikant)")
+else:
+    print(f"p = {p_val:.4f} → H0 nicht ablehnen")
+```
+
+---
+
+## Quiz
+
+```{quizdown}
+---
+shuffleQuestions: false
+shuffleAnswers: true
+---
+
+### Was gibt die relative Häufigkeit $f_j$ an?
+
+1. [x] Den Anteil der Beobachtungen mit Wert $a_j$ an der Gesamtzahl $n$
+1. [ ] Die absolute Anzahl der Beobachtungen mit Wert $a_j$
+1. [ ] Den kumulierten Anteil bis zum Wert $a_j$
+1. [ ] Den Mittelwert der Häufigkeiten
+
+### Welches Lagemaß ist am robustesten gegenüber Ausreißern?
+
+1. [ ] Arithmetisches Mittel
+1. [x] Median
+1. [ ] Geometrisches Mittel
+1. [ ] Modus
+
+### Die Standardabweichung hat gegenüber der Varianz den Vorteil, dass ...
+
+1. [x] sie dieselbe Einheit wie die Ausgangsdaten hat.
+1. [ ] sie immer kleiner als die Varianz ist.
+1. [ ] sie keine Quadratwurzel benötigt.
+1. [ ] sie unabhängig von Ausreißern ist.
+
+### Eine Verteilung hat eine Schiefe von $+1.8$. Wie ist sie zu beschreiben?
+
+1. [x] Rechtsschiefe (linksstielig) – der lange Ausläufer zeigt nach rechts.
+1. [ ] Linksschiefe (rechtsstielig) – der lange Ausläufer zeigt nach links.
+1. [ ] Symmetrisch mit flachem Gipfel.
+1. [ ] Normalverteilt mit leichter Wölbung.
+
+### Der Pearson-Korrelationskoeffizient $r = -0.85$ bedeutet:
+
+1. [x] Starker negativer linearer Zusammenhang – steigt $x$, sinkt $y$ tendenziell.
+1. [ ] Starker positiver linearer Zusammenhang.
+1. [ ] Kein linearer Zusammenhang.
+1. [ ] $x$ verursacht $y$.
+
+### Was ist der Unterschied zwischen Schätzfunktion und Schätzwert?
+
+1. [x] Die Schätzfunktion ist eine allgemeine Rechenvorschrift; der Schätzwert ist das konkrete Ergebnis für eine Stichprobe.
+1. [ ] Der Schätzwert ist immer genauer als die Schätzfunktion.
+1. [ ] Die Schätzfunktion gilt nur für große Stichproben.
+1. [ ] Beide Begriffe bezeichnen dasselbe.
+
+### Ein Schätzer heißt erwartungstreu, wenn ...
+
+1. [x] sein Erwartungswert gleich dem wahren Parameterwert ist: $E[\hat{\theta}] = \theta$.
+1. [ ] er mit wachsendem Stichprobenumfang gegen den wahren Wert konvergiert.
+1. [ ] er die kleinste Varianz aller Schätzer hat.
+1. [ ] er durch die Momentenmethode hergeleitet wurde.
+
+### Welches Konfidenzintervall wird verwendet, wenn $\sigma$ unbekannt ist?
+
+1. [x] $\bar{x} \pm t_{n-1;\,1-\alpha/2} \cdot \dfrac{s}{\sqrt{n}}$
+1. [ ] $\bar{x} \pm z_{1-\alpha/2} \cdot \dfrac{\sigma}{\sqrt{n}}$
+1. [ ] $\bar{x} \pm z_{1-\alpha/2} \cdot \dfrac{s}{n}$
+1. [ ] $\bar{x} \pm t_{n;\,\alpha} \cdot \dfrac{\sigma}{\sqrt{n}}$
+
+### Was bedeutet ein p-Wert von 0.03 bei einem Signifikanzniveau von $\alpha = 0.05$?
+
+1. [x] $H_0$ wird abgelehnt – das Ergebnis ist statistisch signifikant.
+1. [ ] $H_0$ wird beibehalten – das Ergebnis ist nicht signifikant.
+1. [ ] Die Wahrscheinlichkeit, dass $H_1$ wahr ist, beträgt 97 %.
+1. [ ] Der Effekt ist praktisch bedeutsam.
+
+### Was ist ein Fehler 1. Art?
+
+1. [x] $H_0$ wird abgelehnt, obwohl sie wahr ist.
+1. [ ] $H_0$ wird beibehalten, obwohl $H_1$ wahr ist.
+1. [ ] Der Schätzer ist nicht erwartungstreu.
+1. [ ] Das Konfidenzintervall enthält den wahren Parameter nicht.
+
+### Ein p-Wert ist sehr klein (z.B. 0.001). Was folgt daraus sicher?
+
+1. [x] Das Ergebnis ist statistisch signifikant – über praktische Relevanz sagt der p-Wert nichts.
+1. [ ] Der Effekt ist groß und praktisch bedeutsam.
+1. [ ] $H_1$ ist mit 99,9 % Wahrscheinlichkeit wahr.
+1. [ ] Der Fehler 2. Art ist klein.
+```

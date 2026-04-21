@@ -11,11 +11,14 @@ h1, h2, h3, h4, h5, h6 {
 
 blockquote, .blockquote {
   color: #0202cac1 !important;
-  border-left: none;
-  border-top: 2px solid #fd0d0d;
-  border-bottom: 2px solid #fd0d0d;
-  border-radius: 10px;
+  border-left: 4px solid #b8aa6e;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 6px;
+  background-color: #fdf6e3;
+  padding: 0.6rem 1rem;
 }
+
 
 .theorem.definition {
   background-color: #ccd1e7;
@@ -189,6 +192,26 @@ figcaption, .figure-caption {
   border-left:   1px solid hsla(238.9, 89.9%, 53.3%, 0.15) !important;
   border-right:  1px solid hsla(238.9, 89.9%, 53.3%, 0.15) !important;
   border-bottom: 1px solid hsla(238.9, 89.9%, 53.3%, 0.15) !important;
+}
+
+/* Navbar Hintergrund & Titel */
+.navbar {
+  min-height: 56px;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  background-color: #4a5c96;
+}
+.navbar > .container-fluid {
+  min-height: 56px;
+}
+.navbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #f0ece0 !important;
+}
+.navbar-brand:hover {
+  color: #ffffff !important;
 }
 
 /* Deutlicheres Highlighting für den aktiven Navbar-Tab */

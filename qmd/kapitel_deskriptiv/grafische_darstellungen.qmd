@@ -108,6 +108,16 @@ plt.tight_layout()
 plt.show()
 ```
 
+:::: {.theorem .exercise}
+#### Aufgabe: Balkendiagramm nach Insel
+
+Erstelle ein Balkendiagramm, das zeigt, wie viele Pinguine auf jeder der drei Inseln beobachtet wurden.
+
+**Aufgabe:**
+1. Zähle die Pinguine pro Insel mit `value_counts()`.
+2. Erstelle ein beschriftetes Balkendiagramm (x-Achse: Insel, y-Achse: Anzahl, Titel).
+3. Auf welcher Insel wurden die meisten Pinguine beobachtet?
+
 ```{pyodide-python}
 #| packages: ["palmerpenguins"]
 import matplotlib.pyplot as plt
@@ -115,18 +125,35 @@ from palmerpenguins import load_penguins
 
 penguins = load_penguins()
 
-# Aufgabe: Erstelle ein Balkendiagramm für das Merkmal "island" (Insel)
-# Welche Insel hat die meisten Pinguine?
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Berechne zuerst die Häufigkeiten: `counts = penguins["island"].value_counts()`. Dann übergib `counts.index` als x-Werte und `counts.values` als Balkenhöhen an `plt.bar()`.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Beschrifte die Achsen mit `plt.xlabel()` und `plt.ylabel()`, den Titel mit `plt.title()`. Vergiss `plt.tight_layout()` vor `plt.show()` nicht – das verhindert abgeschnittene Beschriftungen.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+import matplotlib.pyplot as plt
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
 counts = penguins["island"].value_counts()
 
 plt.figure(figsize=(6, 4))
-plt.bar(counts.index, counts.values, color=["steelblue","coral","seagreen"])
+plt.bar(counts.index, counts.values, color=["steelblue", "coral", "seagreen"])
 plt.xlabel("Insel")
 plt.ylabel("Anzahl")
 plt.title("Pinguine je Insel")
 plt.tight_layout()
 plt.show()
 ```
+:::
+::::
 
 Balkendiagramme können auch **gruppierten** werden, um Vergleiche zwischen Gruppen zu zeigen:
 

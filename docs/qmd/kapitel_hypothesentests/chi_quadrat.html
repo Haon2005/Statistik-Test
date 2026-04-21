@@ -77,9 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-48b6c99aae84b305e9489527fcccca6d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-f46e89e01760d204cc3de78ee2608884.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-48b6c99aae84b305e9489527fcccca6d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-382d17d2ec91494e2875e3b7d66d3210.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-bee068d14591db49783478d131c4b8dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-382d17d2ec91494e2875e3b7d66d3210.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
@@ -333,10 +333,11 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 // Store cell data
 globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport pandas as pd\n\npenguins = load_penguins()\n\n# Kontingenztafel erstellen\nct = pd.crosstab(penguins['species'], penguins['island'])\nprint(\"Kontingenztafel:\")\nprint(ct)\nprint()\n\n# Chi-Quadrat-Test\nchi2, p, dof, expected = stats.chi2_contingency(ct)\n\nprint(f\"χ²-Statistik = {chi2:.4f}\")\nprint(f\"Freiheitsgrade df = {dof}\")\nprint(f\"p-Wert = {p:.2e}\")\nprint()\nif p < 0.05:\n    print(\"→ H₀ wird verworfen: Pinguinart und Insel sind NICHT unabhängig.\")\n    print(\"  Es gibt einen signifikanten Zusammenhang.\")\nelse:\n    print(\"→ H₀ wird nicht verworfen: Keine sig. Abhängigkeit gefunden.\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport pandas as pd\nimport numpy as np\n\npenguins = load_penguins()\nct = pd.crosstab(penguins['species'], penguins['island'])\nchi2, p, dof, expected = stats.chi2_contingency(ct)\n\nn = ct.values.sum()\nr, c = ct.shape\ncramers_v = np.sqrt(chi2 / (n * (min(r, c) - 1)))\n\nprint(f\"χ² = {chi2:.2f},  n = {n}\")\nprint(f\"Cramér's V = {cramers_v:.4f}\")\nprint()\nprint(\"Interpretation:\")\nif cramers_v < 0.1:\n    print(\"  V < 0,1: schwacher Zusammenhang\")\nelif cramers_v < 0.3:\n    print(\"  0,1 ≤ V < 0,3: mäßiger Zusammenhang\")\nelif cramers_v < 0.5:\n    print(\"  0,3 ≤ V < 0,5: starker Zusammenhang\")\nelse:\n    print(\"  V ≥ 0,5: sehr starker Zusammenhang\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
 
-/* Set variable for backend 
+/* Set variable for backend
 for Groq Server: "groq"
-for flask Server: "flask"*/
-globalThis.backend = "groq";
+for flask Server: "flask"
+for copy-prompt mode: "copyPrompt" */
+globalThis.backend = "copyPrompt";
 
 /* Set if there should be a button for feedback
 with feedback button: true
@@ -887,7 +888,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../qmd/kapitel_hypothesentests/index.html">3. Hypothesentests</a></li><li class="breadcrumb-item"><a href="../../qmd/kapitel_hypothesentests/chi_quadrat.html">3.8 Der Chi-Quadrat-Test</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">3.8 Der Chi-Quadrat-Test</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -995,67 +996,20 @@ window.Quarto = {
  <span class="menu-text">2.4 Konfidenzintervalle</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../qmd/kapitel_hypothesentests/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3. Hypothesentests</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Abschnitt umschalten">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../qmd/kapitel_hypothesentests/signifikanz_p_werte.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.1 Statistische Signifikanz &amp; p-Werte</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/gauss_test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.2 Einführung: Der Gauß-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/t_test_einstichprobe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.3 Der Einstichproben-t-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/t_test_unverbunden.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.4 t-Test für unverbundene Stichproben</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/t_test_verbunden.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5 t-Test für verbundene Stichproben</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/f_test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.6 Der F-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/mann_whitney.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.7 Der Mann-Whitney-U-Test</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../qmd/kapitel_hypothesentests/chi_quadrat.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">3.8 Der Chi-Quadrat-Test</span></a>
+ <span class="menu-text">2.5 Statistische Signifikanz &amp; p-Werte</span></a>
   </div>
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../qmd/cheatsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cheatsheet &amp; Quiz</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -1091,7 +1045,7 @@ window.Quarto = {
   });
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../qmd/kapitel_hypothesentests/index.html">3. Hypothesentests</a></li><li class="breadcrumb-item"><a href="../../qmd/kapitel_hypothesentests/chi_quadrat.html">3.8 Der Chi-Quadrat-Test</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">3.8 Der Chi-Quadrat-Test</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
@@ -2048,6 +2002,34 @@ shuffleAnswers: true
 </code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var sidebar = document.getElementById("quarto-sidebar");
+  if (!sidebar) return;
+  var navContainer = sidebar.querySelector(".sidebar-menu-container");
+  if (!navContainer) return;
+  var expanded = false;
+  var btn = document.createElement("button");
+  btn.id = "sidebar-toggle-all";
+  btn.textContent = "\u25bc Alle ausklappen";
+  btn.style.cssText = "display:block;width:calc(100% - 24px);margin:12px 12px 6px;padding:5px 10px;font-size:0.78em;cursor:pointer;border:1px solid rgba(128,128,128,0.3);border-radius:4px;background:transparent;color:inherit;opacity:0.65;text-align:center;";
+  btn.addEventListener("mouseenter", function () { btn.style.opacity = "1"; });
+  btn.addEventListener("mouseleave", function () { btn.style.opacity = "0.65"; });
+  btn.addEventListener("click", function () {
+    expanded = !expanded;
+    sidebar.querySelectorAll(".collapse").forEach(function (el) {
+      el.classList.toggle("show", expanded);
+      var id = el.id;
+      if (id) {
+        var trigger = sidebar.querySelector('[data-bs-target="#' + id + '"]');
+        if (trigger) trigger.setAttribute("aria-expanded", String(expanded));
+      }
+    });
+    btn.textContent = expanded ? "\u25b2 Alle einklappen" : "\u25bc Alle ausklappen";
+  });
+  navContainer.appendChild(btn);
+});
+</script>
 <script type="module">
 /**
  * Factory function to create different types of cells based on options.
@@ -2750,160 +2732,61 @@ class InteractiveCell extends BaseCell {
 
             
 
-                if(globalThis.backend == "groq"){
-                    const url = document.getElementById('baseUrlInput').value; 
-                    const apiKey = document.getElementById('apiKeyInput').value;
-                    const modelsUrl = `${url}/models`; 
-                    const feedbackUrl = `${url}/chat/completions`;
-                    if (!apiKey) {
-                        alert('Please enter your API Key.');
-                        return;
-                    }
-                    // Send the request to the API
-                    fetch(modelsUrl, {
-                        method: "GET",
-                        headers: {
-                            "Authorization": `Bearer ${apiKey}`,
-                            "Content-Type": "application/json"
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(modelsData => {
-                        console.log("Model list:", modelsData);
+                if(globalThis.backend == "copyPrompt"){
+                    // Generate a copyable prompt for any AI chatbot
+                    const promptText =
+`Ich brauche Hilfe mit meinem Python-Code aus einem Statistik-Tutorial.
 
-                         // Extrahiere die Modell-IDs aus dem `data`-Array
-                        const modelIds = modelsData.data.map(model => model.id);
-                        let selectedModel = "mixtral-8x7b-32768";
-                        if (!modelIds.includes(selectedModel)) {
-                            selectedModel = modelIds[0];
-                        }
-                        console.log("Selected model:", selectedModel);
-                    
-                    
-                        // Prepare the request data
-                        const requestData = {
-                            messages:  
-                            [{role: "system", content: system_prompt},
-                            {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }],
-                            model: selectedModel
-                        };
-                        
+**Mein Code:**
+\`\`\`python
+${data}
+\`\`\`
 
-                        
+**Ausgabe / Fehlermeldung:**
+\`\`\`
+${runtime_message || "(keine Ausgabe)"}
+\`\`\`
 
-                        fetch(feedbackUrl, {
-                            method: "POST",
-                            headers: {
-                                "Authorization": `Bearer ${apiKey}`,
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(requestData)
-                        })
-                        .then(feedbackresponse => feedbackresponse.json())
-                        .then(data => {
-                            // Clear the existing feedback in the outputFeedbackDiv
-                            thiz.outputFeedbackDiv.innerHTML = "";
-                            // Get the feedback from the API response
-                            const feedback = data.choices[0].message.content;
+Bitte erkläre mir, was der Code macht, ob es Fehler gibt und wie ich sie beheben kann. Gib mir keine fertige Lösung, sondern hilf mir zu verstehen, was falsch ist.`;
 
-                            // Function to replace \n with <br>
-                            function replaceNewlinesWithBr(text) {
-                                return text.replace(/\n/g, '<br>');
-                            }
+                    thiz.outputFeedbackDiv.innerHTML = "";
 
-                            // Create the inner div element for the feedback header 
-                            const feedbackHeaderDiv = document.createElement("div");
-                            feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                            feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                            thiz.outputFeedbackDiv.appendChild(feedbackHeaderDiv);
-                            thiz.outputFeedbackDiv.firstChild.style.textDecoration = "underline";
-                            thiz.outputFeedbackDiv.firstChild.style.marginBottom = "20px";
-                            thiz.outputFeedbackDiv.firstChild.style.fontSize = "large";
+                    const headerDiv = document.createElement("div");
+                    headerDiv.style.fontWeight = "bold";
+                    headerDiv.style.marginBottom = "8px";
+                    headerDiv.style.fontSize = "1em";
+                    headerDiv.textContent = "💡 KI-Prompt generiert – kopiere ihn in ChatGPT, Claude oder einen anderen KI-Assistenten:";
+                    thiz.outputFeedbackDiv.appendChild(headerDiv);
 
-                            // Create a new element to display the feedback
-                            const feedbackElement = document.createElement('div');
-                            feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
+                    const preEl = document.createElement("pre");
+                    preEl.style.cssText = "white-space:pre-wrap;background:#f4f4f4;color:#222;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:0.85em;margin:6px 0;";
+                    preEl.textContent = promptText;
+                    thiz.outputFeedbackDiv.appendChild(preEl);
 
-                            // Append the feedback element below the code field
-                            thiz.outputFeedbackDiv.appendChild(feedbackElement);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Error requesting the API: ' + error);
+                    const copyBtn = document.createElement("button");
+                    copyBtn.textContent = "📋 Prompt kopieren";
+                    copyBtn.style.cssText = "margin-top:4px;padding:4px 12px;cursor:pointer;border-radius:4px;border:1px solid #aaa;background:#e8e8e8;";
+                    copyBtn.onclick = function() {
+                        navigator.clipboard.writeText(promptText).then(() => {
+                            copyBtn.textContent = "✅ Kopiert!";
+                            setTimeout(() => { copyBtn.textContent = "📋 Prompt kopieren"; }, 2000);
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching models:', error);
-                        alert('Error when retrieving the model list: ' + error);
-                    });
+                    };
+                    thiz.outputFeedbackDiv.appendChild(copyBtn);
                 }
 
+                if(globalThis.backend == "groq"){
+                    alert('Kein API-Key konfiguriert. Bitte nutze den "copyPrompt"-Modus.');
+                }
 
                 if(globalThis.backend == "flask"){
-                    // Prepare the request data
-                    const requestData = {
-                        messages:  
-                        [{role: "system", content: system_prompt},
-                        {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }]
-                    };
-                    // URL of the Flask server
-                    const url = "http://127.0.0.1:5000/api/feedback"; 
-
-                    // Send the request to the server
-                    fetch(url, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.choices && data.choices.length > 0) {
-                            // Clear the existing feedback in the outputFeedbackDiv
-                            thiz.outputFeedbackDiv.innerHTML = "";
-                            // Get the feedback from the API response
-                            const feedback = data.choices[0].message.content;
-
-                             // Log the entire model list and the selected model
-                            console.log("Model list: ", data.model_list); 
-                            console.log("Selected model: ", data.selected_model);
-
-                            // Function to replace \n with <br>
-                            function replaceNewlinesWithBr(text) {
-                                return text.replace(/\n/g, '<br>');
-                            }
-
-                            // Create the inner div element for the feedback header 
-                            const feedbackHeaderDiv = document.createElement("div");
-                            feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                            feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                            thiz.outputFeedbackDiv.appendChild(feedbackHeaderDiv);
-                            thiz.outputFeedbackDiv.firstChild.style.textDecoration = "underline";
-                            thiz.outputFeedbackDiv.firstChild.style.marginBottom = "20px";
-                            thiz.outputFeedbackDiv.firstChild.style.fontSize = "large";
-
-                            // Create a new element to display the feedback
-                            const feedbackElement = document.createElement('div');
-                            feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
-
-                            // Append the feedback element below the code field
-                            thiz.outputFeedbackDiv.appendChild(feedbackElement);
-                        }else {
-                            console.error("Error: 'choices' field is missing or empty in the API response.");
-                            alert("Error when retrieving feedback: 'choices' field not available or empty.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error when requesting the API:  ' + error);
-                    });
+                    alert('Flask-Backend nicht verfügbar.');
                 }
 
                 thiz.outputFeedbackDiv.classList.add('has-content');
                 };
             })};
-            
+
 
             // Add an event listener to call the function when the button is clicked
             thiz.addCodeBlockButton.onclick = function () {
@@ -3139,152 +3022,52 @@ class InteractiveCell extends BaseCell {
 
         
 
-            if(globalThis.backend == "groq"){
-                const url = document.getElementById('baseUrlInput').value; 
-                const apiKey = document.getElementById('apiKeyInput').value;
-                const modelsUrl = `${url}/models`; 
-                const feedbackUrl = `${url}/chat/completions`;
-                if (!apiKey) {
-                    alert('Please enter your API Key.');
-                    return;
-                }
-                // Send the request to the API
-                fetch(modelsUrl, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${apiKey}`,
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then(modelsData => {
-                    console.log("Model list:", modelsData);
+            if(globalThis.backend == "copyPrompt"){
+                const promptText =
+`Ich brauche Hilfe mit meinem Python-Code aus einem Statistik-Tutorial.
 
-                    const modelIds = modelsData.data.map(model => model.id);
-                    let selectedModel = "mixtral-8x7b-32768";
-                    if (!modelIds.includes(selectedModel)) {
-                        selectedModel = modelIds[0];
-                    }
-                    console.log("Selected model:", selectedModel);
-                
-                
-                    // Prepare the request data
-                    const requestData = {
-                        messages:  
-                        [{role: "system", content: system_prompt},
-                        {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }],
-                        model: selectedModel
-                    };
-                    
+**Mein Code:**
+\`\`\`python
+${data}
+\`\`\`
 
-                    
+**Ausgabe / Fehlermeldung:**
+\`\`\`
+${runtime_message || "(keine Ausgabe)"}
+\`\`\`
 
-                    fetch(feedbackUrl, {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${apiKey}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(feedbackresponse => feedbackresponse.json())
-                    .then(data => {
-                        // Clear the existing feedback in the outputFeedbackDiv
-                        thiz.outputFeedbackDiv2.innerHTML = "";
-                        // Get the feedback from the API response
-                        const feedback = data.choices[0].message.content;
+Bitte erkläre mir, was der Code macht, ob es Fehler gibt und wie ich sie beheben kann. Gib mir keine fertige Lösung, sondern hilf mir zu verstehen, was falsch ist.`;
 
-                        // Function to replace \n with <br>
-                        function replaceNewlinesWithBr(text) {
-                            return text.replace(/\n/g, '<br>');
-                        }
+                thiz.outputFeedbackDiv2.innerHTML = "";
 
-                        // Create the inner div element for the feedback header 
-                        const feedbackHeaderDiv = document.createElement("div");
-                        feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                        feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                        thiz.outputFeedbackDiv2.appendChild(feedbackHeaderDiv);
-                        thiz.outputFeedbackDiv2.firstChild.style.textDecoration = "underline";
-                        thiz.outputFeedbackDiv2.firstChild.style.marginBottom = "20px";
-                        thiz.outputFeedbackDiv2.firstChild.style.fontSize = "large";
+                const headerDiv = document.createElement("div");
+                headerDiv.style.fontWeight = "bold";
+                headerDiv.style.marginBottom = "8px";
+                headerDiv.textContent = "KI-Prompt zum Kopieren:";
+                thiz.outputFeedbackDiv2.appendChild(headerDiv);
 
-                        // Create a new element to display the feedback
-                        const feedbackElement = document.createElement('div');
-                        feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
+                const pre = document.createElement("pre");
+                pre.style.whiteSpace = "pre-wrap";
+                pre.style.wordBreak = "break-word";
+                pre.style.fontSize = "0.85em";
+                pre.style.padding = "8px";
+                pre.style.borderRadius = "4px";
+                pre.style.userSelect = "all";
+                pre.textContent = promptText;
+                thiz.outputFeedbackDiv2.appendChild(pre);
 
-                        // Append the feedback element below the code field
-                        thiz.outputFeedbackDiv2.appendChild(feedbackElement);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error when requesting the API: ' + error);
+                const copyBtn = document.createElement("button");
+                copyBtn.textContent = "Prompt kopieren";
+                copyBtn.style.marginTop = "6px";
+                copyBtn.style.padding = "4px 12px";
+                copyBtn.style.cursor = "pointer";
+                copyBtn.addEventListener("click", () => {
+                    navigator.clipboard.writeText(promptText).then(() => {
+                        copyBtn.textContent = "Kopiert!";
+                        setTimeout(() => { copyBtn.textContent = "Prompt kopieren"; }, 2000);
                     });
-                })
-                .catch(error => {
-                    console.error('Error fetching models:', error);
-                    alert('Error when retrieving the model list: ' + error);
                 });
-            }
-            
-            if(globalThis.backend == "flask"){
-                // Prepare the request data
-                const requestData = {
-                    messages:  
-                    [{role: "system", content: system_prompt},
-                    {role: "user", content: runtime_prompt + runtime_message + prompt1 + data + prompt2 }]
-                };
-                // URL of the Flask server
-                const url = "http://127.0.0.1:5000/api/feedback"; 
-
-                // Send the request to the server
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(requestData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.choices && data.choices.length > 0) {
-                        // Clear the existing feedback in the outputFeedbackDiv
-                        thiz.outputFeedbackDiv2.innerHTML = "";
-                        // Get the feedback from the API response
-                        const feedback = data.choices[0].message.content;
-
-                         // Log the entire model list and the selected model
-                        console.log("Model list: ", data.model_list); 
-                        console.log("Selected model: ", data.selected_model);
-
-                        // Function to replace \n with <br>
-                        function replaceNewlinesWithBr(text) {
-                            return text.replace(/\n/g, '<br>');
-                        }
-
-                        // Create the inner div element for the feedback header 
-                        const feedbackHeaderDiv = document.createElement("div");
-                        feedbackHeaderDiv.setAttribute("id", "feedback-label");
-                        feedbackHeaderDiv.innerHTML = "AI-Feedback:";
-                        thiz.outputFeedbackDiv2.appendChild(feedbackHeaderDiv);
-                        thiz.outputFeedbackDiv2.firstChild.style.textDecoration = "underline";
-                        thiz.outputFeedbackDiv2.firstChild.style.marginBottom = "20px";
-                        thiz.outputFeedbackDiv2.firstChild.style.fontSize = "large";
-
-                        // Create a new element to display the feedback
-                        const feedbackElement = document.createElement('div');
-                        feedbackElement.innerHTML = replaceNewlinesWithBr(feedback);
-
-                        // Append the feedback element below the code field
-                        thiz.outputFeedbackDiv2.appendChild(feedbackElement);
-                    }else {
-                        console.error("Error: 'choices' field is missing or empty in the API response.");
-                        alert("Error when retrieving feedback: 'choices' field not available or empty.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error when requesting the API:  ' + error);
-                });
+                thiz.outputFeedbackDiv2.appendChild(copyBtn);
             }
             
             thiz.outputFeedbackDiv2.classList.add('has-content');

@@ -22,10 +22,11 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 // Store cell data
 globalThis.qpyodideCellDetails = {{QPYODIDECELLDETAILS}};
 
-/* Set variable for backend 
+/* Set variable for backend
 for Groq Server: "groq"
-for flask Server: "flask"*/
-globalThis.backend = "groq";
+for flask Server: "flask"
+for copy-prompt mode: "copyPrompt" */
+globalThis.backend = "copyPrompt";
 
 /* Set if there should be a button for feedback
 with feedback button: true

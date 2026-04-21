@@ -464,6 +464,54 @@ plt.show()
 Die Konfidenzintervalle überschneiden sich **nicht** – das deutet darauf hin, dass die mittleren
 Körpermassen der drei Arten sich statistisch signifikant unterscheiden.
 
+:::: {.theorem .exercise}
+#### Aufgabe: Konfidenzintervall für die Schnabellänge
+
+Berechne ein Konfidenzintervall für die mittlere Schnabellänge der Gentoo-Pinguine und untersuche, wie das Konfidenzniveau die Intervallbreite beeinflusst.
+
+**Aufgabe:**
+1. Berechne das 95%-Konfidenzintervall für die mittlere Schnabellänge (`bill_length_mm`) der Gentoo-Pinguine.
+2. Berechne dasselbe Intervall für 90% und 99% Konfidenzniveau. Wie verändert sich die Breite?
+3. Wie würde sich das 95%-KI verändern, wenn du den Stichprobenumfang verdoppelst? Überprüfe es mit einer simulierten Stichprobe.
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+import numpy as np
+from scipy import stats
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+gentoo_bill = penguins[penguins['species'] == 'Gentoo']['bill_length_mm'].dropna()
+
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Da σ unbekannt ist, verwende das t-Intervall: `stats.t.interval(confidence=0.95, df=n-1, loc=x_bar, scale=se)` mit `se = gentoo_bill.sem()` (Standardfehler). Ändere `confidence=` auf 0.90 bzw. 0.99 für die anderen Niveaus. Die Intervallbreite = `hi - lo`.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Um den Effekt des Stichprobenumfangs zu sehen: Berechne die KI-Breite theoretisch mit $\text{Breite} = 2 \cdot t_{n-1;\,0{,}975} \cdot s/\sqrt{n}$. Bei doppeltem $n$ wird der Nenner um Faktor $\sqrt{2} \approx 1{,}41$ größer – das KI wird schmaler, aber nicht halb so breit.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+import numpy as np
+from scipy import stats
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+bill = penguins[penguins['species'] == 'Gentoo']['bill_length_mm'].dropna()
+n = len(bill)
+
+for conf in [0.90, 0.95, 0.99]:
+    lo, hi = stats.t.interval(confidence=conf, df=n-1,
+                               loc=bill.mean(), scale=bill.sem())
+    print(f"{int(conf*100)}%-KI: [{lo:.2f}, {hi:.2f}] mm  (Breite: {hi-lo:.2f} mm)")
+```
+:::
+::::
+
 ---
 
 ## Zusammenfassung

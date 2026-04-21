@@ -245,6 +245,64 @@ print(sample.mean())                        # Schätzwert für μ
 ```
 :::
 
+:::: {.theorem .exercise}
+#### Aufgabe: μ und σ aus einer Stichprobe schätzen
+
+Du hast Zugriff auf die Körpermassen der Chinstrap-Pinguine. Schätze daraus die unbekannten Parameter der Grundgesamtheit.
+
+**Aufgabe:**
+1. Berechne die Punkt-Schätzer $\hat{\mu} = \bar{x}$ und $\hat{\sigma} = s$ für das Körpergewicht (`body_mass_g`) der Chinstrap-Pinguine.
+2. Simuliere 500 Stichproben der Größe $n = 20$ aus einer Normalverteilung mit den geschätzten Parametern. Berechne für jede den Mittelwert.
+3. Erstelle ein Histogramm der 500 Stichprobenmittelwerte. Was beobachtest du?
+
+```{pyodide-python}
+#| packages: ["palmerpenguins"]
+import numpy as np
+import matplotlib.pyplot as plt
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
+
+# Dein Code hier
+```
+
+::: {.callout-tip title="Tipp 1" collapse="true"}
+Punkt-Schätzer: `mu_hat = chinstrap.mean()` und `sigma_hat = chinstrap.std()` (pandas `.std()` nutzt automatisch $n-1$, also korrigiert). Das sind deine besten Schätzwerte für die Grundgesamtheit.
+:::
+
+::: {.callout-tip title="Tipp 2" collapse="true"}
+Simulierte Stichproben: `np.random.normal(loc=mu_hat, scale=sigma_hat, size=20)` liefert eine Stichprobe. Wiederhole das 500-mal z.B. mit einer List-Comprehension: `[np.random.normal(mu_hat, sigma_hat, 20).mean() for _ in range(500)]`. Das Histogramm zeigt die Streuung des Schätzers – die sogenannte Stichprobenverteilung.
+:::
+
+::: {.callout-caution title="Minimale Lösung" collapse="true"}
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
+
+mu_hat = chinstrap.mean()
+sigma_hat = chinstrap.std()
+print(f"Schätzer: μ̂ = {mu_hat:.1f} g,  σ̂ = {sigma_hat:.1f} g")
+
+np.random.seed(42)
+mittelwerte = [np.random.normal(mu_hat, sigma_hat, 20).mean() for _ in range(500)]
+
+plt.hist(mittelwerte, bins=25, color='steelblue', edgecolor='white')
+plt.axvline(mu_hat, color='red', linestyle='--', label=f'μ̂ = {mu_hat:.0f} g')
+plt.xlabel('Stichprobenmittelwert (g)')
+plt.ylabel('Häufigkeit')
+plt.title('500 simulierte Stichprobenmittelwerte (n = 20)')
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+:::
+::::
+
 ---
 
 ## Zusammenfassung
