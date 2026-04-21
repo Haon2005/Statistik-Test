@@ -92,11 +92,11 @@ plt.show()
 
 ```{pyodide-python}
 #| read-only: true
-#| packages: ["palmerpenguins"]
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 counts = penguins["species"].value_counts()
 
 plt.figure(figsize=(6, 4))
@@ -104,7 +104,6 @@ plt.bar(counts.index, counts.values, color=["#4c72b0","#dd8452","#55a868"])
 plt.xlabel("Pinguinart")
 plt.ylabel("Anzahl")
 plt.title("Pinguine je Art")
-plt.tight_layout()
 plt.show()
 ```
 
@@ -119,11 +118,11 @@ Erstelle ein Balkendiagramm, das zeigt, wie viele Pinguine auf jeder der drei In
 3. Auf welcher Insel wurden die meisten Pinguine beobachtet?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```
@@ -296,11 +295,11 @@ plt.show()
 
 ```{pyodide-python}
 #| read-only: true
-#| packages: ["palmerpenguins"]
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 plt.figure(figsize=(7, 4))
 plt.hist(
@@ -313,16 +312,15 @@ plt.hist(
 plt.xlabel("Flossenlänge (mm)")
 plt.ylabel("Häufigkeitsdichte")
 plt.title("Histogramm: Flossenlänge aller Pinguine")
-plt.tight_layout()
 plt.show()
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Aufgabe: Erstelle ein Histogramm der Schnabellänge (bill_length_mm)
 # Experimentiere mit verschiedenen bin-Zahlen (z.B. 5, 10, 20)
@@ -339,7 +337,6 @@ plt.hist(
 plt.xlabel("Schnabellänge (mm)")
 plt.ylabel("Häufigkeitsdichte")
 plt.title("Histogramm: Schnabellänge")
-plt.tight_layout()
 plt.show()
 ```
 
@@ -415,12 +412,12 @@ Am obigen Diagramm kann man direkt ablesen:
 :::
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import matplotlib.pyplot as plt
 import numpy as np
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Erstelle die ECDF für die Flossenlänge aller Pinguine
 daten = penguins["flipper_length_mm"].dropna().sort_values()
@@ -434,7 +431,6 @@ plt.xlabel("Flossenlänge (mm)")
 plt.ylabel("F_n(x)")
 plt.title("Empirische Verteilungsfunktion: Flossenlänge")
 plt.grid(True, alpha=0.3)
-plt.tight_layout()
 plt.show()
 
 # Wie viele Pinguine haben eine Flossenlänge von höchstens 200 mm?

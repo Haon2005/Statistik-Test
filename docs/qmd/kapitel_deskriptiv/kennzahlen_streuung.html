@@ -331,7 +331,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\nergebnis = penguins.groupby('island')['flipper_length_mm'].agg(['var', 'std'])\nergebnis.columns = ['Varianz (mm²)', 'Standardabw. (mm)']\nergebnis = ergebnis.round(2)\nprint(ergebnis)","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\n\npenguins = load_penguins()\nmasse = penguins['body_mass_g'].dropna()\n\nsk = stats.skew(masse)\nprint(f\"Momentenkoeffizient der Schiefe: {sk:.4f}\")\nprint(f\"Mittelwert: {masse.mean():.1f} g\")\nprint(f\"Median:     {masse.median():.1f} g\")\n\n# Interpretation\nif sk > 0.1:\n    print(\"→ Rechtsschief (langer Schweif nach rechts)\")\nelif sk < -0.1:\n    print(\"→ Linksschief (langer Schweif nach links)\")\nelse:\n    print(\"→ Annähernd symmetrisch\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\n\npenguins = load_penguins()\nflossen = penguins['flipper_length_mm'].dropna()\n\n# scipy.stats.kurtosis gibt den EXZESS zurück (also ex = w - 3)\nexzess = stats.kurtosis(flossen)\nwoelbung = exzess + 3\n\nprint(f\"Wölbung w:  {woelbung:.4f}\")\nprint(f\"Exzess ex:  {exzess:.4f}\")\n\nif exzess > 0:\n    print(\"→ Leptokurtisch: spitzer als Normalverteilung\")\nelif exzess < 0:\n    print(\"→ Platykurtisch: flacher als Normalverteilung\")\nelse:\n    print(\"→ Mesokurtisch: wie Normalverteilung\")","id":3,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\n# Dein Code hier","id":4,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\nergebnis = penguins.groupby('island')['flipper_length_mm'].agg(['var', 'std'])\nergebnis.columns = ['Varianz (mm²)', 'Standardabw. (mm)']\nergebnis = ergebnis.round(2)\nprint(ergebnis)","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy import stats\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nmasse = penguins['body_mass_g'].dropna()\n\nsk = stats.skew(masse)\nprint(f\"Momentenkoeffizient der Schiefe: {sk:.4f}\")\nprint(f\"Mittelwert: {masse.mean():.1f} g\")\nprint(f\"Median:     {masse.median():.1f} g\")\n\n# Interpretation\nif sk > 0.1:\n    print(\"→ Rechtsschief (langer Schweif nach rechts)\")\nelif sk < -0.1:\n    print(\"→ Linksschief (langer Schweif nach links)\")\nelse:\n    print(\"→ Annähernd symmetrisch\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy import stats\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nflossen = penguins['flipper_length_mm'].dropna()\n\n# scipy.stats.kurtosis gibt den EXZESS zurück (also ex = w - 3)\nexzess = stats.kurtosis(flossen)\nwoelbung = exzess + 3\n\nprint(f\"Wölbung w:  {woelbung:.4f}\")\nprint(f\"Exzess ex:  {exzess:.4f}\")\n\nif exzess > 0:\n    print(\"→ Leptokurtisch: spitzer als Normalverteilung\")\nelif exzess < 0:\n    print(\"→ Platykurtisch: flacher als Normalverteilung\")\nelse:\n    print(\"→ Mesokurtisch: wie Normalverteilung\")","id":3,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\n# Dein Code hier","id":4,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1086,7 +1086,7 @@ window.Quarto = {
 <section id="einführung" class="level2">
 <h2 class="anchored" data-anchor-id="einführung">Einführung</h2>
 <p>In Kapitel 1.4 haben wir Lagemaße kennengelernt, die beschreiben, wo sich die Mitte einer Stichprobe befindet. Zwei Stichproben können aber denselben Mittelwert haben und trotzdem völlig unterschiedlich aussehen:</p>
-<div id="cea7eb6a" class="cell" data-execution_count="2">
+<div id="9ae9202b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1268,7 +1268,7 @@ window.Quarto = {
 <p><span class="math display">s^2 = \dfrac{1215{,}07}{12-1} \approx 110{,}46 \text{ cm}^2 \qquad s \approx 10{,}51 \text{ cm}</span></p>
 <p><span class="math display">\tilde{s}^2 = \dfrac{1215{,}07}{12} \approx 101{,}26 \text{ cm}^2 \qquad \tilde{s} \approx 10{,}06 \text{ cm}</span></p>
 </div>
-<div id="4b420730" class="cell" data-execution_count="3">
+<div id="197fd870" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1298,7 +1298,7 @@ window.Quarto = {
 <p>Die Standardabweichung gibt die typische Abweichung eines einzelnen Werts vom Mittelwert an.</p>
 </blockquote>
 <p>Wenn die Daten annähernd <strong>glockenförmig</strong> (normalverteilt) verteilt sind, gilt die <strong>68-95-Regel</strong>:</p>
-<div id="0fb65bdc" class="cell" data-execution_count="4">
+<div id="8b7e47b8" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1341,7 +1341,7 @@ window.Quarto = {
 <h3 class="unnumbered anchored" data-anchor-id="symmetrie-und-asymmetrie">Symmetrie und Asymmetrie</h3>
 <p>Eine Häufigkeitsverteilung heißt <strong>symmetrisch</strong>, wenn sie um ihren Mittelwert gespiegelt werden kann – d.h. die linke und rechte Seite des Histogramms sehen gleich aus.</p>
 <p>Ist eine Verteilung <strong>nicht symmetrisch</strong>, sprechen wir von einer <strong>schiefen</strong> Verteilung:</p>
-<div id="8db5ddda" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="3">
+<div id="9346c4f2" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
@@ -1460,7 +1460,7 @@ window.Quarto = {
 <li><span class="math inline">ex &lt; 0</span>: flach (platykurtisch)</li>
 </ul>
 </div>
-<div id="638f7db4" class="cell" data-execution_count="6">
+<div id="dd064e84" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2449,10 +2449,10 @@ shuffleAnswers: true
 <span id="cb5-288"><a href="#cb5-288" aria-hidden="true" tabindex="-1"></a>Berechne Varianz und Standardabweichung der Flossenlänge (<span class="in">`flipper_length_mm`</span>) getrennt nach Insel (<span class="in">`island`</span>). Auf welcher Insel ist die Flossenlänge am gleichmäßigsten?</span>
 <span id="cb5-289"><a href="#cb5-289" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-290"><a href="#cb5-290" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb5-292"><a href="#cb5-292" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-292"><a href="#cb5-292" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb5-293"><a href="#cb5-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-294"><a href="#cb5-294" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb5-294"><a href="#cb5-294" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb5-295"><a href="#cb5-295" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-296"><a href="#cb5-296" aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> penguins.groupby(<span class="st">'island'</span>)[<span class="st">'flipper_length_mm'</span>].agg([<span class="st">'var'</span>, <span class="st">'std'</span>])</span>
 <span id="cb5-297"><a href="#cb5-297" aria-hidden="true" tabindex="-1"></a>ergebnis.columns <span class="op">=</span> [<span class="st">'Varianz (mm²)'</span>, <span class="st">'Standardabw. (mm)'</span>]</span>
@@ -2580,11 +2580,11 @@ shuffleAnswers: true
 <span id="cb5-421"><a href="#cb5-421" aria-hidden="true" tabindex="-1"></a>Berechne den Momentenkoeffizienten der Schiefe für das Körpergewicht (<span class="in">`body_mass_g`</span>) der Pinguine. Ist die Verteilung rechts- oder linksschief? Vergleiche Mittelwert und Median als Plausibilitätsprüfung.</span>
 <span id="cb5-422"><a href="#cb5-422" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-423"><a href="#cb5-423" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb5-424"><a href="#cb5-424" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb5-425"><a href="#cb5-425" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb5-426"><a href="#cb5-426" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb5-424"><a href="#cb5-424" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-425"><a href="#cb5-425" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb5-426"><a href="#cb5-426" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb5-427"><a href="#cb5-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-428"><a href="#cb5-428" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb5-428"><a href="#cb5-428" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb5-429"><a href="#cb5-429" aria-hidden="true" tabindex="-1"></a>masse <span class="op">=</span> penguins[<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb5-430"><a href="#cb5-430" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-431"><a href="#cb5-431" aria-hidden="true" tabindex="-1"></a>sk <span class="op">=</span> stats.skew(masse)</span>
@@ -2681,11 +2681,11 @@ shuffleAnswers: true
 <span id="cb5-524"><a href="#cb5-524" aria-hidden="true" tabindex="-1"></a>Berechne die Wölbung und den Exzess der Flossenlänge (<span class="in">`flipper_length_mm`</span>). Ist die Verteilung spitzer oder flacher als eine Normalverteilung?</span>
 <span id="cb5-525"><a href="#cb5-525" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-526"><a href="#cb5-526" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb5-527"><a href="#cb5-527" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb5-528"><a href="#cb5-528" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb5-529"><a href="#cb5-529" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb5-527"><a href="#cb5-527" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-528"><a href="#cb5-528" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb5-529"><a href="#cb5-529" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb5-530"><a href="#cb5-530" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-531"><a href="#cb5-531" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb5-531"><a href="#cb5-531" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb5-532"><a href="#cb5-532" aria-hidden="true" tabindex="-1"></a>flossen <span class="op">=</span> penguins[<span class="st">'flipper_length_mm'</span>].dropna()</span>
 <span id="cb5-533"><a href="#cb5-533" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-534"><a href="#cb5-534" aria-hidden="true" tabindex="-1"></a><span class="co"># scipy.stats.kurtosis gibt den EXZESS zurück (also ex = w - 3)</span></span>
@@ -2730,10 +2730,10 @@ shuffleAnswers: true
 <span id="cb5-573"><a href="#cb5-573" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Vergleiche die Standardabweichung nach Pinguinart – bei welcher Art streut die Schnabellänge am stärksten?</span>
 <span id="cb5-574"><a href="#cb5-574" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-575"><a href="#cb5-575" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb5-576"><a href="#cb5-576" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb5-577"><a href="#cb5-577" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb5-576"><a href="#cb5-576" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-577"><a href="#cb5-577" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb5-578"><a href="#cb5-578" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-579"><a href="#cb5-579" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb5-579"><a href="#cb5-579" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb5-580"><a href="#cb5-580" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-581"><a href="#cb5-581" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
 <span id="cb5-582"><a href="#cb5-582" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>

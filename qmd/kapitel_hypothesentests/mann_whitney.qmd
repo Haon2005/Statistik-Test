@@ -146,12 +146,12 @@ gezogener aus Gruppe 2.
 ## Beispiel: Schnabellänge bei Adélie und Chinstrap
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
 from scipy import stats
 import numpy as np
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 adelie = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()
 chinstrap = penguins[penguins['species'] == 'Chinstrap']['bill_length_mm'].dropna()
 

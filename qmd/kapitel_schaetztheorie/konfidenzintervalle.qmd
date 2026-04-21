@@ -159,12 +159,12 @@ Wichtige Quantile: $z_{0{,}975} = 1{,}960$ (für 95%-KI) und $z_{0{,}995} = 2{,}
 Wir schätzen die mittlere Schnabellänge aller Adélie-Pinguine. Wir nehmen an, dass $\sigma = 2{,}5$ mm bekannt ist.
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 bill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()
 
 n = len(bill)
@@ -184,12 +184,12 @@ print(f"95%-KI: [{lo:.2f}, {hi:.2f}] mm")
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 bill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()
 
 # Alternativ: scipy.stats.norm.interval
@@ -268,12 +268,12 @@ Freiheitsgraden.
 ### Beispiel: Körpermasse aller Pinguine
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 masse = penguins['body_mass_g'].dropna()
 
 n = len(masse)
@@ -291,11 +291,11 @@ print(f"95%-KI: [{x_bar - margin:.1f}, {x_bar + margin:.1f}] g")
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 masse = penguins['body_mass_g'].dropna()
 
 # Direkt mit scipy.stats.t.interval
@@ -376,7 +376,6 @@ plt.show()
 ## Simulation: Viele Konfidenzintervalle
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
@@ -406,7 +405,6 @@ ax.axvline(true_mu, color='k', lw=2, ls='--', label=f'μ = {true_mu:.0f} g')
 ax.set_xlabel('Körpermasse (g)')
 ax.set_title(f'95%-KIs: {hits}/{m} ({hits/m*100:.0f}%) enthalten μ')
 ax.legend()
-plt.tight_layout()
 plt.show()
 ```
 
@@ -415,12 +413,12 @@ plt.show()
 ## Praxisbeispiel: Konfidenzintervalle nach Pinguinart
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 print(f"{'Art':<12} {'n':>5} {'x̄ (g)':>10} {'SE':>8} {'95%-KI':>25}")
 print("-" * 65)
@@ -475,12 +473,12 @@ Berechne ein Konfidenzintervall für die mittlere Schnabellänge der Gentoo-Ping
 3. Wie würde sich das 95%-KI verändern, wenn du den Stichprobenumfang verdoppelst? Überprüfe es mit einer simulierten Stichprobe.
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import numpy as np
+import pandas as pd
 from scipy import stats
-from palmerpenguins import load_penguins
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 gentoo_bill = penguins[penguins['species'] == 'Gentoo']['bill_length_mm'].dropna()
 
 # Dein Code hier

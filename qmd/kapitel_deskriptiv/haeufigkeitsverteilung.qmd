@@ -91,9 +91,9 @@ print(sorted(daten["blutgruppe"]))
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Schnabellänge sortiert – was lässt sich direkt ablesen?
 print("Kleinste Schnabellängen:")
@@ -167,9 +167,9 @@ Jetzt mit den Palmer-Pinguinen:
 
 ```{pyodide-python}
 #| read-only: true
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 print("Absolute Häufigkeiten – Pinguinart:")
 print(penguins["species"].value_counts())
@@ -189,9 +189,9 @@ Im Datensatz wurden Pinguine auf drei verschiedenen Inseln beobachtet. Erstelle 
 3. Auf welcher Insel wurden die meisten Pinguine beobachtet? Wie hoch ist ihr Anteil?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```
@@ -276,11 +276,10 @@ Für die Pinguine – Körpergewicht klassiert:
 
 ```{pyodide-python}
 #| read-only: true
-#| packages: ["palmerpenguins"]
 import pandas as pd
-from palmerpenguins import load_penguins
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 klassen = pd.cut(
     penguins["body_mass_g"],
@@ -297,11 +296,10 @@ print(f"\nSummen: {abs_h.sum()} / {rel_h.sum():.3f}")
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import pandas as pd
-from palmerpenguins import load_penguins
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Aufgabe: Klassiere die Schnabellänge (bill_length_mm) in 5 gleichbreite Klassen
 # von 30 bis 60 mm. Wie viele Pinguine haben Schnabellängen im mittleren Bereich?

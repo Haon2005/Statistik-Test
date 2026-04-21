@@ -280,10 +280,10 @@ plt.tight_layout(); plt.show()
 Berechne Varianz und Standardabweichung der Flossenlänge (`flipper_length_mm`) getrennt nach Insel (`island`). Auf welcher Insel ist die Flossenlänge am gleichmäßigsten?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 ergebnis = penguins.groupby('island')['flipper_length_mm'].agg(['var', 'std'])
 ergebnis.columns = ['Varianz (mm²)', 'Standardabw. (mm)']
@@ -411,11 +411,11 @@ Der Wert ist sehr nahe an 0 → die Verteilung ist annähernd symmetrisch.
 Berechne den Momentenkoeffizienten der Schiefe für das Körpergewicht (`body_mass_g`) der Pinguine. Ist die Verteilung rechts- oder linksschief? Vergleiche Mittelwert und Median als Plausibilitätsprüfung.
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 masse = penguins['body_mass_g'].dropna()
 
 sk = stats.skew(masse)
@@ -512,11 +512,11 @@ Ein negativer Exzess – die Verteilung ist flacher (platykurtisch) als eine Nor
 Berechne die Wölbung und den Exzess der Flossenlänge (`flipper_length_mm`). Ist die Verteilung spitzer oder flacher als eine Normalverteilung?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 flossen = penguins['flipper_length_mm'].dropna()
 
 # scipy.stats.kurtosis gibt den EXZESS zurück (also ex = w - 3)
@@ -561,10 +561,10 @@ Streuungsmaße zeigen, wie stark die Werte um die Mitte streuen. Berechne versch
 3. Vergleiche die Standardabweichung nach Pinguinart – bei welcher Art streut die Schnabellänge am stärksten?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```

@@ -331,7 +331,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\ngentoo = penguins[penguins['species'] == 'Gentoo']['body_mass_g'].dropna()\n\n# Deskriptive Statistik\nprint(f\"Adélie:  n={len(adelie)},  x̄={adelie.mean():.1f} g,  s={adelie.std():.1f} g\")\nprint(f\"Gentoo:  n={len(gentoo)},  x̄={gentoo.mean():.1f} g,  s={gentoo.std():.1f} g\")\nprint()\n\n# Welch-t-Test (equal_var=False ist Standard)\nresult = stats.ttest_ind(adelie, gentoo, equal_var=False)\nprint(f\"Teststatistik T = {result.statistic:.4f}\")\nprint(f\"Freiheitsgrade df ≈ {result.df:.1f}\")\nprint(f\"p-Wert (zweiseitig) = {result.pvalue:.6f}\")\nprint()\nif result.pvalue < 0.05:\n    print(\"→ H₀ wird verworfen (p < 0,05).\")\n    print(\"  Die Körpermassen unterscheiden sich signifikant.\")\nelse:\n    print(\"→ H₀ wird nicht verworfen (p ≥ 0,05).\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"from scipy import stats\nimport numpy as np\nimport pandas as pd\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\ngentoo = penguins[penguins['species'] == 'Gentoo']['body_mass_g'].dropna()\n\n# Deskriptive Statistik\nprint(f\"Adélie:  n={len(adelie)},  x̄={adelie.mean():.1f} g,  s={adelie.std():.1f} g\")\nprint(f\"Gentoo:  n={len(gentoo)},  x̄={gentoo.mean():.1f} g,  s={gentoo.std():.1f} g\")\nprint()\n\n# Welch-t-Test (equal_var=False ist Standard)\nresult = stats.ttest_ind(adelie, gentoo, equal_var=False)\nprint(f\"Teststatistik T = {result.statistic:.4f}\")\nprint(f\"Freiheitsgrade df ≈ {result.df:.1f}\")\nprint(f\"p-Wert (zweiseitig) = {result.pvalue:.6f}\")\nprint()\nif result.pvalue < 0.05:\n    print(\"→ H₀ wird verworfen (p < 0,05).\")\n    print(\"  Die Körpermassen unterscheiden sich signifikant.\")\nelse:\n    print(\"→ H₀ wird nicht verworfen (p ≥ 0,05).\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1179,7 +1179,7 @@ window.Quarto = {
 </section>
 <section id="visualisierung-zwei-gruppen" class="level2">
 <h2 class="anchored" data-anchor-id="visualisierung-zwei-gruppen">Visualisierung: Zwei Gruppen</h2>
-<div id="8d1fdbd3" class="cell" data-execution_count="2">
+<div id="a4f2e4b4" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1213,7 +1213,7 @@ window.Quarto = {
 </section>
 <section id="visualisierung-testentscheidung" class="level2">
 <h2 class="anchored" data-anchor-id="visualisierung-testentscheidung">Visualisierung: Testentscheidung</h2>
-<div id="7294c469" class="cell" data-execution_count="3">
+<div id="c9b29c75" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1890,12 +1890,12 @@ shuffleAnswers: true
 <span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>**Signifikanzniveau:** $\alpha = 0{,}05$</span>
 <span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>gentoo <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Gentoo'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a></span>

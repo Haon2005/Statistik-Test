@@ -331,7 +331,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nimport numpy as np\n\npenguins = load_penguins()\nmasse = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\n\nn = len(masse)\ns = masse.std()           # Stichproben-Standardabweichung (mit n-1)\nse = s / np.sqrt(n)       # geschätzter Standardfehler\n\nprint(f\"n = {n}\")\nprint(f\"s = {s:.1f} g\")\nprint(f\"Geschätzter Standardfehler SE = s/√n = {se:.1f} g\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nmasse = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\n\nn = len(masse)\ns = masse.std()           # Stichproben-Standardabweichung (mit n-1)\nse = s / np.sqrt(n)       # geschätzter Standardfehler\n\nprint(f\"n = {n}\")\nprint(f\"s = {s:.1f} g\")\nprint(f\"Geschätzter Standardfehler SE = s/√n = {se:.1f} g\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1091,7 +1091,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="einführung-was-macht-einen-guten-schätzer-aus">Einführung: Was macht einen guten Schätzer aus?</h2>
 <p>Wie wir in Kapitel 2.1 gesehen haben, liefert ein Schätzer bei jeder neuen Stichprobe einen anderen Schätzwert. Wann ist ein Schätzer <strong>gut</strong>?</p>
 <p>Ein anschauliches Bild: Stell dir einen Bogenschützen vor, der auf eine Zielscheibe schießt. Das Zentrum der Scheibe ist der wahre Parameter <span class="math inline">\theta</span>. Jeder Pfeil ist ein Schätzwert aus einer zufälligen Stichprobe.</p>
-<div id="5abad57e" class="cell" data-execution_count="2">
+<div id="50096c1f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1151,7 +1151,7 @@ window.Quarto = {
 </section>
 <section id="simulation-bias-sichtbar-machen" class="level3">
 <h3 class="anchored" data-anchor-id="simulation-bias-sichtbar-machen">Simulation: Bias sichtbar machen</h3>
-<div id="cde730b0" class="cell" data-execution_count="3">
+<div id="11922136" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1188,7 +1188,7 @@ window.Quarto = {
 <p><strong>Herleitung:</strong> <span class="math display">\text{Var}(\overline{X}_n) = \text{Var}\!\left(\frac{1}{n}\sum_{i=1}^n X_i\right)
 = \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i) = \frac{n \cdot \sigma^2}{n^2} = \frac{\sigma^2}{n}</span></p>
 </div>
-<div id="fe3f9a5d" class="cell" data-execution_count="4">
+<div id="21d02fde" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1227,7 +1227,7 @@ window.Quarto = {
 <p>Das Stichprobenmittel ist konsistent, denn <span class="math inline">\text{SE}(\overline{X}_n) = \sigma/\sqrt{n} \to 0</span> für <span class="math inline">n \to \infty</span>. Das ist eine Folgerung aus dem <strong>Gesetz der großen Zahlen</strong>.</p>
 <section id="simulation-konvergenz-des-stichprobenmittels" class="level3">
 <h3 class="anchored" data-anchor-id="simulation-konvergenz-des-stichprobenmittels">Simulation: Konvergenz des Stichprobenmittels</h3>
-<div id="aee81c32" class="cell" data-execution_count="5">
+<div id="a06780b8" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1245,7 +1245,7 @@ window.Quarto = {
 <p>Der <strong>mittlere quadratische Fehler</strong> (MSE) vereint Bias und Varianz in einer Größe:</p>
 <p><span class="math display">\text{MSE}(\hat{\theta}) = \text{Var}(\hat{\theta}) + \text{Bias}(\hat{\theta})^2</span></p>
 <p>Das nennt sich die <strong>Bias-Varianz-Zerlegung</strong>. Ein guter Schätzer hat sowohl kleinen Bias als auch kleine Varianz – beide Terme tragen zum Gesamtfehler bei.</p>
-<div id="28a2366a" class="cell" data-execution_count="6">
+<div id="21dcbaf8" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2060,11 +2060,11 @@ shuffleAnswers: true
 <span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>$$\widehat{\text{SE}}(\overline{X}_n) = \frac{s}{\sqrt{n}}$$</span>
 <span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>masse <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(masse)</span>

@@ -130,12 +130,12 @@ Hier: Die Punkte liegen nahe an der Linie → Normalverteilungsannahme ist gerec
 **Signifikanzniveau:** $\alpha = 0{,}05$
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
 from scipy import stats
 import numpy as np
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 gentoo = penguins[penguins['species'] == 'Gentoo']['body_mass_g'].dropna()
 
 n = len(gentoo)
@@ -163,11 +163,11 @@ else:
 ### Mit `scipy.stats.ttest_1samp`
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
 from scipy import stats
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 gentoo = penguins[penguins['species'] == 'Gentoo']['body_mass_g'].dropna()
 
 # Direkter t-Test: alternative='greater' für rechtsseitigen Test

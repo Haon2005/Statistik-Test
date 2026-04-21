@@ -278,11 +278,11 @@ In einem Lehrbuch steht, die durchschnittliche Flossenlänge von Adélie-Pinguin
 3. Triff eine Entscheidung und formuliere sie in einem vollständigen Satz.
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 from scipy import stats
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 adelie_flipper = penguins[penguins['species'] == 'Adelie']['flipper_length_mm'].dropna()
 
 # Dein Code hier

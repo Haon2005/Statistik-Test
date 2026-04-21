@@ -131,15 +131,6 @@ else:
 
 **Probiere:** Ändere `a = 25` – welcher Zweig wird jetzt ausgeführt?
 
-```{pyodide-python}
-a = 15   # ← Ändere diesen Wert!
-b = 20
-if a >= b:
-    print("a ist größer oder gleich b")
-else:
-    print("b ist größer als a")
-```
-
 Für mehr als zwei Fälle gibt es `elif` (kurz für „else if"):
 
 ```{pyodide-python}
@@ -335,18 +326,14 @@ Eine **Funktion** bündelt Code, der öfter gebraucht wird. Mit `def` definieren
 def addiere(a, b):
     return a + b
 
-print(addiere(3, 5))    # 8
-print(addiere(-2, 7))   # 5
+print(addiere(3, 5))    
+print(addiere(-2, 7))   
 ```
 
-**Probiere:** Schreibe `multipliziere(a, b)` – genau wie `addiere`, aber mit `*`.
+**Probiere:** Schreibe `multipliziere(a, b)` – genau wie `addiere`, aber mit `*`. Denk auch daran, später die Funktion mit zwei Zahlen zu testen.
 
 ```{pyodide-python}
 def multipliziere(a, b):
-    pass   # Ersetze pass durch deinen Code
-
-print(multipliziere(3, 4))   # 12
-print(multipliziere(7, 0))   # 0
 ```
 
 Funktionen können auch Listen verarbeiten:

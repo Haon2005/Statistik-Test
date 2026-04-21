@@ -240,11 +240,11 @@ Da $\sigma$ in der Praxis unbekannt ist, schätzt man den Standardfehler durch:
 $$\widehat{\text{SE}}(\overline{X}_n) = \frac{s}{\sqrt{n}}$$
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 masse = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()
 
 n = len(masse)

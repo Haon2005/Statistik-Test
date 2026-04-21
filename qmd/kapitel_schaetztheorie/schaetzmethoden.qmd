@@ -209,11 +209,11 @@ Schätzer.
 In Python kann man für viele Verteilungen den ML-Schätzer direkt mit `scipy.stats` berechnen:
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 masse = penguins['body_mass_g'].dropna()
 
 # ML-Schätzer für Normalverteilung: scipy.stats.norm.fit
@@ -226,13 +226,13 @@ print(f"(Unterschied: norm.fit liefert σ mit n, nicht n-1)")
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
 import matplotlib.pyplot as plt
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 masse = penguins['body_mass_g'].dropna()
 
 mu_hat, sigma_hat = stats.norm.fit(masse)
@@ -244,7 +244,7 @@ ax.hist(masse, bins=30, density=True, alpha=0.6, color='#0a9396', edgecolor='whi
 ax.plot(x, stats.norm.pdf(x, mu_hat, sigma_hat), '#ae2012', lw=2.5,
         label=f'N({mu_hat:.0f}, {sigma_hat:.0f}²) – ML-Fit')
 ax.set_xlabel('Körpermasse (g)'); ax.set_ylabel('Dichte')
-ax.legend(); plt.tight_layout(); plt.show()
+ax.legend(); plt.show()
 ```
 
 ---

@@ -140,11 +140,12 @@ Das Streudiagramm zeigt: Zwischen Schnabellänge und Flossenlänge gibt es einen
 Erstelle ein Streudiagramm für Körpergewicht (`body_mass_g`) und Flossenlänge (`flipper_length_mm`). Ist ein Zusammenhang erkennbar?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 import matplotlib.pyplot as plt
+from pyodide.http import open_url
 
-penguins = load_penguins().dropna(subset=['body_mass_g', 'flipper_length_mm'])
+_url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"
+penguins = pd.read_csv(open_url(_url)).dropna(subset=['body_mass_g', 'flipper_length_mm'])
 
 fig, ax = plt.subplots(figsize=(6, 4))
 ax.scatter(penguins['body_mass_g'], penguins['flipper_length_mm'],
@@ -152,7 +153,6 @@ ax.scatter(penguins['body_mass_g'], penguins['flipper_length_mm'],
 ax.set_xlabel('Körpergewicht (g)')
 ax.set_ylabel('Flossenlänge (mm)')
 ax.set_title('Gewicht vs. Flossenlänge der Pinguine')
-plt.tight_layout()
 plt.show()
 ```
 :::
@@ -217,13 +217,12 @@ Um die **Stärke** des Zusammenhangs zweier nominaler Merkmale zu messen, nutzt 
 Berechne Cramérs V für die Merkmale `species` und `island`. Wie stark ist der Zusammenhang?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
 import pandas as pd
 from scipy.stats import chi2_contingency
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins().dropna(subset=['species', 'island'])
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv")).dropna(subset=['species', 'island'])
 
 # Kontingenztabelle
 tab = pd.crosstab(penguins['species'], penguins['island'])
@@ -355,10 +354,10 @@ Starke positive Korrelation – größere Personen sind in dieser Stichprobe ten
 Berechne die Pearson-Korrelation zwischen Körpergewicht (`body_mass_g`) und Flossenlänge (`flipper_length_mm`) – zuerst für alle Pinguine zusammen, dann getrennt nach Pinguinart. Überraschen dich die Ergebnisse?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins().dropna(subset=['body_mass_g', 'flipper_length_mm', 'species'])
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv")).dropna(subset=['body_mass_g', 'flipper_length_mm', 'species'])
 
 # Gesamt
 r_gesamt = penguins[['body_mass_g', 'flipper_length_mm']].corr().iloc[0, 1]
@@ -481,13 +480,13 @@ plt.tight_layout(); plt.show()
 Bestimme die Regressionsgerade für Körpergewicht (`body_mass_g`, $x$-Achse) und Flossenlänge (`flipper_length_mm`, $y$-Achse). Wie stark steigt die Flossenlänge pro 100 g mehr Gewicht? Zeichne die Regressionsgerade in ein Streudiagramm ein.
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy import stats
 import matplotlib.pyplot as plt
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins().dropna(subset=['body_mass_g', 'flipper_length_mm'])
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv")).dropna(subset=['body_mass_g', 'flipper_length_mm'])
 x = penguins['body_mass_g'].values
 y = penguins['flipper_length_mm'].values
 
@@ -505,7 +504,7 @@ x_line = np.array([x.min(), x.max()])
 ax.plot(x_line, slope * x_line + intercept, color='#ae2012', lw=2,
         label=f'Regression: r = {r:.3f}')
 ax.set_xlabel('Körpergewicht (g)'); ax.set_ylabel('Flossenlänge (mm)')
-ax.legend(); plt.tight_layout(); plt.show()
+ax.legend(); plt.show()
 ```
 :::
 
@@ -662,11 +661,11 @@ Auf den ersten Blick wirkt es seltsam: Längere Schnäbel könnten tiefere Schn�
 3. Erstelle ein Streudiagramm und färbe die Punkte nach Art ein – lässt sich das Ergebnis visuell erklären?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```

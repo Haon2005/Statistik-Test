@@ -244,9 +244,9 @@ for x, title in [(xb, 'Bimodale Verteilung'), (xu, 'Unimodale Verteilung')]:
 Bestimme mit Python den Modalwert der Variablen `species` im Pinguin-Datensatz. Welche Pinguinart kommt am häufigsten vor?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Modalwert mit value_counts:
 print(penguins['species'].value_counts())
@@ -334,11 +334,11 @@ a) Das arithmetische Mittel der Schnabellänge (`bill_length_mm`) aller Pinguine
 b) Das arithmetische Mittel getrennt nach Pinguinart (`species`). Sind die Unterschiede groß?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # a) Mittelwert über alle Pinguine
 mittelwert_gesamt = penguins['bill_length_mm'].mean()
@@ -406,12 +406,12 @@ Das arithmetische Mittel der Wachstumsraten würde $\approx +3{,}9\,\%$ ergeben 
 Berechne das geometrische Mittel der Flossenlänge (`flipper_length_mm`). Vergleiche es mit dem arithmetischen Mittel. Ist der Unterschied groß?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 from scipy.stats import gmean
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 flossen = penguins['flipper_length_mm'].dropna()
 
 arithm = flossen.mean()
@@ -502,10 +502,10 @@ plt.tight_layout(); plt.show()
 Berechne Mittelwert und Median des Körpergewichts (`body_mass_g`) für jede Pinguinart. Gibt es Unterschiede zwischen den Arten?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 ergebnis = penguins.groupby('species')['body_mass_g'].agg(['mean', 'median'])
 ergebnis.columns = ['Mittelwert (g)', 'Median (g)']
@@ -576,10 +576,10 @@ $$Q_3 = \tilde{x}_{0{,}75} = \dfrac{x_{(9)} + x_{(10)}}{2} = \dfrac{181{,}0 + 18
 Berechne das 10 %- und das 90 %-Quantil der Flossenlänge (`flipper_length_mm`). Was bedeuten diese Werte?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 q10 = penguins['flipper_length_mm'].quantile(0.10)
 q90 = penguins['flipper_length_mm'].quantile(0.90)
@@ -699,11 +699,11 @@ plt.tight_layout(); plt.show()
 Erstelle Boxplots der Schnabellänge (`bill_length_mm`) getrennt nach Geschlecht (`sex`). Welche Unterschiede erkennst du?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 import matplotlib.pyplot as plt
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 pinguine_clean = penguins.dropna(subset=['bill_length_mm', 'sex'])
 
 maennlich = pinguine_clean[pinguine_clean['sex'] == 'male']['bill_length_mm']
@@ -713,7 +713,6 @@ fig, ax = plt.subplots(figsize=(5, 4))
 ax.boxplot([weiblich, maennlich], labels=['weiblich', 'männlich'], patch_artist=True)
 ax.set_ylabel('Schnabellänge (mm)')
 ax.set_title('Schnabellänge nach Geschlecht')
-plt.tight_layout()
 plt.show()
 ```
 :::
@@ -749,10 +748,10 @@ Die Schnabellänge der Pinguine variiert je nach Art stark. Berechne die wichtig
 2. Berechne den Mittelwert getrennt nach Pinguinart (`species`). Welche Art hat die längsten Schnäbel im Durchschnitt?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```
@@ -791,10 +790,10 @@ Mittelwert und Median können bei schiefen Verteilungen stark voneinander abweic
 2. Filtere die Gentoo-Pinguine heraus (die sind deutlich schwerer als die anderen Arten) und vergleiche Mittelwert und Median erneut. Was ändert sich?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```

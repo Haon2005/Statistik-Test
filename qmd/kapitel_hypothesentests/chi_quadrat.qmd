@@ -169,12 +169,11 @@ plt.show()
 **Signifikanzniveau:** $\alpha = 0{,}05$
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
 from scipy import stats
 import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Kontingenztafel erstellen
 ct = pd.crosstab(penguins['species'], penguins['island'])
@@ -227,13 +226,12 @@ $$V = \sqrt{\frac{\chi^2}{n \cdot \min(r-1, c-1)}}$$
 wobei $r$ = Anzahl Zeilen, $c$ = Anzahl Spalten. $V$ liegt zwischen 0 und 1.
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
 from scipy import stats
 import pandas as pd
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 ct = pd.crosstab(penguins['species'], penguins['island'])
 chi2, p, dof, expected = stats.chi2_contingency(ct)
 

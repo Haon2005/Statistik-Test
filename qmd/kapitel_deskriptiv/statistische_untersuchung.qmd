@@ -199,16 +199,16 @@ flowchart TD
 
 ```{pyodide-python}
 #| read-only: true
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 penguins.info()
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Welche Ausprägungen hat das Merkmal "species"?
 print(penguins["species"].unique())
@@ -261,11 +261,10 @@ Jetzt klassieren wir das Körpergewicht der Pinguine in Python:
 
 ```{pyodide-python}
 #| read-only: true
-#| packages: ["palmerpenguins"]
 import pandas as pd
-from palmerpenguins import load_penguins
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Gewicht in drei Klassen einteilen
 penguins["gewichtsklasse"] = pd.cut(
@@ -288,11 +287,10 @@ Die Schnabellängen der Pinguine variieren von etwa 32 mm bis 60 mm. Teile diese
 2. Gib die absolute Häufigkeit jeder Klasse aus.
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import pandas as pd
-from palmerpenguins import load_penguins
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```

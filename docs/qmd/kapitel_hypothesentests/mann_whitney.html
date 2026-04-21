@@ -331,7 +331,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\nadelie = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\nchinstrap = penguins[penguins['species'] == 'Chinstrap']['bill_length_mm'].dropna()\n\nprint(f\"Adélie:    n={len(adelie)},  Median={adelie.median():.1f} mm\")\nprint(f\"Chinstrap: n={len(chinstrap)},  Median={chinstrap.median():.1f} mm\")\nprint()\n\n# Mann-Whitney-U-Test (zweiseitig)\nresult = stats.mannwhitneyu(adelie, chinstrap, alternative='two-sided')\nprint(f\"U-Statistik = {result.statistic:.1f}\")\nprint(f\"p-Wert (zweiseitig) = {result.pvalue:.6f}\")\nprint()\nif result.pvalue < 0.05:\n    print(\"→ H₀ wird verworfen: Die Schnabellängen unterscheiden sich sign.\")\nelse:\n    print(\"→ H₀ wird nicht verworfen.\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"from scipy import stats\nimport numpy as np\nimport pandas as pd\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nadelie = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\nchinstrap = penguins[penguins['species'] == 'Chinstrap']['bill_length_mm'].dropna()\n\nprint(f\"Adélie:    n={len(adelie)},  Median={adelie.median():.1f} mm\")\nprint(f\"Chinstrap: n={len(chinstrap)},  Median={chinstrap.median():.1f} mm\")\nprint()\n\n# Mann-Whitney-U-Test (zweiseitig)\nresult = stats.mannwhitneyu(adelie, chinstrap, alternative='two-sided')\nprint(f\"U-Statistik = {result.statistic:.1f}\")\nprint(f\"p-Wert (zweiseitig) = {result.pvalue:.6f}\")\nprint()\nif result.pvalue < 0.05:\n    print(\"→ H₀ wird verworfen: Die Schnabellängen unterscheiden sich sign.\")\nelse:\n    print(\"→ H₀ wird nicht verworfen.\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1166,7 +1166,7 @@ window.Quarto = {
 <p><strong>Rangsumme Gruppe A:</strong> <span class="math inline">1 + 3 + 5 + 7 = 16</span></p>
 <p><strong>Rangsumme Gruppe B:</strong> <span class="math inline">2 + 4 + 6 = 12</span></p>
 <p>Wenn beide Gruppen aus derselben Verteilung stammen, sollten die Ränge ungefähr gleich auf die Gruppen verteilt sein.</p>
-<div id="d573bdb4" class="cell" data-execution_count="2">
+<div id="b46dca23" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1243,7 +1243,7 @@ window.Quarto = {
 </section>
 <section id="visualisierung" class="level2">
 <h2 class="anchored" data-anchor-id="visualisierung">Visualisierung</h2>
-<div id="ac25b6c5" class="cell" data-execution_count="3">
+<div id="7f4b812d" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1256,7 +1256,7 @@ window.Quarto = {
 </section>
 <section id="t-test-vs.-mann-whitney-u-test" class="level2">
 <h2 class="anchored" data-anchor-id="t-test-vs.-mann-whitney-u-test">t-Test vs.&nbsp;Mann-Whitney-U-Test</h2>
-<div id="a3641b40" class="cell" data-execution_count="4">
+<div id="ff495026" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1936,12 +1936,12 @@ shuffleAnswers: true
 <span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Beispiel: Schnabellänge bei Adélie und Chinstrap</span></span>
 <span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
 <span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>chinstrap <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Chinstrap'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
 <span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a></span>

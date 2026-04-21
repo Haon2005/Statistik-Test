@@ -331,7 +331,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\npenguins = load_penguins()\n\n# Modalwert mit value_counts:\nprint(penguins['species'].value_counts())\n\n# Direkt als Modalwert:\nprint(\"\\nModalwert:\", penguins['species'].mode()[0])","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nimport numpy as np\n\npenguins = load_penguins()\n\n# a) Mittelwert über alle Pinguine\nmittelwert_gesamt = penguins['bill_length_mm'].mean()\nprint(f\"Mittlere Schnabellänge (gesamt): {mittelwert_gesamt:.2f} mm\")\n\n# b) Mittelwert pro Art\nmittelwert_art = penguins.groupby('species')['bill_length_mm'].mean()\nprint(\"\\nMittlere Schnabellänge nach Art:\")\nprint(mittelwert_art.round(2))","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy.stats import gmean\nimport numpy as np\n\npenguins = load_penguins()\nflossen = penguins['flipper_length_mm'].dropna()\n\narithm = flossen.mean()\ngeom = gmean(flossen)\n\nprint(f\"Arithmetisches Mittel: {arithm:.2f} mm\")\nprint(f\"Geometrisches Mittel:  {geom:.2f} mm\")\nprint(f\"Unterschied: {arithm - geom:.4f} mm\")","id":3,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\nergebnis = penguins.groupby('species')['body_mass_g'].agg(['mean', 'median'])\nergebnis.columns = ['Mittelwert (g)', 'Median (g)']\nergebnis = ergebnis.round(1)\nprint(ergebnis)","id":4,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\nq10 = penguins['flipper_length_mm'].quantile(0.10)\nq90 = penguins['flipper_length_mm'].quantile(0.90)\n\nprint(f\"10 %-Quantil: {q10:.1f} mm\")\nprint(f\"90 %-Quantil: {q90:.1f} mm\")\nprint(f\"\\nInterpretation: 80 % der Pinguine haben eine Flossenlänge\")\nprint(f\"zwischen {q10:.1f} und {q90:.1f} mm.\")","id":5,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nimport matplotlib.pyplot as plt\n\npenguins = load_penguins()\npinguine_clean = penguins.dropna(subset=['bill_length_mm', 'sex'])\n\nmaennlich = pinguine_clean[pinguine_clean['sex'] == 'male']['bill_length_mm']\nweiblich  = pinguine_clean[pinguine_clean['sex'] == 'female']['bill_length_mm']\n\nfig, ax = plt.subplots(figsize=(5, 4))\nax.boxplot([weiblich, maennlich], labels=['weiblich', 'männlich'], patch_artist=True)\nax.set_ylabel('Schnabellänge (mm)')\nax.set_title('Schnabellänge nach Geschlecht')\nplt.tight_layout()\nplt.show()","id":6,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\n# Dein Code hier","id":7,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\n# Dein Code hier","id":8,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nfrom pyodide.http import open_url\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\n# Modalwert mit value_counts:\nprint(penguins['species'].value_counts())\n\n# Direkt als Modalwert:\nprint(\"\\nModalwert:\", penguins['species'].mode()[0])","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\n# a) Mittelwert über alle Pinguine\nmittelwert_gesamt = penguins['bill_length_mm'].mean()\nprint(f\"Mittlere Schnabellänge (gesamt): {mittelwert_gesamt:.2f} mm\")\n\n# b) Mittelwert pro Art\nmittelwert_art = penguins.groupby('species')['bill_length_mm'].mean()\nprint(\"\\nMittlere Schnabellänge nach Art:\")\nprint(mittelwert_art.round(2))","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy.stats import gmean\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nflossen = penguins['flipper_length_mm'].dropna()\n\narithm = flossen.mean()\ngeom = gmean(flossen)\n\nprint(f\"Arithmetisches Mittel: {arithm:.2f} mm\")\nprint(f\"Geometrisches Mittel:  {geom:.2f} mm\")\nprint(f\"Unterschied: {arithm - geom:.4f} mm\")","id":3,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\nergebnis = penguins.groupby('species')['body_mass_g'].agg(['mean', 'median'])\nergebnis.columns = ['Mittelwert (g)', 'Median (g)']\nergebnis = ergebnis.round(1)\nprint(ergebnis)","id":4,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\nq10 = penguins['flipper_length_mm'].quantile(0.10)\nq90 = penguins['flipper_length_mm'].quantile(0.90)\n\nprint(f\"10 %-Quantil: {q10:.1f} mm\")\nprint(f\"90 %-Quantil: {q90:.1f} mm\")\nprint(f\"\\nInterpretation: 80 % der Pinguine haben eine Flossenlänge\")\nprint(f\"zwischen {q10:.1f} und {q90:.1f} mm.\")","id":5,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nimport matplotlib.pyplot as plt\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\npinguine_clean = penguins.dropna(subset=['bill_length_mm', 'sex'])\n\nmaennlich = pinguine_clean[pinguine_clean['sex'] == 'male']['bill_length_mm']\nweiblich  = pinguine_clean[pinguine_clean['sex'] == 'female']['bill_length_mm']\n\nfig, ax = plt.subplots(figsize=(5, 4))\nax.boxplot([weiblich, maennlich], labels=['weiblich', 'männlich'], patch_artist=True)\nax.set_ylabel('Schnabellänge (mm)')\nax.set_title('Schnabellänge nach Geschlecht')\nplt.show()","id":6,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\n# Dein Code hier","id":7,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\n\npenguins = load_penguins()\n\n# Dein Code hier","id":8,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1099,7 +1099,7 @@ window.Quarto = {
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Die <strong>Lage</strong> beschreibt, wo die Mitte oder der Schwerpunkt der Daten liegt.</p>
-<div id="a125865f" class="cell" data-execution_count="2">
+<div id="9102f1bc" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1113,7 +1113,7 @@ window.Quarto = {
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>Die <strong>Streuung</strong> beschreibt, wie stark die Werte auseinander liegen.</p>
-<div id="42698462" class="cell" data-execution_count="3">
+<div id="1b61c64b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1127,7 +1127,7 @@ window.Quarto = {
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <p>Die <strong>Schiefe</strong> beschreibt, ob die Verteilung symmetrisch ist oder ob die Werte auf einer Seite weiter streuen.</p>
-<div id="252d47a4" class="cell" data-execution_count="4">
+<div id="f6807c37" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1141,7 +1141,7 @@ window.Quarto = {
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <p>Die <strong>Wölbung</strong> beschreibt, ob die Werte gleichmäßig verteilt sind oder ob sich die meisten Werte eng um die Mitte häufen (mit einzelnen weit entfernten Ausreißern).</p>
-<div id="8998b7e6" class="cell" data-execution_count="5">
+<div id="4d5669f4" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1305,7 +1305,7 @@ window.Quarto = {
 <section id="unimodale-und-bimodale-verteilungen" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="unimodale-und-bimodale-verteilungen">Unimodale und bimodale Verteilungen</h3>
 <p>Eine Verteilung mit <strong>genau einem</strong> lokalen Maximum heißt <strong>unimodal</strong>, eine mit <strong>zwei</strong> lokalen Maxima heißt <strong>bimodal</strong>.</p>
-<div id="124de9dd" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="6">
+<div id="14dea4d4" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="6">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
@@ -1457,7 +1457,7 @@ window.Quarto = {
 <li>Der <strong>Median</strong> ist <strong>robust</strong>: Ein einzelner extremer Wert ändert ihn kaum.</li>
 </ul>
 <p>Bei schiefen Verteilungen weichen Mittelwert und Median voneinander ab:</p>
-<div id="2491f250" class="cell" data-execution_count="7">
+<div id="0bfd1bd0" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1593,7 +1593,7 @@ window.Quarto = {
 <p>Da alle Werte im Bereich <span class="math inline">[165{,}75 - 1{,}5 \cdot 16{,}25;\; 182{,}0 + 1{,}5 \cdot 16{,}25] = [141{,}4;\; 206{,}4]</span> liegen, gibt es keine Ausreißer – die Antennen reichen bis zu Minimum und Maximum.</p>
 </div>
 <p>Für unsere Pinguine sieht der Boxplot des Körpergewichts nach Pinguinart so aus:</p>
-<div id="c9b4c1fb" class="cell" data-execution_count="8">
+<div id="c782f41c" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2594,9 +2594,9 @@ Warte – zwei Antworten sehen gleich aus. Wähle 8!
 <span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a>Bestimme mit Python den Modalwert der Variablen <span class="in">`species`</span> im Pinguin-Datensatz. Welche Pinguinart kommt am häufigsten vor?</span>
 <span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a><span class="co"># Modalwert mit value_counts:</span></span>
 <span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins[<span class="st">'species'</span>].value_counts())</span>
@@ -2684,11 +2684,11 @@ Warte – zwei Antworten sehen gleich aus. Wähle 8!
 <span id="cb9-346"><a href="#cb9-346" aria-hidden="true" tabindex="-1"></a>b) Das arithmetische Mittel getrennt nach Pinguinart (<span class="in">`species`</span>). Sind die Unterschiede groß?</span>
 <span id="cb9-347"><a href="#cb9-347" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-348"><a href="#cb9-348" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-350"><a href="#cb9-350" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-351"><a href="#cb9-351" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-350"><a href="#cb9-350" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-351"><a href="#cb9-351" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb9-352"><a href="#cb9-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-353"><a href="#cb9-353" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-353"><a href="#cb9-353" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb9-354"><a href="#cb9-354" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-355"><a href="#cb9-355" aria-hidden="true" tabindex="-1"></a><span class="co"># a) Mittelwert über alle Pinguine</span></span>
 <span id="cb9-356"><a href="#cb9-356" aria-hidden="true" tabindex="-1"></a>mittelwert_gesamt <span class="op">=</span> penguins[<span class="st">'bill_length_mm'</span>].mean()</span>
@@ -2756,12 +2756,12 @@ Warte – zwei Antworten sehen gleich aus. Wähle 8!
 <span id="cb9-418"><a href="#cb9-418" aria-hidden="true" tabindex="-1"></a>Berechne das geometrische Mittel der Flossenlänge (<span class="in">`flipper_length_mm`</span>). Vergleiche es mit dem arithmetischen Mittel. Ist der Unterschied groß?</span>
 <span id="cb9-419"><a href="#cb9-419" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-420"><a href="#cb9-420" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-421"><a href="#cb9-421" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-422"><a href="#cb9-422" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-423"><a href="#cb9-423" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gmean</span>
-<span id="cb9-424"><a href="#cb9-424" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-421"><a href="#cb9-421" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-422"><a href="#cb9-422" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gmean</span>
+<span id="cb9-423"><a href="#cb9-423" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-424"><a href="#cb9-424" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb9-425"><a href="#cb9-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-426"><a href="#cb9-426" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-426"><a href="#cb9-426" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb9-427"><a href="#cb9-427" aria-hidden="true" tabindex="-1"></a>flossen <span class="op">=</span> penguins[<span class="st">'flipper_length_mm'</span>].dropna()</span>
 <span id="cb9-428"><a href="#cb9-428" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-429"><a href="#cb9-429" aria-hidden="true" tabindex="-1"></a>arithm <span class="op">=</span> flossen.mean()</span>
@@ -2852,10 +2852,10 @@ Warte – zwei Antworten sehen gleich aus. Wähle 8!
 <span id="cb9-516"><a href="#cb9-516" aria-hidden="true" tabindex="-1"></a>Berechne Mittelwert und Median des Körpergewichts (<span class="in">`body_mass_g`</span>) für jede Pinguinart. Gibt es Unterschiede zwischen den Arten?</span>
 <span id="cb9-517"><a href="#cb9-517" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-518"><a href="#cb9-518" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-519"><a href="#cb9-519" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-520"><a href="#cb9-520" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb9-519"><a href="#cb9-519" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-520"><a href="#cb9-520" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb9-521"><a href="#cb9-521" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-522"><a href="#cb9-522" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-522"><a href="#cb9-522" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb9-523"><a href="#cb9-523" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-524"><a href="#cb9-524" aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> penguins.groupby(<span class="st">'species'</span>)[<span class="st">'body_mass_g'</span>].agg([<span class="st">'mean'</span>, <span class="st">'median'</span>])</span>
 <span id="cb9-525"><a href="#cb9-525" aria-hidden="true" tabindex="-1"></a>ergebnis.columns <span class="op">=</span> [<span class="st">'Mittelwert (g)'</span>, <span class="st">'Median (g)'</span>]</span>
@@ -2926,10 +2926,10 @@ Warte – zwei Antworten sehen gleich aus. Wähle 8!
 <span id="cb9-590"><a href="#cb9-590" aria-hidden="true" tabindex="-1"></a>Berechne das 10 %- und das 90 %-Quantil der Flossenlänge (<span class="in">`flipper_length_mm`</span>). Was bedeuten diese Werte?</span>
 <span id="cb9-591"><a href="#cb9-591" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-592"><a href="#cb9-592" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-593"><a href="#cb9-593" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-594"><a href="#cb9-594" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb9-593"><a href="#cb9-593" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-594"><a href="#cb9-594" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb9-595"><a href="#cb9-595" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-596"><a href="#cb9-596" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-596"><a href="#cb9-596" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb9-597"><a href="#cb9-597" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-598"><a href="#cb9-598" aria-hidden="true" tabindex="-1"></a>q10 <span class="op">=</span> penguins[<span class="st">'flipper_length_mm'</span>].quantile(<span class="fl">0.10</span>)</span>
 <span id="cb9-599"><a href="#cb9-599" aria-hidden="true" tabindex="-1"></a>q90 <span class="op">=</span> penguins[<span class="st">'flipper_length_mm'</span>].quantile(<span class="fl">0.90</span>)</span>
@@ -3049,11 +3049,11 @@ Warte – zwei Antworten sehen gleich aus. Wähle 8!
 <span id="cb9-715"><a href="#cb9-715" aria-hidden="true" tabindex="-1"></a>Erstelle Boxplots der Schnabellänge (<span class="in">`bill_length_mm`</span>) getrennt nach Geschlecht (<span class="in">`sex`</span>). Welche Unterschiede erkennst du?</span>
 <span id="cb9-716"><a href="#cb9-716" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-717"><a href="#cb9-717" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-718"><a href="#cb9-718" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-719"><a href="#cb9-719" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-720"><a href="#cb9-720" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-718"><a href="#cb9-718" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-719"><a href="#cb9-719" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-720"><a href="#cb9-720" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb9-721"><a href="#cb9-721" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-722"><a href="#cb9-722" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-722"><a href="#cb9-722" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb9-723"><a href="#cb9-723" aria-hidden="true" tabindex="-1"></a>pinguine_clean <span class="op">=</span> penguins.dropna(subset<span class="op">=</span>[<span class="st">'bill_length_mm'</span>, <span class="st">'sex'</span>])</span>
 <span id="cb9-724"><a href="#cb9-724" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-725"><a href="#cb9-725" aria-hidden="true" tabindex="-1"></a>maennlich <span class="op">=</span> pinguine_clean[pinguine_clean[<span class="st">'sex'</span>] <span class="op">==</span> <span class="st">'male'</span>][<span class="st">'bill_length_mm'</span>]</span>
@@ -3063,204 +3063,203 @@ Warte – zwei Antworten sehen gleich aus. Wähle 8!
 <span id="cb9-729"><a href="#cb9-729" aria-hidden="true" tabindex="-1"></a>ax.boxplot([weiblich, maennlich], labels<span class="op">=</span>[<span class="st">'weiblich'</span>, <span class="st">'männlich'</span>], patch_artist<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-730"><a href="#cb9-730" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Schnabellänge (mm)'</span>)</span>
 <span id="cb9-731"><a href="#cb9-731" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Schnabellänge nach Geschlecht'</span>)</span>
-<span id="cb9-732"><a href="#cb9-732" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb9-733"><a href="#cb9-733" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb9-734"><a href="#cb9-734" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-735"><a href="#cb9-735" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-736"><a href="#cb9-736" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-737"><a href="#cb9-737" aria-hidden="true" tabindex="-1"></a>::: {.callout-python}</span>
-<span id="cb9-738"><a href="#cb9-738" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Python: Boxplot erstellen</span></span>
-<span id="cb9-739"><a href="#cb9-739" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-740"><a href="#cb9-740" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb9-741"><a href="#cb9-741" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb9-742"><a href="#cb9-742" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-743"><a href="#cb9-743" aria-hidden="true" tabindex="-1"></a><span class="co"># Einfacher Boxplot einer Spalte</span></span>
-<span id="cb9-744"><a href="#cb9-744" aria-hidden="true" tabindex="-1"></a>plt.boxplot(df[<span class="st">'spalte'</span>].dropna())</span>
-<span id="cb9-745"><a href="#cb9-745" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb9-746"><a href="#cb9-746" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-747"><a href="#cb9-747" aria-hidden="true" tabindex="-1"></a><span class="co"># Mehrere Gruppen nebeneinander</span></span>
-<span id="cb9-748"><a href="#cb9-748" aria-hidden="true" tabindex="-1"></a>gruppe_a <span class="op">=</span> df[df[<span class="st">'gruppe'</span>] <span class="op">==</span> <span class="st">'A'</span>][<span class="st">'spalte'</span>].dropna()</span>
-<span id="cb9-749"><a href="#cb9-749" aria-hidden="true" tabindex="-1"></a>gruppe_b <span class="op">=</span> df[df[<span class="st">'gruppe'</span>] <span class="op">==</span> <span class="st">'B'</span>][<span class="st">'spalte'</span>].dropna()</span>
-<span id="cb9-750"><a href="#cb9-750" aria-hidden="true" tabindex="-1"></a>plt.boxplot([gruppe_a, gruppe_b], labels<span class="op">=</span>[<span class="st">'A'</span>, <span class="st">'B'</span>])</span>
-<span id="cb9-751"><a href="#cb9-751" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb9-752"><a href="#cb9-752" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-753"><a href="#cb9-753" aria-hidden="true" tabindex="-1"></a><span class="co"># Schnelle Zusammenfassung (5-Punkte-Summary):</span></span>
-<span id="cb9-754"><a href="#cb9-754" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'spalte'</span>].describe()</span>
-<span id="cb9-755"><a href="#cb9-755" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-756"><a href="#cb9-756" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-757"><a href="#cb9-757" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-758"><a href="#cb9-758" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
-<span id="cb9-759"><a href="#cb9-759" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: Lagemaße der Schnabellänge</span></span>
-<span id="cb9-760"><a href="#cb9-760" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-761"><a href="#cb9-761" aria-hidden="true" tabindex="-1"></a>Die Schnabellänge der Pinguine variiert je nach Art stark. Berechne die wichtigsten Lagemaße und vergleiche die Arten.</span>
-<span id="cb9-762"><a href="#cb9-762" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-763"><a href="#cb9-763" aria-hidden="true" tabindex="-1"></a>**Aufgabe:**</span>
-<span id="cb9-764"><a href="#cb9-764" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Berechne Mittelwert, Median und Modalwert der Schnabellänge (<span class="in">`bill_length_mm`</span>) aller Pinguine.</span>
-<span id="cb9-765"><a href="#cb9-765" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Berechne den Mittelwert getrennt nach Pinguinart (<span class="in">`species`</span>). Welche Art hat die längsten Schnäbel im Durchschnitt?</span>
-<span id="cb9-766"><a href="#cb9-766" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-767"><a href="#cb9-767" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-768"><a href="#cb9-768" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-769"><a href="#cb9-769" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-770"><a href="#cb9-770" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-771"><a href="#cb9-771" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb9-772"><a href="#cb9-772" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-773"><a href="#cb9-773" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
-<span id="cb9-774"><a href="#cb9-774" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-775"><a href="#cb9-775" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-776"><a href="#cb9-776" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 1" collapse="true"}</span>
-<span id="cb9-777"><a href="#cb9-777" aria-hidden="true" tabindex="-1"></a>Für eine einzelne Spalte: <span class="in">`.mean()`</span> → Mittelwert, <span class="in">`.median()`</span> → Median, <span class="in">`.mode()[0]`</span> → Modalwert (häufigster Wert). Denk daran, fehlende Werte mit <span class="in">`.dropna()`</span> zu entfernen.</span>
-<span id="cb9-778"><a href="#cb9-778" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-779"><a href="#cb9-779" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-780"><a href="#cb9-780" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 2" collapse="true"}</span>
-<span id="cb9-781"><a href="#cb9-781" aria-hidden="true" tabindex="-1"></a>Für den artweisen Mittelwert nutze <span class="in">`penguins.groupby('species')['bill_length_mm'].mean()`</span>. Das gibt dir für jede Art separat den Mittelwert.</span>
-<span id="cb9-782"><a href="#cb9-782" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-783"><a href="#cb9-783" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-784"><a href="#cb9-784" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
-<span id="cb9-785"><a href="#cb9-785" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb9-786"><a href="#cb9-786" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-787"><a href="#cb9-787" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb9-788"><a href="#cb9-788" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[<span class="st">'bill_length_mm'</span>].dropna()</span>
-<span id="cb9-789"><a href="#cb9-789" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-790"><a href="#cb9-790" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mittelwert: </span><span class="sc">{</span>bill<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb9-791"><a href="#cb9-791" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Median:     </span><span class="sc">{</span>bill<span class="sc">.</span>median()<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb9-792"><a href="#cb9-792" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Modalwert:  </span><span class="sc">{</span>bill<span class="sc">.</span>mode()[<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb9-793"><a href="#cb9-793" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-794"><a href="#cb9-794" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Mittelwert nach Art:"</span>)</span>
-<span id="cb9-795"><a href="#cb9-795" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins.groupby(<span class="st">'species'</span>)[<span class="st">'bill_length_mm'</span>].mean().<span class="bu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb9-796"><a href="#cb9-796" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-797"><a href="#cb9-797" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-798"><a href="#cb9-798" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb9-799"><a href="#cb9-799" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-800"><a href="#cb9-800" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
-<span id="cb9-801"><a href="#cb9-801" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: Mittelwert vs. Median beim Körpergewicht</span></span>
-<span id="cb9-802"><a href="#cb9-802" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-803"><a href="#cb9-803" aria-hidden="true" tabindex="-1"></a>Mittelwert und Median können bei schiefen Verteilungen stark voneinander abweichen.</span>
-<span id="cb9-804"><a href="#cb9-804" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-805"><a href="#cb9-805" aria-hidden="true" tabindex="-1"></a>**Aufgabe:**</span>
-<span id="cb9-806"><a href="#cb9-806" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Berechne Mittelwert und Median des Körpergewichts (<span class="in">`body_mass_g`</span>) aller Pinguine. Ist die Verteilung eher rechts- oder linksschief?</span>
-<span id="cb9-807"><a href="#cb9-807" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Filtere die Gentoo-Pinguine heraus (die sind deutlich schwerer als die anderen Arten) und vergleiche Mittelwert und Median erneut. Was ändert sich?</span>
-<span id="cb9-808"><a href="#cb9-808" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-809"><a href="#cb9-809" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb9-810"><a href="#cb9-810" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb9-811"><a href="#cb9-811" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-812"><a href="#cb9-812" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-813"><a href="#cb9-813" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb9-814"><a href="#cb9-814" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-815"><a href="#cb9-815" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
-<span id="cb9-816"><a href="#cb9-816" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-817"><a href="#cb9-817" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-818"><a href="#cb9-818" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 1" collapse="true"}</span>
-<span id="cb9-819"><a href="#cb9-819" aria-hidden="true" tabindex="-1"></a>Mit <span class="in">`penguins[penguins['species'] != 'Gentoo']`</span> filterst du alle Pinguine heraus, die **nicht** Gentoo sind. Danach wieder <span class="in">`.mean()`</span> und <span class="in">`.median()`</span> auf <span class="in">`body_mass_g`</span> anwenden.</span>
-<span id="cb9-820"><a href="#cb9-820" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-821"><a href="#cb9-821" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-822"><a href="#cb9-822" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 2" collapse="true"}</span>
-<span id="cb9-823"><a href="#cb9-823" aria-hidden="true" tabindex="-1"></a>Wenn Mittelwert &gt; Median: rechtsschiefe Verteilung (langer Schweif nach rechts). Wenn Mittelwert &lt; Median: linksschiefe Verteilung. Gentoo-Pinguine sind schwere Ausreißer nach oben – ihr Entfernen sollte den Mittelwert stärker verschieben als den Median.</span>
-<span id="cb9-824"><a href="#cb9-824" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-825"><a href="#cb9-825" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-826"><a href="#cb9-826" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
-<span id="cb9-827"><a href="#cb9-827" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb9-828"><a href="#cb9-828" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb9-829"><a href="#cb9-829" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb9-830"><a href="#cb9-830" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-831"><a href="#cb9-831" aria-hidden="true" tabindex="-1"></a>masse_alle <span class="op">=</span> penguins[<span class="st">'body_mass_g'</span>].dropna()</span>
-<span id="cb9-832"><a href="#cb9-832" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Alle Pinguine:"</span>)</span>
-<span id="cb9-833"><a href="#cb9-833" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mittelwert: </span><span class="sc">{</span>masse_alle<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss"> g,  Median: </span><span class="sc">{</span>masse_alle<span class="sc">.</span>median()<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
-<span id="cb9-834"><a href="#cb9-834" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-835"><a href="#cb9-835" aria-hidden="true" tabindex="-1"></a>ohne_gentoo <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">!=</span> <span class="st">'Gentoo'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
-<span id="cb9-836"><a href="#cb9-836" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ohne Gentoo:"</span>)</span>
-<span id="cb9-837"><a href="#cb9-837" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mittelwert: </span><span class="sc">{</span>ohne_gentoo<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss"> g,  Median: </span><span class="sc">{</span>ohne_gentoo<span class="sc">.</span>median()<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
-<span id="cb9-838"><a href="#cb9-838" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-839"><a href="#cb9-839" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-840"><a href="#cb9-840" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb9-841"><a href="#cb9-841" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-842"><a href="#cb9-842" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb9-843"><a href="#cb9-843" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-844"><a href="#cb9-844" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
-<span id="cb9-845"><a href="#cb9-845" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-846"><a href="#cb9-846" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb9-847"><a href="#cb9-847" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Das Wichtigste auf einen Blick</span></span>
-<span id="cb9-848"><a href="#cb9-848" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-849"><a href="#cb9-849" aria-hidden="true" tabindex="-1"></a>**Kennzahlen** reduzieren eine Stichprobe auf charakteristische Einzelwerte. **Lagemaße** beschreiben, wo sich die Mitte oder der Schwerpunkt der Daten befindet.</span>
-<span id="cb9-850"><a href="#cb9-850" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-851"><a href="#cb9-851" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lagemaß <span class="pp">|</span> Für welche Skala? <span class="pp">|</span> Robust? <span class="pp">|</span> Python <span class="pp">|</span></span>
-<span id="cb9-852"><a href="#cb9-852" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|------------------|---------|--------|</span></span>
-<span id="cb9-853"><a href="#cb9-853" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Modalwert** <span class="pp">|</span> nominal, ordinal, kardinal <span class="pp">|</span> – <span class="pp">|</span> <span class="in">`.mode()`</span> <span class="pp">|</span></span>
-<span id="cb9-854"><a href="#cb9-854" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Median** <span class="pp">|</span> ordinal, kardinal <span class="pp">|</span> ✓ ja <span class="pp">|</span> <span class="in">`.median()`</span> <span class="pp">|</span></span>
-<span id="cb9-855"><a href="#cb9-855" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Arithm. Mittel** <span class="pp">|</span> kardinal <span class="pp">|</span> ✗ nein <span class="pp">|</span> <span class="in">`.mean()`</span> <span class="pp">|</span></span>
-<span id="cb9-856"><a href="#cb9-856" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Geom. Mittel** <span class="pp">|</span> kardinal (nur $&gt;0$) <span class="pp">|</span> – <span class="pp">|</span> <span class="in">`gmean()`</span> <span class="pp">|</span></span>
-<span id="cb9-857"><a href="#cb9-857" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-858"><a href="#cb9-858" aria-hidden="true" tabindex="-1"></a>Der **Boxplot** fasst die Verteilung mit 5 Kennzahlen grafisch zusammen: Minimum, $Q_1$, Median, $Q_3$, Maximum. Er eignet sich besonders gut zum Vergleich mehrerer Gruppen.</span>
-<span id="cb9-859"><a href="#cb9-859" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-860"><a href="#cb9-860" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-861"><a href="#cb9-861" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb9-862"><a href="#cb9-862" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-863"><a href="#cb9-863" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissenstest</span></span>
-<span id="cb9-864"><a href="#cb9-864" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-867"><a href="#cb9-867" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
-<span id="cb9-868"><a href="#cb9-868" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb9-869"><a href="#cb9-869" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
-<span id="cb9-870"><a href="#cb9-870" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
-<span id="cb9-871"><a href="#cb9-871" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
-<span id="cb9-872"><a href="#cb9-872" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb9-873"><a href="#cb9-873" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-874"><a href="#cb9-874" aria-hidden="true" tabindex="-1"></a><span class="in">### Was ist der Modalwert einer Stichprobe?</span></span>
-<span id="cb9-875"><a href="#cb9-875" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-876"><a href="#cb9-876" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das arithmetische Mittel aller Werte</span></span>
-<span id="cb9-877"><a href="#cb9-877" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Merkmalsausprägung, die am häufigsten vorkommt</span></span>
-<span id="cb9-878"><a href="#cb9-878" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Modalwert ist die häufigste Ausprägung.</span></span>
-<span id="cb9-879"><a href="#cb9-879" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der mittlere Wert der sortierten Stichprobe</span></span>
-<span id="cb9-880"><a href="#cb9-880" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Durchschnitt des größten und kleinsten Werts</span></span>
-<span id="cb9-881"><a href="#cb9-881" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-882"><a href="#cb9-882" aria-hidden="true" tabindex="-1"></a><span class="in">### Eine Stichprobe enthält die Werte: 4, 7, 7, 9, 13. Wie lautet das arithmetische Mittel?</span></span>
-<span id="cb9-883"><a href="#cb9-883" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-884"><a href="#cb9-884" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 7</span></span>
-<span id="cb9-885"><a href="#cb9-885" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 8</span></span>
-<span id="cb9-886"><a href="#cb9-886" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] 8</span></span>
-<span id="cb9-887"><a href="#cb9-887" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Das arithmetische Mittel ist $(4+7+7+9+13)/5 = 40/5 = 8$.</span></span>
-<span id="cb9-888"><a href="#cb9-888" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 9</span></span>
-<span id="cb9-889"><a href="#cb9-889" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-890"><a href="#cb9-890" aria-hidden="true" tabindex="-1"></a><span class="in">Warte – zwei Antworten sehen gleich aus. Wähle 8!</span></span>
-<span id="cb9-891"><a href="#cb9-891" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-892"><a href="#cb9-892" aria-hidden="true" tabindex="-1"></a><span class="in">### Die Stichprobe 3, 5, 7, 9, 11 hat den Median 7. Jetzt wird ein Ausreißer 300 hinzugefügt: 3, 5, 7, 9, 11, 300. Was passiert mit dem Median?</span></span>
-<span id="cb9-893"><a href="#cb9-893" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-894"><a href="#cb9-894" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Der Median verändert sich kaum (er wird 8)</span></span>
-<span id="cb9-895"><a href="#cb9-895" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Bei 6 Werten ist der Median (7+9)/2 = 8. Der Ausreißer 300 hat kaum Einfluss.</span></span>
-<span id="cb9-896"><a href="#cb9-896" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Median springt stark nach oben</span></span>
-<span id="cb9-897"><a href="#cb9-897" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Median bleibt genau 7</span></span>
-<span id="cb9-898"><a href="#cb9-898" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Median kann nicht mehr berechnet werden</span></span>
-<span id="cb9-899"><a href="#cb9-899" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-900"><a href="#cb9-900" aria-hidden="true" tabindex="-1"></a><span class="in">### Du analysierst Haushaltseinkommen in Deutschland. Welches Lagemaß ist sinnvoller: Mittelwert oder Median?</span></span>
-<span id="cb9-901"><a href="#cb9-901" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-902"><a href="#cb9-902" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Mittelwert, da er alle Werte berücksichtigt</span></span>
-<span id="cb9-903"><a href="#cb9-903" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Der Median, da sehr hohe Einkommen den Mittelwert verzerren würden</span></span>
-<span id="cb9-904"><a href="#cb9-904" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Genau! Einkommen sind rechtsschief verteilt – wenige sehr Reiche treiben den Mittelwert nach oben. Der Median bildet die „typische" Situation besser ab.</span></span>
-<span id="cb9-905"><a href="#cb9-905" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Beide sind gleich gut geeignet</span></span>
-<span id="cb9-906"><a href="#cb9-906" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weder noch – man sollte nur den Modalwert verwenden</span></span>
-<span id="cb9-907"><a href="#cb9-907" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-908"><a href="#cb9-908" aria-hidden="true" tabindex="-1"></a><span class="in">### Was beschreibt das erste Quartil $Q_1$?</span></span>
-<span id="cb9-909"><a href="#cb9-909" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-910"><a href="#cb9-910" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den kleinsten Wert der Stichprobe</span></span>
-<span id="cb9-911"><a href="#cb9-911" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Das 25 %-Quantil – 25 % der Werte liegen unterhalb davon</span></span>
-<span id="cb9-912"><a href="#cb9-912" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! $Q_1 = \tilde{x}_{0{,}25}$ teilt die untersten 25 % der Daten ab.</span></span>
-<span id="cb9-913"><a href="#cb9-913" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Mittelwert der unteren Hälfte</span></span>
-<span id="cb9-914"><a href="#cb9-914" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Median der Stichprobe</span></span>
-<span id="cb9-915"><a href="#cb9-915" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-916"><a href="#cb9-916" aria-hidden="true" tabindex="-1"></a><span class="in">### Wie breit ist die Box in einem Boxplot?</span></span>
-<span id="cb9-917"><a href="#cb9-917" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-918"><a href="#cb9-918" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Vom Minimum bis zum Maximum</span></span>
-<span id="cb9-919"><a href="#cb9-919" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Zweimal die Standardabweichung</span></span>
-<span id="cb9-920"><a href="#cb9-920" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Vom ersten Quartil $Q_1$ bis zum dritten Quartil $Q_3$ (= IQR)</span></span>
-<span id="cb9-921"><a href="#cb9-921" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Korrekt! Die Boxbreite entspricht dem Interquartilsabstand IQR = $Q_3 - Q_1$ und enthält ca. 50 % der Daten.</span></span>
-<span id="cb9-922"><a href="#cb9-922" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Vom Minimum bis zum Median</span></span>
-<span id="cb9-923"><a href="#cb9-923" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-924"><a href="#cb9-924" aria-hidden="true" tabindex="-1"></a><span class="in">### Im verfeinerten Boxplot werden Punkte außerhalb der Antennen als Ausreißer markiert. Wo enden die Antennen?</span></span>
-<span id="cb9-925"><a href="#cb9-925" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-926"><a href="#cb9-926" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Bei Minimum und Maximum</span></span>
-<span id="cb9-927"><a href="#cb9-927" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Bei $Q_1 - \text{IQR}$ und $Q_3 + \text{IQR}$</span></span>
-<span id="cb9-928"><a href="#cb9-928" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Bei der letzten Beobachtung innerhalb von $Q_1 - 1{,}5 \cdot \text{IQR}$ bzw. $Q_3 + 1{,}5 \cdot \text{IQR}$</span></span>
-<span id="cb9-929"><a href="#cb9-929" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Genau! Werte jenseits dieser Grenzen werden als einzelne Punkte (potenzielle Ausreißer) eingezeichnet.</span></span>
-<span id="cb9-930"><a href="#cb9-930" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Bei einem Standardabweichung vom Mittelwert</span></span>
-<span id="cb9-931"><a href="#cb9-931" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-732"><a href="#cb9-732" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb9-733"><a href="#cb9-733" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-734"><a href="#cb9-734" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-735"><a href="#cb9-735" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-736"><a href="#cb9-736" aria-hidden="true" tabindex="-1"></a>::: {.callout-python}</span>
+<span id="cb9-737"><a href="#cb9-737" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Python: Boxplot erstellen</span></span>
+<span id="cb9-738"><a href="#cb9-738" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-739"><a href="#cb9-739" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb9-740"><a href="#cb9-740" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-741"><a href="#cb9-741" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-742"><a href="#cb9-742" aria-hidden="true" tabindex="-1"></a><span class="co"># Einfacher Boxplot einer Spalte</span></span>
+<span id="cb9-743"><a href="#cb9-743" aria-hidden="true" tabindex="-1"></a>plt.boxplot(df[<span class="st">'spalte'</span>].dropna())</span>
+<span id="cb9-744"><a href="#cb9-744" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb9-745"><a href="#cb9-745" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-746"><a href="#cb9-746" aria-hidden="true" tabindex="-1"></a><span class="co"># Mehrere Gruppen nebeneinander</span></span>
+<span id="cb9-747"><a href="#cb9-747" aria-hidden="true" tabindex="-1"></a>gruppe_a <span class="op">=</span> df[df[<span class="st">'gruppe'</span>] <span class="op">==</span> <span class="st">'A'</span>][<span class="st">'spalte'</span>].dropna()</span>
+<span id="cb9-748"><a href="#cb9-748" aria-hidden="true" tabindex="-1"></a>gruppe_b <span class="op">=</span> df[df[<span class="st">'gruppe'</span>] <span class="op">==</span> <span class="st">'B'</span>][<span class="st">'spalte'</span>].dropna()</span>
+<span id="cb9-749"><a href="#cb9-749" aria-hidden="true" tabindex="-1"></a>plt.boxplot([gruppe_a, gruppe_b], labels<span class="op">=</span>[<span class="st">'A'</span>, <span class="st">'B'</span>])</span>
+<span id="cb9-750"><a href="#cb9-750" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb9-751"><a href="#cb9-751" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-752"><a href="#cb9-752" aria-hidden="true" tabindex="-1"></a><span class="co"># Schnelle Zusammenfassung (5-Punkte-Summary):</span></span>
+<span id="cb9-753"><a href="#cb9-753" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'spalte'</span>].describe()</span>
+<span id="cb9-754"><a href="#cb9-754" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-755"><a href="#cb9-755" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-756"><a href="#cb9-756" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-757"><a href="#cb9-757" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
+<span id="cb9-758"><a href="#cb9-758" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: Lagemaße der Schnabellänge</span></span>
+<span id="cb9-759"><a href="#cb9-759" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-760"><a href="#cb9-760" aria-hidden="true" tabindex="-1"></a>Die Schnabellänge der Pinguine variiert je nach Art stark. Berechne die wichtigsten Lagemaße und vergleiche die Arten.</span>
+<span id="cb9-761"><a href="#cb9-761" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-762"><a href="#cb9-762" aria-hidden="true" tabindex="-1"></a>**Aufgabe:**</span>
+<span id="cb9-763"><a href="#cb9-763" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Berechne Mittelwert, Median und Modalwert der Schnabellänge (<span class="in">`bill_length_mm`</span>) aller Pinguine.</span>
+<span id="cb9-764"><a href="#cb9-764" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Berechne den Mittelwert getrennt nach Pinguinart (<span class="in">`species`</span>). Welche Art hat die längsten Schnäbel im Durchschnitt?</span>
+<span id="cb9-765"><a href="#cb9-765" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-766"><a href="#cb9-766" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
+<span id="cb9-767"><a href="#cb9-767" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-768"><a href="#cb9-768" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb9-769"><a href="#cb9-769" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-770"><a href="#cb9-770" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
+<span id="cb9-771"><a href="#cb9-771" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-772"><a href="#cb9-772" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
+<span id="cb9-773"><a href="#cb9-773" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-774"><a href="#cb9-774" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-775"><a href="#cb9-775" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 1" collapse="true"}</span>
+<span id="cb9-776"><a href="#cb9-776" aria-hidden="true" tabindex="-1"></a>Für eine einzelne Spalte: <span class="in">`.mean()`</span> → Mittelwert, <span class="in">`.median()`</span> → Median, <span class="in">`.mode()[0]`</span> → Modalwert (häufigster Wert). Denk daran, fehlende Werte mit <span class="in">`.dropna()`</span> zu entfernen.</span>
+<span id="cb9-777"><a href="#cb9-777" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-778"><a href="#cb9-778" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-779"><a href="#cb9-779" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 2" collapse="true"}</span>
+<span id="cb9-780"><a href="#cb9-780" aria-hidden="true" tabindex="-1"></a>Für den artweisen Mittelwert nutze <span class="in">`penguins.groupby('species')['bill_length_mm'].mean()`</span>. Das gibt dir für jede Art separat den Mittelwert.</span>
+<span id="cb9-781"><a href="#cb9-781" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-782"><a href="#cb9-782" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-783"><a href="#cb9-783" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
+<span id="cb9-784"><a href="#cb9-784" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb9-785"><a href="#cb9-785" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb9-786"><a href="#cb9-786" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-787"><a href="#cb9-787" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[<span class="st">'bill_length_mm'</span>].dropna()</span>
+<span id="cb9-788"><a href="#cb9-788" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-789"><a href="#cb9-789" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mittelwert: </span><span class="sc">{</span>bill<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb9-790"><a href="#cb9-790" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Median:     </span><span class="sc">{</span>bill<span class="sc">.</span>median()<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb9-791"><a href="#cb9-791" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Modalwert:  </span><span class="sc">{</span>bill<span class="sc">.</span>mode()[<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb9-792"><a href="#cb9-792" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-793"><a href="#cb9-793" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Mittelwert nach Art:"</span>)</span>
+<span id="cb9-794"><a href="#cb9-794" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins.groupby(<span class="st">'species'</span>)[<span class="st">'bill_length_mm'</span>].mean().<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb9-795"><a href="#cb9-795" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-796"><a href="#cb9-796" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-797"><a href="#cb9-797" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb9-798"><a href="#cb9-798" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-799"><a href="#cb9-799" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
+<span id="cb9-800"><a href="#cb9-800" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: Mittelwert vs. Median beim Körpergewicht</span></span>
+<span id="cb9-801"><a href="#cb9-801" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-802"><a href="#cb9-802" aria-hidden="true" tabindex="-1"></a>Mittelwert und Median können bei schiefen Verteilungen stark voneinander abweichen.</span>
+<span id="cb9-803"><a href="#cb9-803" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-804"><a href="#cb9-804" aria-hidden="true" tabindex="-1"></a>**Aufgabe:**</span>
+<span id="cb9-805"><a href="#cb9-805" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Berechne Mittelwert und Median des Körpergewichts (<span class="in">`body_mass_g`</span>) aller Pinguine. Ist die Verteilung eher rechts- oder linksschief?</span>
+<span id="cb9-806"><a href="#cb9-806" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Filtere die Gentoo-Pinguine heraus (die sind deutlich schwerer als die anderen Arten) und vergleiche Mittelwert und Median erneut. Was ändert sich?</span>
+<span id="cb9-807"><a href="#cb9-807" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-808"><a href="#cb9-808" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
+<span id="cb9-809"><a href="#cb9-809" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
+<span id="cb9-810"><a href="#cb9-810" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb9-811"><a href="#cb9-811" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-812"><a href="#cb9-812" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-813"><a href="#cb9-813" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-814"><a href="#cb9-814" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
+<span id="cb9-815"><a href="#cb9-815" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-816"><a href="#cb9-816" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-817"><a href="#cb9-817" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 1" collapse="true"}</span>
+<span id="cb9-818"><a href="#cb9-818" aria-hidden="true" tabindex="-1"></a>Mit <span class="in">`penguins[penguins['species'] != 'Gentoo']`</span> filterst du alle Pinguine heraus, die **nicht** Gentoo sind. Danach wieder <span class="in">`.mean()`</span> und <span class="in">`.median()`</span> auf <span class="in">`body_mass_g`</span> anwenden.</span>
+<span id="cb9-819"><a href="#cb9-819" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-820"><a href="#cb9-820" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-821"><a href="#cb9-821" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 2" collapse="true"}</span>
+<span id="cb9-822"><a href="#cb9-822" aria-hidden="true" tabindex="-1"></a>Wenn Mittelwert &gt; Median: rechtsschiefe Verteilung (langer Schweif nach rechts). Wenn Mittelwert &lt; Median: linksschiefe Verteilung. Gentoo-Pinguine sind schwere Ausreißer nach oben – ihr Entfernen sollte den Mittelwert stärker verschieben als den Median.</span>
+<span id="cb9-823"><a href="#cb9-823" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-824"><a href="#cb9-824" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-825"><a href="#cb9-825" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
+<span id="cb9-826"><a href="#cb9-826" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb9-827"><a href="#cb9-827" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb9-828"><a href="#cb9-828" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb9-829"><a href="#cb9-829" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-830"><a href="#cb9-830" aria-hidden="true" tabindex="-1"></a>masse_alle <span class="op">=</span> penguins[<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb9-831"><a href="#cb9-831" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Alle Pinguine:"</span>)</span>
+<span id="cb9-832"><a href="#cb9-832" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mittelwert: </span><span class="sc">{</span>masse_alle<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss"> g,  Median: </span><span class="sc">{</span>masse_alle<span class="sc">.</span>median()<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
+<span id="cb9-833"><a href="#cb9-833" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-834"><a href="#cb9-834" aria-hidden="true" tabindex="-1"></a>ohne_gentoo <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">!=</span> <span class="st">'Gentoo'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb9-835"><a href="#cb9-835" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ohne Gentoo:"</span>)</span>
+<span id="cb9-836"><a href="#cb9-836" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mittelwert: </span><span class="sc">{</span>ohne_gentoo<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss"> g,  Median: </span><span class="sc">{</span>ohne_gentoo<span class="sc">.</span>median()<span class="sc">:.1f}</span><span class="ss"> g"</span>)</span>
+<span id="cb9-837"><a href="#cb9-837" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-838"><a href="#cb9-838" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-839"><a href="#cb9-839" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb9-840"><a href="#cb9-840" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-841"><a href="#cb9-841" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-842"><a href="#cb9-842" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-843"><a href="#cb9-843" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
+<span id="cb9-844"><a href="#cb9-844" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-845"><a href="#cb9-845" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb9-846"><a href="#cb9-846" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Das Wichtigste auf einen Blick</span></span>
+<span id="cb9-847"><a href="#cb9-847" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-848"><a href="#cb9-848" aria-hidden="true" tabindex="-1"></a>**Kennzahlen** reduzieren eine Stichprobe auf charakteristische Einzelwerte. **Lagemaße** beschreiben, wo sich die Mitte oder der Schwerpunkt der Daten befindet.</span>
+<span id="cb9-849"><a href="#cb9-849" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-850"><a href="#cb9-850" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Lagemaß <span class="pp">|</span> Für welche Skala? <span class="pp">|</span> Robust? <span class="pp">|</span> Python <span class="pp">|</span></span>
+<span id="cb9-851"><a href="#cb9-851" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|------------------|---------|--------|</span></span>
+<span id="cb9-852"><a href="#cb9-852" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Modalwert** <span class="pp">|</span> nominal, ordinal, kardinal <span class="pp">|</span> – <span class="pp">|</span> <span class="in">`.mode()`</span> <span class="pp">|</span></span>
+<span id="cb9-853"><a href="#cb9-853" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Median** <span class="pp">|</span> ordinal, kardinal <span class="pp">|</span> ✓ ja <span class="pp">|</span> <span class="in">`.median()`</span> <span class="pp">|</span></span>
+<span id="cb9-854"><a href="#cb9-854" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Arithm. Mittel** <span class="pp">|</span> kardinal <span class="pp">|</span> ✗ nein <span class="pp">|</span> <span class="in">`.mean()`</span> <span class="pp">|</span></span>
+<span id="cb9-855"><a href="#cb9-855" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Geom. Mittel** <span class="pp">|</span> kardinal (nur $&gt;0$) <span class="pp">|</span> – <span class="pp">|</span> <span class="in">`gmean()`</span> <span class="pp">|</span></span>
+<span id="cb9-856"><a href="#cb9-856" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-857"><a href="#cb9-857" aria-hidden="true" tabindex="-1"></a>Der **Boxplot** fasst die Verteilung mit 5 Kennzahlen grafisch zusammen: Minimum, $Q_1$, Median, $Q_3$, Maximum. Er eignet sich besonders gut zum Vergleich mehrerer Gruppen.</span>
+<span id="cb9-858"><a href="#cb9-858" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-859"><a href="#cb9-859" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-860"><a href="#cb9-860" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-861"><a href="#cb9-861" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-862"><a href="#cb9-862" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissenstest</span></span>
+<span id="cb9-863"><a href="#cb9-863" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-866"><a href="#cb9-866" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
+<span id="cb9-867"><a href="#cb9-867" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb9-868"><a href="#cb9-868" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
+<span id="cb9-869"><a href="#cb9-869" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
+<span id="cb9-870"><a href="#cb9-870" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
+<span id="cb9-871"><a href="#cb9-871" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb9-872"><a href="#cb9-872" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-873"><a href="#cb9-873" aria-hidden="true" tabindex="-1"></a><span class="in">### Was ist der Modalwert einer Stichprobe?</span></span>
+<span id="cb9-874"><a href="#cb9-874" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-875"><a href="#cb9-875" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das arithmetische Mittel aller Werte</span></span>
+<span id="cb9-876"><a href="#cb9-876" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Merkmalsausprägung, die am häufigsten vorkommt</span></span>
+<span id="cb9-877"><a href="#cb9-877" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Modalwert ist die häufigste Ausprägung.</span></span>
+<span id="cb9-878"><a href="#cb9-878" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der mittlere Wert der sortierten Stichprobe</span></span>
+<span id="cb9-879"><a href="#cb9-879" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Durchschnitt des größten und kleinsten Werts</span></span>
+<span id="cb9-880"><a href="#cb9-880" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-881"><a href="#cb9-881" aria-hidden="true" tabindex="-1"></a><span class="in">### Eine Stichprobe enthält die Werte: 4, 7, 7, 9, 13. Wie lautet das arithmetische Mittel?</span></span>
+<span id="cb9-882"><a href="#cb9-882" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-883"><a href="#cb9-883" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 7</span></span>
+<span id="cb9-884"><a href="#cb9-884" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 8</span></span>
+<span id="cb9-885"><a href="#cb9-885" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] 8</span></span>
+<span id="cb9-886"><a href="#cb9-886" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Das arithmetische Mittel ist $(4+7+7+9+13)/5 = 40/5 = 8$.</span></span>
+<span id="cb9-887"><a href="#cb9-887" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 9</span></span>
+<span id="cb9-888"><a href="#cb9-888" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-889"><a href="#cb9-889" aria-hidden="true" tabindex="-1"></a><span class="in">Warte – zwei Antworten sehen gleich aus. Wähle 8!</span></span>
+<span id="cb9-890"><a href="#cb9-890" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-891"><a href="#cb9-891" aria-hidden="true" tabindex="-1"></a><span class="in">### Die Stichprobe 3, 5, 7, 9, 11 hat den Median 7. Jetzt wird ein Ausreißer 300 hinzugefügt: 3, 5, 7, 9, 11, 300. Was passiert mit dem Median?</span></span>
+<span id="cb9-892"><a href="#cb9-892" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-893"><a href="#cb9-893" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Der Median verändert sich kaum (er wird 8)</span></span>
+<span id="cb9-894"><a href="#cb9-894" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Bei 6 Werten ist der Median (7+9)/2 = 8. Der Ausreißer 300 hat kaum Einfluss.</span></span>
+<span id="cb9-895"><a href="#cb9-895" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Median springt stark nach oben</span></span>
+<span id="cb9-896"><a href="#cb9-896" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Median bleibt genau 7</span></span>
+<span id="cb9-897"><a href="#cb9-897" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Median kann nicht mehr berechnet werden</span></span>
+<span id="cb9-898"><a href="#cb9-898" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-899"><a href="#cb9-899" aria-hidden="true" tabindex="-1"></a><span class="in">### Du analysierst Haushaltseinkommen in Deutschland. Welches Lagemaß ist sinnvoller: Mittelwert oder Median?</span></span>
+<span id="cb9-900"><a href="#cb9-900" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-901"><a href="#cb9-901" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Der Mittelwert, da er alle Werte berücksichtigt</span></span>
+<span id="cb9-902"><a href="#cb9-902" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Der Median, da sehr hohe Einkommen den Mittelwert verzerren würden</span></span>
+<span id="cb9-903"><a href="#cb9-903" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Genau! Einkommen sind rechtsschief verteilt – wenige sehr Reiche treiben den Mittelwert nach oben. Der Median bildet die „typische" Situation besser ab.</span></span>
+<span id="cb9-904"><a href="#cb9-904" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Beide sind gleich gut geeignet</span></span>
+<span id="cb9-905"><a href="#cb9-905" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Weder noch – man sollte nur den Modalwert verwenden</span></span>
+<span id="cb9-906"><a href="#cb9-906" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-907"><a href="#cb9-907" aria-hidden="true" tabindex="-1"></a><span class="in">### Was beschreibt das erste Quartil $Q_1$?</span></span>
+<span id="cb9-908"><a href="#cb9-908" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-909"><a href="#cb9-909" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den kleinsten Wert der Stichprobe</span></span>
+<span id="cb9-910"><a href="#cb9-910" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Das 25 %-Quantil – 25 % der Werte liegen unterhalb davon</span></span>
+<span id="cb9-911"><a href="#cb9-911" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! $Q_1 = \tilde{x}_{0{,}25}$ teilt die untersten 25 % der Daten ab.</span></span>
+<span id="cb9-912"><a href="#cb9-912" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Mittelwert der unteren Hälfte</span></span>
+<span id="cb9-913"><a href="#cb9-913" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Median der Stichprobe</span></span>
+<span id="cb9-914"><a href="#cb9-914" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-915"><a href="#cb9-915" aria-hidden="true" tabindex="-1"></a><span class="in">### Wie breit ist die Box in einem Boxplot?</span></span>
+<span id="cb9-916"><a href="#cb9-916" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-917"><a href="#cb9-917" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Vom Minimum bis zum Maximum</span></span>
+<span id="cb9-918"><a href="#cb9-918" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Zweimal die Standardabweichung</span></span>
+<span id="cb9-919"><a href="#cb9-919" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Vom ersten Quartil $Q_1$ bis zum dritten Quartil $Q_3$ (= IQR)</span></span>
+<span id="cb9-920"><a href="#cb9-920" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Korrekt! Die Boxbreite entspricht dem Interquartilsabstand IQR = $Q_3 - Q_1$ und enthält ca. 50 % der Daten.</span></span>
+<span id="cb9-921"><a href="#cb9-921" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Vom Minimum bis zum Median</span></span>
+<span id="cb9-922"><a href="#cb9-922" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-923"><a href="#cb9-923" aria-hidden="true" tabindex="-1"></a><span class="in">### Im verfeinerten Boxplot werden Punkte außerhalb der Antennen als Ausreißer markiert. Wo enden die Antennen?</span></span>
+<span id="cb9-924"><a href="#cb9-924" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-925"><a href="#cb9-925" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Bei Minimum und Maximum</span></span>
+<span id="cb9-926"><a href="#cb9-926" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Bei $Q_1 - \text{IQR}$ und $Q_3 + \text{IQR}$</span></span>
+<span id="cb9-927"><a href="#cb9-927" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Bei der letzten Beobachtung innerhalb von $Q_1 - 1{,}5 \cdot \text{IQR}$ bzw. $Q_3 + 1{,}5 \cdot \text{IQR}$</span></span>
+<span id="cb9-928"><a href="#cb9-928" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Genau! Werte jenseits dieser Grenzen werden als einzelne Punkte (potenzielle Ausreißer) eingezeichnet.</span></span>
+<span id="cb9-929"><a href="#cb9-929" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Bei einem Standardabweichung vom Mittelwert</span></span>
+<span id="cb9-930"><a href="#cb9-930" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

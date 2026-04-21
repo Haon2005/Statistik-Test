@@ -162,11 +162,11 @@ Das Warum des Faktors $1/(n-1)$ statt $1/n$ beim Varianz-Schätzer erklären wir
 ### Beispiel: Pinguindaten
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
 import numpy as np
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 adelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()
 
 mu_hat   = adelie.mean()           # Schätzwert für μ
@@ -181,10 +181,10 @@ print(f"Geschätzte Standardabw.:    σ̂  = {s_hat:.1f} g")
 ```
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Anteil der weiblichen Tiere unter den Adélie-Pinguinen schätzen
 adelie = penguins[penguins['species'] == 'Adelie'].dropna(subset=['sex'])
@@ -256,12 +256,12 @@ Du hast Zugriff auf die Körpermassen der Chinstrap-Pinguine. Schätze daraus di
 3. Erstelle ein Histogramm der 500 Stichprobenmittelwerte. Was beobachtest du?
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
 import numpy as np
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
 
 # Dein Code hier

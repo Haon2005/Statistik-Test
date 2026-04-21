@@ -52,9 +52,9 @@ Arten** – die Stichprobe soll uns etwas über die Grundgesamtheit verraten.
 
 ```{pyodide-python}
 #| read-only: true
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 print(penguins.head())
 print(f"\n{penguins.shape[0]} Pinguine, {penguins.shape[1]} Merkmale")
 ```

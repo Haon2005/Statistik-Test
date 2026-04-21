@@ -710,7 +710,7 @@ window.Quarto = {
 <p>Ein kleiner p-Wert bedeutet: Die Daten sind unter <span class="math inline">H_0</span> sehr unwahrscheinlich → starke Evidenz gegen <span class="math inline">H_0</span>.</p>
 </div>
 </div>
-<div id="088c2363" class="cell" data-execution_count="2">
+<div id="6588d0f3" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -758,7 +758,7 @@ window.Quarto = {
 <section id="statistische-vs.-praktische-signifikanz" class="level2">
 <h2 class="anchored" data-anchor-id="statistische-vs.-praktische-signifikanz">Statistische vs.&nbsp;praktische Signifikanz</h2>
 <p>Ein häufiges Missverständnis: Ein <strong>statistisch signifikantes</strong> Ergebnis ist nicht automatisch <strong>praktisch relevant</strong>.</p>
-<div id="181ca88d" class="cell" data-execution_count="3">
+<div id="781ab3a8" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -786,11 +786,11 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="aufgabe-hypothesentest-zur-flossenlänge">Aufgabe: Hypothesentest zur Flossenlänge</h4>
 <p>In einem Lehrbuch steht, die durchschnittliche Flossenlänge von Adélie-Pinguinen betrage 190 mm. Überprüfe diese Behauptung mit einem Hypothesentest.</p>
 <p><strong>Aufgabe:</strong> 1. Formuliere <span class="math inline">H_0</span> und <span class="math inline">H_1</span> für den Test (<span class="math inline">\alpha = 0{,}05</span>). 2. Berechne den p-Wert mit einem Einstichproben-t-Test. 3. Triff eine Entscheidung und formuliere sie in einem vollständigen Satz.</p>
-<pre class="{pyodide-python}"><code>#| packages: ["palmerpenguins"]
-from scipy import stats
-from palmerpenguins import load_penguins
+<pre class="{pyodide-python}"><code>from scipy import stats
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 adelie_flipper = penguins[penguins['species'] == 'Adelie']['flipper_length_mm'].dropna()
 
 # Dein Code hier</code></pre>
@@ -1708,11 +1708,11 @@ shuffleAnswers: true
 <span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Triff eine Entscheidung und formuliere sie in einem vollständigen Satz.</span>
 <span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a>adelie_flipper <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'flipper_length_mm'</span>].dropna()</span>
 <span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>

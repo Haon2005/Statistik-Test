@@ -331,7 +331,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\nbill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\n\nn = len(bill)\nx_bar = bill.mean()\nsigma = 2.5       # angenommene bekannte Standardabweichung\nalpha = 0.05      # Irrtumswahrscheinlichkeit für 95%-KI\n\nz = stats.norm.ppf(1 - alpha/2)   # z_{0.975} = 1.96\nmargin = z * sigma / np.sqrt(n)\n\nlo, hi = x_bar - margin, x_bar + margin\n\nprint(f\"n = {n},  x̄ = {x_bar:.2f} mm\")\nprint(f\"z = {z:.3f}\")\nprint(f\"Halbbreite Δ = {margin:.2f} mm\")\nprint(f\"95%-KI: [{lo:.2f}, {hi:.2f}] mm\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\nbill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\n\n# Alternativ: scipy.stats.norm.interval\nn = len(bill)\nx_bar = bill.mean()\nsigma = 2.5\n\nlo, hi = stats.norm.interval(confidence=0.95, loc=x_bar, scale=sigma/np.sqrt(n))\nprint(f\"95%-KI: [{lo:.2f}, {hi:.2f}] mm\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\nmasse = penguins['body_mass_g'].dropna()\n\nn = len(masse)\nx_bar = masse.mean()\ns = masse.std()        # Stichproben-SD (mit n-1)\nalpha = 0.05           # 95%-KI\n\nt_crit = stats.t.ppf(1 - alpha/2, df=n-1)\nmargin = t_crit * s / np.sqrt(n)\n\nprint(f\"n = {n},  x̄ = {x_bar:.1f} g,  s = {s:.1f} g\")\nprint(f\"t-Quantil (df={n-1}): {t_crit:.4f}\")\nprint(f\"Halbbreite Δ = {margin:.1f} g\")\nprint(f\"95%-KI: [{x_bar - margin:.1f}, {x_bar + margin:.1f}] g\")","id":3,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\n\npenguins = load_penguins()\nmasse = penguins['body_mass_g'].dropna()\n\n# Direkt mit scipy.stats.t.interval\nlo, hi = stats.t.interval(confidence=0.95, df=len(masse)-1,\n                           loc=masse.mean(), scale=masse.sem())\nprint(f\"95%-KI für das mittlere Körpergewicht aller Pinguine: [{lo:.1f}, {hi:.1f}] g\")","id":4,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"import numpy as np\nfrom scipy import stats\nimport matplotlib.pyplot as plt\n\n# Experiment: 50 simulierte Stichproben, jedes KI prüfen\nnp.random.seed(42)\ntrue_mu = 3700.0    # wahres Mittelgewicht (Simulation)\ntrue_sigma = 460.0  # wahre Streuung (bekannt)\nn = 30              # Stichprobengröße\nalpha = 0.05        # 95%-KI\nm = 50              # Anzahl der Stichproben\n\nfig, ax = plt.subplots(figsize=(10, 7))\nhits = 0\n\nfor i in range(m):\n    sample = np.random.normal(true_mu, true_sigma, n)\n    x_bar = sample.mean()\n    lo, hi = stats.norm.interval(0.95, loc=x_bar, scale=true_sigma/np.sqrt(n))\n    contains = (lo <= true_mu <= hi)\n    if contains: hits += 1\n    col = '#0a9396' if contains else '#ae2012'\n    ax.hlines(i, lo, hi, color=col, lw=2, alpha=0.85)\n    ax.plot(x_bar, i, 'o', color=col, ms=5)\n\nax.axvline(true_mu, color='k', lw=2, ls='--', label=f'μ = {true_mu:.0f} g')\nax.set_xlabel('Körpermasse (g)')\nax.set_title(f'95%-KIs: {hits}/{m} ({hits/m*100:.0f}%) enthalten μ')\nax.legend()\nplt.tight_layout()\nplt.show()","id":5,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\n\nprint(f\"{'Art':<12} {'n':>5} {'x̄ (g)':>10} {'SE':>8} {'95%-KI':>25}\")\nprint(\"-\" * 65)\n\nfor species in ['Adelie', 'Chinstrap', 'Gentoo']:\n    masse = penguins[penguins['species'] == species]['body_mass_g'].dropna()\n    n = len(masse)\n    x_bar = masse.mean()\n    se = masse.sem()   # s / sqrt(n)\n    lo, hi = stats.t.interval(0.95, df=n-1, loc=x_bar, scale=se)\n    print(f\"{species:<12} {n:>5} {x_bar:>10.1f} {se:>8.1f}  [{lo:>7.1f}, {hi:>7.1f}]\")","id":6,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"import numpy as np\nfrom scipy import stats\nfrom palmerpenguins import load_penguins\n\npenguins = load_penguins()\ngentoo_bill = penguins[penguins['species'] == 'Gentoo']['bill_length_mm'].dropna()\n\n# Dein Code hier","id":7,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nfrom scipy import stats\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nbill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\n\nn = len(bill)\nx_bar = bill.mean()\nsigma = 2.5       # angenommene bekannte Standardabweichung\nalpha = 0.05      # Irrtumswahrscheinlichkeit für 95%-KI\n\nz = stats.norm.ppf(1 - alpha/2)   # z_{0.975} = 1.96\nmargin = z * sigma / np.sqrt(n)\n\nlo, hi = x_bar - margin, x_bar + margin\n\nprint(f\"n = {n},  x̄ = {x_bar:.2f} mm\")\nprint(f\"z = {z:.3f}\")\nprint(f\"Halbbreite Δ = {margin:.2f} mm\")\nprint(f\"95%-KI: [{lo:.2f}, {hi:.2f}] mm\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy import stats\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nbill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\n\n# Alternativ: scipy.stats.norm.interval\nn = len(bill)\nx_bar = bill.mean()\nsigma = 2.5\n\nlo, hi = stats.norm.interval(confidence=0.95, loc=x_bar, scale=sigma/np.sqrt(n))\nprint(f\"95%-KI: [{lo:.2f}, {hi:.2f}] mm\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy import stats\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nmasse = penguins['body_mass_g'].dropna()\n\nn = len(masse)\nx_bar = masse.mean()\ns = masse.std()        # Stichproben-SD (mit n-1)\nalpha = 0.05           # 95%-KI\n\nt_crit = stats.t.ppf(1 - alpha/2, df=n-1)\nmargin = t_crit * s / np.sqrt(n)\n\nprint(f\"n = {n},  x̄ = {x_bar:.1f} g,  s = {s:.1f} g\")\nprint(f\"t-Quantil (df={n-1}): {t_crit:.4f}\")\nprint(f\"Halbbreite Δ = {margin:.1f} g\")\nprint(f\"95%-KI: [{x_bar - margin:.1f}, {x_bar + margin:.1f}] g\")","id":3,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy import stats\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nmasse = penguins['body_mass_g'].dropna()\n\n# Direkt mit scipy.stats.t.interval\nlo, hi = stats.t.interval(confidence=0.95, df=len(masse)-1,\n                           loc=masse.mean(), scale=masse.sem())\nprint(f\"95%-KI für das mittlere Körpergewicht aller Pinguine: [{lo:.1f}, {hi:.1f}] g\")","id":4,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import numpy as np\nfrom scipy import stats\nimport matplotlib.pyplot as plt\n\n# Experiment: 50 simulierte Stichproben, jedes KI prüfen\nnp.random.seed(42)\ntrue_mu = 3700.0    # wahres Mittelgewicht (Simulation)\ntrue_sigma = 460.0  # wahre Streuung (bekannt)\nn = 30              # Stichprobengröße\nalpha = 0.05        # 95%-KI\nm = 50              # Anzahl der Stichproben\n\nfig, ax = plt.subplots(figsize=(10, 7))\nhits = 0\n\nfor i in range(m):\n    sample = np.random.normal(true_mu, true_sigma, n)\n    x_bar = sample.mean()\n    lo, hi = stats.norm.interval(0.95, loc=x_bar, scale=true_sigma/np.sqrt(n))\n    contains = (lo <= true_mu <= hi)\n    if contains: hits += 1\n    col = '#0a9396' if contains else '#ae2012'\n    ax.hlines(i, lo, hi, color=col, lw=2, alpha=0.85)\n    ax.plot(x_bar, i, 'o', color=col, ms=5)\n\nax.axvline(true_mu, color='k', lw=2, ls='--', label=f'μ = {true_mu:.0f} g')\nax.set_xlabel('Körpermasse (g)')\nax.set_title(f'95%-KIs: {hits}/{m} ({hits/m*100:.0f}%) enthalten μ')\nax.legend()\nplt.tight_layout()\nplt.show()","id":5,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy import stats\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\n\nprint(f\"{'Art':<12} {'n':>5} {'x̄ (g)':>10} {'SE':>8} {'95%-KI':>25}\")\nprint(\"-\" * 65)\n\nfor species in ['Adelie', 'Chinstrap', 'Gentoo']:\n    masse = penguins[penguins['species'] == species]['body_mass_g'].dropna()\n    n = len(masse)\n    x_bar = masse.mean()\n    se = masse.sem()   # s / sqrt(n)\n    lo, hi = stats.t.interval(0.95, df=n-1, loc=x_bar, scale=se)\n    print(f\"{species:<12} {n:>5} {x_bar:>10.1f} {se:>8.1f}  [{lo:>7.1f}, {hi:>7.1f}]\")","id":6,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import numpy as np\nimport pandas as pd\nfrom scipy import stats\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\ngentoo_bill = penguins[penguins['species'] == 'Gentoo']['bill_length_mm'].dropna()\n\n# Dein Code hier","id":7,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1129,7 +1129,7 @@ window.Quarto = {
 <p><strong>Richtig:</strong> “Das Verfahren, das dieses Intervall erzeugt, liefert bei 95 % aller möglichen Stichproben ein Intervall, das den wahren Parameter enthält.”</p>
 </div>
 </div>
-<div id="66a398bc" class="cell" data-execution_count="2">
+<div id="6bf7e2b5" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1185,7 +1185,7 @@ window.Quarto = {
 </section>
 <section id="die-t-verteilung" class="level3">
 <h3 class="anchored" data-anchor-id="die-t-verteilung">Die t-Verteilung</h3>
-<div id="d4c4fae1" class="cell" data-execution_count="3">
+<div id="42c7fc60" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1270,7 +1270,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="einflüsse-auf-die-intervallbreite">Einflüsse auf die Intervallbreite</h2>
 <p>Die Breite eines Konfidenzintervalls hängt von drei Faktoren ab:</p>
 <p><span class="math display">\text{Breite} = 2 \cdot t_{n-1;\,1-\alpha/2} \cdot \frac{s}{\sqrt{n}}</span></p>
-<div id="3fe05ff3" class="cell" data-execution_count="4">
+<div id="32f2d166" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1313,7 +1313,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="praxisbeispiel-konfidenzintervalle-nach-pinguinart">Praxisbeispiel: Konfidenzintervalle nach Pinguinart</h2>
 <div id="qpyodide-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="117fdedb" class="cell" data-execution_count="5">
+<div id="73dd9967" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2119,12 +2119,12 @@ shuffleAnswers: true
 <span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>Wir schätzen die mittlere Schnabellänge aller Adélie-Pinguine. Wir nehmen an, dass $\sigma = 2{,}5$ mm bekannt ist.</span>
 <span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
 <span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(bill)</span>
@@ -2144,12 +2144,12 @@ shuffleAnswers: true
 <span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
 <span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternativ: scipy.stats.norm.interval</span></span>
@@ -2228,12 +2228,12 @@ shuffleAnswers: true
 <span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### Beispiel: Körpermasse aller Pinguine</span></span>
 <span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a>masse <span class="op">=</span> penguins[<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(masse)</span>
@@ -2251,11 +2251,11 @@ shuffleAnswers: true
 <span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>masse <span class="op">=</span> penguins[<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="co"># Direkt mit scipy.stats.t.interval</span></span>
@@ -2336,222 +2336,221 @@ shuffleAnswers: true
 <span id="cb2-384"><a href="#cb2-384" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simulation: Viele Konfidenzintervalle</span></span>
 <span id="cb2-385"><a href="#cb2-385" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-386"><a href="#cb2-386" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-387"><a href="#cb2-387" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-388"><a href="#cb2-388" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-390"><a href="#cb2-390" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-391"><a href="#cb2-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-392"><a href="#cb2-392" aria-hidden="true" tabindex="-1"></a><span class="co"># Experiment: 50 simulierte Stichproben, jedes KI prüfen</span></span>
-<span id="cb2-393"><a href="#cb2-393" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb2-394"><a href="#cb2-394" aria-hidden="true" tabindex="-1"></a>true_mu <span class="op">=</span> <span class="fl">3700.0</span>    <span class="co"># wahres Mittelgewicht (Simulation)</span></span>
-<span id="cb2-395"><a href="#cb2-395" aria-hidden="true" tabindex="-1"></a>true_sigma <span class="op">=</span> <span class="fl">460.0</span>  <span class="co"># wahre Streuung (bekannt)</span></span>
-<span id="cb2-396"><a href="#cb2-396" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">30</span>              <span class="co"># Stichprobengröße</span></span>
-<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span>        <span class="co"># 95%-KI</span></span>
-<span id="cb2-398"><a href="#cb2-398" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">50</span>              <span class="co"># Anzahl der Stichproben</span></span>
-<span id="cb2-399"><a href="#cb2-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-400"><a href="#cb2-400" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
-<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a>hits <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(m):</span>
-<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a>    sample <span class="op">=</span> np.random.normal(true_mu, true_sigma, n)</span>
-<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a>    x_bar <span class="op">=</span> sample.mean()</span>
-<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.norm.interval(<span class="fl">0.95</span>, loc<span class="op">=</span>x_bar, scale<span class="op">=</span>true_sigma<span class="op">/</span>np.sqrt(n))</span>
-<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a>    contains <span class="op">=</span> (lo <span class="op">&lt;=</span> true_mu <span class="op">&lt;=</span> hi)</span>
-<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> contains: hits <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a>    col <span class="op">=</span> <span class="st">'#0a9396'</span> <span class="cf">if</span> contains <span class="cf">else</span> <span class="st">'#ae2012'</span></span>
-<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a>    ax.hlines(i, lo, hi, color<span class="op">=</span>col, lw<span class="op">=</span><span class="dv">2</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
-<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_bar, i, <span class="st">'o'</span>, color<span class="op">=</span>col, ms<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a>ax.axvline(true_mu, color<span class="op">=</span><span class="st">'k'</span>, lw<span class="op">=</span><span class="dv">2</span>, ls<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'μ = </span><span class="sc">{</span>true_mu<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
-<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Körpermasse (g)'</span>)</span>
-<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f'95%-KIs: </span><span class="sc">{</span>hits<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>hits<span class="op">/</span>m<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%) enthalten μ'</span>)</span>
-<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-422"><a href="#cb2-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-423"><a href="#cb2-423" aria-hidden="true" tabindex="-1"></a><span class="fu">## Praxisbeispiel: Konfidenzintervalle nach Pinguinart</span></span>
-<span id="cb2-424"><a href="#cb2-424" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-425"><a href="#cb2-425" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-426"><a href="#cb2-426" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-427"><a href="#cb2-427" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-428"><a href="#cb2-428" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-429"><a href="#cb2-429" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-430"><a href="#cb2-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-431"><a href="#cb2-431" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb2-432"><a href="#cb2-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-433"><a href="#cb2-433" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Art'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'n'</span><span class="sc">:&gt;5}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'x̄ (g)'</span><span class="sc">:&gt;10}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'SE'</span><span class="sc">:&gt;8}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'95%-KI'</span><span class="sc">:&gt;25}</span><span class="ss">"</span>)</span>
-<span id="cb2-434"><a href="#cb2-434" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">65</span>)</span>
-<span id="cb2-435"><a href="#cb2-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-436"><a href="#cb2-436" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> species <span class="kw">in</span> [<span class="st">'Adelie'</span>, <span class="st">'Chinstrap'</span>, <span class="st">'Gentoo'</span>]:</span>
-<span id="cb2-437"><a href="#cb2-437" aria-hidden="true" tabindex="-1"></a>    masse <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> species][<span class="st">'body_mass_g'</span>].dropna()</span>
-<span id="cb2-438"><a href="#cb2-438" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(masse)</span>
-<span id="cb2-439"><a href="#cb2-439" aria-hidden="true" tabindex="-1"></a>    x_bar <span class="op">=</span> masse.mean()</span>
-<span id="cb2-440"><a href="#cb2-440" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> masse.sem()   <span class="co"># s / sqrt(n)</span></span>
-<span id="cb2-441"><a href="#cb2-441" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.t.interval(<span class="fl">0.95</span>, df<span class="op">=</span>n<span class="op">-</span><span class="dv">1</span>, loc<span class="op">=</span>x_bar, scale<span class="op">=</span>se)</span>
-<span id="cb2-442"><a href="#cb2-442" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>species<span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span>n<span class="sc">:&gt;5}</span><span class="ss"> </span><span class="sc">{</span>x_bar<span class="sc">:&gt;10.1f}</span><span class="ss"> </span><span class="sc">{</span>se<span class="sc">:&gt;8.1f}</span><span class="ss">  [</span><span class="sc">{</span>lo<span class="sc">:&gt;7.1f}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">:&gt;7.1f}</span><span class="ss">]"</span>)</span>
-<span id="cb2-443"><a href="#cb2-443" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-444"><a href="#cb2-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-447"><a href="#cb2-447" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb2-448"><a href="#cb2-448" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb2-449"><a href="#cb2-449" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb2-450"><a href="#cb2-450" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
-<span id="cb2-451"><a href="#cb2-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-452"><a href="#cb2-452" aria-hidden="true" tabindex="-1"></a>species_list <span class="op">=</span> [<span class="st">'Adelie'</span>, <span class="st">'Chinstrap'</span>, <span class="st">'Gentoo'</span>]</span>
-<span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#0a9396'</span>, <span class="st">'#ae2012'</span>, <span class="st">'#ca6702'</span>]</span>
-<span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-455"><a href="#cb2-455" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (spec, col) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(species_list, colors)):</span>
-<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a>    masse <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> spec][<span class="st">'body_mass_g'</span>].dropna()</span>
-<span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(masse)</span>
-<span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>    x_bar <span class="op">=</span> masse.mean()</span>
-<span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> masse.sem()</span>
-<span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.t.interval(<span class="fl">0.95</span>, df<span class="op">=</span>n<span class="op">-</span><span class="dv">1</span>, loc<span class="op">=</span>x_bar, scale<span class="op">=</span>se)</span>
-<span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a>    ax.errorbar(x_bar, i, xerr<span class="op">=</span>x_bar<span class="op">-</span>lo, fmt<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span>col, capsize<span class="op">=</span><span class="dv">6</span>,</span>
-<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a>                ms<span class="op">=</span><span class="dv">8</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>spec<span class="sc">}</span><span class="ss"> (n=</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">)'</span>)</span>
-<span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="dv">3</span>))</span>
-<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(species_list)</span>
-<span id="cb2-466"><a href="#cb2-466" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Körpermasse (g)'</span>)</span>
-<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'95%-Konfidenzintervalle für die mittlere Körpermasse</span><span class="ch">\n</span><span class="st">der drei Pinguinarten'</span>)</span>
-<span id="cb2-468"><a href="#cb2-468" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>, axis<span class="op">=</span><span class="st">'x'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb2-470"><a href="#cb2-470" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-474"><a href="#cb2-474" aria-hidden="true" tabindex="-1"></a>Die Konfidenzintervalle überschneiden sich **nicht** – das deutet darauf hin, dass die mittleren</span>
-<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a>Körpermassen der drei Arten sich statistisch signifikant unterscheiden.</span>
-<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
-<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: Konfidenzintervall für die Schnabellänge</span></span>
-<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-480"><a href="#cb2-480" aria-hidden="true" tabindex="-1"></a>Berechne ein Konfidenzintervall für die mittlere Schnabellänge der Gentoo-Pinguine und untersuche, wie das Konfidenzniveau die Intervallbreite beeinflusst.</span>
-<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-482"><a href="#cb2-482" aria-hidden="true" tabindex="-1"></a>**Aufgabe:**</span>
-<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Berechne das 95%-Konfidenzintervall für die mittlere Schnabellänge (<span class="in">`bill_length_mm`</span>) der Gentoo-Pinguine.</span>
-<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Berechne dasselbe Intervall für 90% und 99% Konfidenzniveau. Wie verändert sich die Breite?</span>
-<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Wie würde sich das 95%-KI verändern, wenn du den Stichprobenumfang verdoppelst? Überprüfe es mit einer simulierten Stichprobe.</span>
-<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-492"><a href="#cb2-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-493"><a href="#cb2-493" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb2-494"><a href="#cb2-494" aria-hidden="true" tabindex="-1"></a>gentoo_bill <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Gentoo'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
-<span id="cb2-495"><a href="#cb2-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-496"><a href="#cb2-496" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
-<span id="cb2-497"><a href="#cb2-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-498"><a href="#cb2-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-499"><a href="#cb2-499" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 1" collapse="true"}</span>
-<span id="cb2-500"><a href="#cb2-500" aria-hidden="true" tabindex="-1"></a>Da σ unbekannt ist, verwende das t-Intervall: <span class="in">`stats.t.interval(confidence=0.95, df=n-1, loc=x_bar, scale=se)`</span> mit <span class="in">`se = gentoo_bill.sem()`</span> (Standardfehler). Ändere <span class="in">`confidence=`</span> auf 0.90 bzw. 0.99 für die anderen Niveaus. Die Intervallbreite = <span class="in">`hi - lo`</span>.</span>
-<span id="cb2-501"><a href="#cb2-501" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-502"><a href="#cb2-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-503"><a href="#cb2-503" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 2" collapse="true"}</span>
-<span id="cb2-504"><a href="#cb2-504" aria-hidden="true" tabindex="-1"></a>Um den Effekt des Stichprobenumfangs zu sehen: Berechne die KI-Breite theoretisch mit $\text{Breite} = 2 \cdot t_{n-1;\,0{,}975} \cdot s/\sqrt{n}$. Bei doppeltem $n$ wird der Nenner um Faktor $\sqrt{2} \approx 1{,}41$ größer – das KI wird schmaler, aber nicht halb so breit.</span>
-<span id="cb2-505"><a href="#cb2-505" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-506"><a href="#cb2-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-507"><a href="#cb2-507" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
-<span id="cb2-508"><a href="#cb2-508" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb2-509"><a href="#cb2-509" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-510"><a href="#cb2-510" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb2-511"><a href="#cb2-511" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb2-512"><a href="#cb2-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-513"><a href="#cb2-513" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb2-514"><a href="#cb2-514" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Gentoo'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
-<span id="cb2-515"><a href="#cb2-515" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(bill)</span>
-<span id="cb2-516"><a href="#cb2-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-517"><a href="#cb2-517" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> conf <span class="kw">in</span> [<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>]:</span>
-<span id="cb2-518"><a href="#cb2-518" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.t.interval(confidence<span class="op">=</span>conf, df<span class="op">=</span>n<span class="op">-</span><span class="dv">1</span>,</span>
-<span id="cb2-519"><a href="#cb2-519" aria-hidden="true" tabindex="-1"></a>                               loc<span class="op">=</span>bill.mean(), scale<span class="op">=</span>bill.sem())</span>
-<span id="cb2-520"><a href="#cb2-520" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">int</span>(conf<span class="op">*</span><span class="dv">100</span>)<span class="sc">}</span><span class="ss">%-KI: [</span><span class="sc">{</span>lo<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">:.2f}</span><span class="ss">] mm  (Breite: </span><span class="sc">{</span>hi<span class="op">-</span>lo<span class="sc">:.2f}</span><span class="ss"> mm)"</span>)</span>
-<span id="cb2-521"><a href="#cb2-521" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-522"><a href="#cb2-522" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-523"><a href="#cb2-523" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb2-524"><a href="#cb2-524" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-525"><a href="#cb2-525" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-526"><a href="#cb2-526" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-527"><a href="#cb2-527" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
-<span id="cb2-528"><a href="#cb2-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-529"><a href="#cb2-529" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Methode <span class="pp">|</span> Voraussetzung <span class="pp">|</span> Formel <span class="pp">|</span></span>
-<span id="cb2-530"><a href="#cb2-530" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|---------------|--------|</span></span>
-<span id="cb2-531"><a href="#cb2-531" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **z-Intervall** <span class="pp">|</span> $\sigma$ bekannt, Normalverteilung <span class="pp">|</span> $\bar{x} \pm z_{1-\alpha/2} \cdot \sigma/\sqrt{n}$ <span class="pp">|</span></span>
-<span id="cb2-532"><a href="#cb2-532" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **t-Intervall** <span class="pp">|</span> $\sigma$ unbekannt, Normalverteilung <span class="pp">|</span> $\bar{x} \pm t_{n-1;\,1-\alpha/2} \cdot s/\sqrt{n}$ <span class="pp">|</span></span>
-<span id="cb2-533"><a href="#cb2-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-534"><a href="#cb2-534" aria-hidden="true" tabindex="-1"></a>**Korrekte Interpretation:** Ein 95%-Konfidenzintervall bedeutet, dass das Verfahren bei 95 % aller</span>
-<span id="cb2-535"><a href="#cb2-535" aria-hidden="true" tabindex="-1"></a>möglichen Stichproben ein Intervall liefert, das den wahren Parameter enthält. Für ein konkretes</span>
-<span id="cb2-536"><a href="#cb2-536" aria-hidden="true" tabindex="-1"></a>realisiertes Intervall $<span class="co">[</span><span class="ot">a, b</span><span class="co">]</span>$ kann man keine Wahrscheinlichkeitsaussage mehr machen.</span>
-<span id="cb2-537"><a href="#cb2-537" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-538"><a href="#cb2-538" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-539"><a href="#cb2-539" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-540"><a href="#cb2-540" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissensüberprüfung</span></span>
-<span id="cb2-541"><a href="#cb2-541" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-544"><a href="#cb2-544" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
-<span id="cb2-545"><a href="#cb2-545" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb2-546"><a href="#cb2-546" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
-<span id="cb2-547"><a href="#cb2-547" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
-<span id="cb2-548"><a href="#cb2-548" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
-<span id="cb2-549"><a href="#cb2-549" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb2-550"><a href="#cb2-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-551"><a href="#cb2-551" aria-hidden="true" tabindex="-1"></a><span class="in">### Welche Aussage beschreibt die korrekte Interpretation eines 95%-Konfidenzintervalls?</span></span>
-<span id="cb2-552"><a href="#cb2-552" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-553"><a href="#cb2-553" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Mit 95% Wahrscheinlichkeit liegt der wahre Parameter im berechneten Intervall.</span></span>
-<span id="cb2-554"><a href="#cb2-554" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Bei 95% aller Stichproben, die mit diesem Verfahren ausgewertet werden, enthält das resultierende Intervall den wahren Parameter.</span></span>
-<span id="cb2-555"><a href="#cb2-555" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Parameter ist fest – der Zufall liegt im Verfahren, nicht im Parameter.</span></span>
-<span id="cb2-556"><a href="#cb2-556" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 95% der Daten liegen innerhalb des Intervalls.</span></span>
-<span id="cb2-557"><a href="#cb2-557" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall ist zu 95% korrekt berechnet worden.</span></span>
-<span id="cb2-558"><a href="#cb2-558" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-559"><a href="#cb2-559" aria-hidden="true" tabindex="-1"></a><span class="in">### Wann verwendet man das t-Intervall statt des z-Intervalls?</span></span>
-<span id="cb2-560"><a href="#cb2-560" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-561"><a href="#cb2-561" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Wenn die Populationsvarianz σ² unbekannt ist und durch s² geschätzt werden muss.</span></span>
-<span id="cb2-562"><a href="#cb2-562" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die zusätzliche Unsicherheit durch das Schätzen von σ führt zur t-Verteilung.</span></span>
-<span id="cb2-563"><a href="#cb2-563" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Wenn der Stichprobenumfang sehr groß ist.</span></span>
-<span id="cb2-564"><a href="#cb2-564" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Wenn die Daten nicht normalverteilt sind.</span></span>
-<span id="cb2-565"><a href="#cb2-565" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Wenn man genauere Ergebnisse erhalten möchte.</span></span>
-<span id="cb2-566"><a href="#cb2-566" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-567"><a href="#cb2-567" aria-hidden="true" tabindex="-1"></a><span class="in">### Ein 95%-KI für μ hat die Breite 20 g. Wie breit ist das 99%-KI (bei sonst gleichen Bedingungen)?</span></span>
-<span id="cb2-568"><a href="#cb2-568" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-569"><a href="#cb2-569" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Schmaler als 20 g.</span></span>
-<span id="cb2-570"><a href="#cb2-570" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Ebenfalls 20 g.</span></span>
-<span id="cb2-571"><a href="#cb2-571" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Breiter als 20 g.</span></span>
-<span id="cb2-572"><a href="#cb2-572" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Ein höheres Konfidenzniveau erfordert ein breiteres Intervall, da man mehr Parameterwerte einschließen muss.</span></span>
-<span id="cb2-573"><a href="#cb2-573" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Genau 26,4 g (1,99/1,96 × 20 g).</span></span>
-<span id="cb2-574"><a href="#cb2-574" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-575"><a href="#cb2-575" aria-hidden="true" tabindex="-1"></a><span class="in">### Was passiert mit einem 95%-Konfidenzintervall, wenn man den Stichprobenumfang vervierfacht?</span></span>
-<span id="cb2-576"><a href="#cb2-576" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-577"><a href="#cb2-577" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall wird viermal so schmal.</span></span>
-<span id="cb2-578"><a href="#cb2-578" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Das Intervall halbiert sich (wird halb so breit).</span></span>
-<span id="cb2-579"><a href="#cb2-579" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die Breite ist proportional zu 1/√n. √(4n) = 2√n → halbierte Breite.</span></span>
-<span id="cb2-580"><a href="#cb2-580" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall bleibt gleich breit.</span></span>
-<span id="cb2-581"><a href="#cb2-581" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall wird viermal so breit.</span></span>
-<span id="cb2-582"><a href="#cb2-582" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-583"><a href="#cb2-583" aria-hidden="true" tabindex="-1"></a><span class="in">### Ein Forscher berechnet für eine Stichprobe das 95%-KI [100, 120]. Er behauptet: "Der wahre Parameter liegt mit 95% Wahrscheinlichkeit zwischen 100 und 120." Was ist daran falsch?</span></span>
-<span id="cb2-584"><a href="#cb2-584" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-585"><a href="#cb2-585" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Interval ist falsch berechnet.</span></span>
-<span id="cb2-586"><a href="#cb2-586" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Ein 95%-KI kann keine solche Aussage erlauben.</span></span>
-<span id="cb2-587"><a href="#cb2-587" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Nach der Berechnung ist das Intervall [100, 120] deterministisch – entweder liegt μ darin oder nicht. Die 95% beziehen sich auf das Verfahren, nicht auf das realisierte Intervall.</span></span>
-<span id="cb2-588"><a href="#cb2-588" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die Wahrscheinlichkeitsaussage gilt vor der Berechnung für das zufällige Intervall.</span></span>
-<span id="cb2-589"><a href="#cb2-589" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Man müsste das t-Intervall statt das z-Intervall verwenden.</span></span>
-<span id="cb2-590"><a href="#cb2-590" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-591"><a href="#cb2-591" aria-hidden="true" tabindex="-1"></a><span class="in">### Die t-Verteilung unterscheidet sich von der Standardnormalverteilung durch:</span></span>
-<span id="cb2-592"><a href="#cb2-592" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-593"><a href="#cb2-593" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Einen anderen Mittelwert (nicht 0).</span></span>
-<span id="cb2-594"><a href="#cb2-594" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Schwerere Ränder (mehr Wahrscheinlichkeitsmasse in den Extrembereichen), was bei kleinen n zu breiteren Konfidenzintervallen führt.</span></span>
-<span id="cb2-595"><a href="#cb2-595" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die t-Verteilung hat schwerere Ränder, die mit wachsendem n (Freiheitsgraden) gegen die Normalverteilung konvergieren.</span></span>
-<span id="cb2-596"><a href="#cb2-596" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Eine andere Skalierung auf der x-Achse.</span></span>
-<span id="cb2-597"><a href="#cb2-597" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Keine Symmetrie.</span></span>
-<span id="cb2-598"><a href="#cb2-598" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-599"><a href="#cb2-599" aria-hidden="true" tabindex="-1"></a><span class="in">### Drei Pinguinarten haben 95%-Konfidenzintervalle, die sich nicht überschneiden. Was lässt sich daraus schließen?</span></span>
-<span id="cb2-600"><a href="#cb2-600" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-601"><a href="#cb2-601" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Gar nichts – KIs erlauben keine Gruppenvergleiche.</span></span>
-<span id="cb2-602"><a href="#cb2-602" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die wahren Mittelwerte der drei Gruppen unterscheiden sich wahrscheinlich statistisch signifikant.</span></span>
-<span id="cb2-603"><a href="#cb2-603" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Nicht-überschneidende KIs sind ein starkes Indiz für statistisch signifikante Unterschiede. (Genaueres liefern Hypothesentests in Kapitel 3.)</span></span>
-<span id="cb2-604"><a href="#cb2-604" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Stichproben sind zu klein für einen Vergleich.</span></span>
-<span id="cb2-605"><a href="#cb2-605" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Es gibt keine Unterschiede zwischen den Gruppen.</span></span>
-<span id="cb2-606"><a href="#cb2-606" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-387"><a href="#cb2-387" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-388"><a href="#cb2-388" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-390"><a href="#cb2-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-391"><a href="#cb2-391" aria-hidden="true" tabindex="-1"></a><span class="co"># Experiment: 50 simulierte Stichproben, jedes KI prüfen</span></span>
+<span id="cb2-392"><a href="#cb2-392" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb2-393"><a href="#cb2-393" aria-hidden="true" tabindex="-1"></a>true_mu <span class="op">=</span> <span class="fl">3700.0</span>    <span class="co"># wahres Mittelgewicht (Simulation)</span></span>
+<span id="cb2-394"><a href="#cb2-394" aria-hidden="true" tabindex="-1"></a>true_sigma <span class="op">=</span> <span class="fl">460.0</span>  <span class="co"># wahre Streuung (bekannt)</span></span>
+<span id="cb2-395"><a href="#cb2-395" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">30</span>              <span class="co"># Stichprobengröße</span></span>
+<span id="cb2-396"><a href="#cb2-396" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span>        <span class="co"># 95%-KI</span></span>
+<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">50</span>              <span class="co"># Anzahl der Stichproben</span></span>
+<span id="cb2-398"><a href="#cb2-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-399"><a href="#cb2-399" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb2-400"><a href="#cb2-400" aria-hidden="true" tabindex="-1"></a>hits <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(m):</span>
+<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a>    sample <span class="op">=</span> np.random.normal(true_mu, true_sigma, n)</span>
+<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a>    x_bar <span class="op">=</span> sample.mean()</span>
+<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.norm.interval(<span class="fl">0.95</span>, loc<span class="op">=</span>x_bar, scale<span class="op">=</span>true_sigma<span class="op">/</span>np.sqrt(n))</span>
+<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a>    contains <span class="op">=</span> (lo <span class="op">&lt;=</span> true_mu <span class="op">&lt;=</span> hi)</span>
+<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> contains: hits <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a>    col <span class="op">=</span> <span class="st">'#0a9396'</span> <span class="cf">if</span> contains <span class="cf">else</span> <span class="st">'#ae2012'</span></span>
+<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a>    ax.hlines(i, lo, hi, color<span class="op">=</span>col, lw<span class="op">=</span><span class="dv">2</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
+<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_bar, i, <span class="st">'o'</span>, color<span class="op">=</span>col, ms<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a>ax.axvline(true_mu, color<span class="op">=</span><span class="st">'k'</span>, lw<span class="op">=</span><span class="dv">2</span>, ls<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'μ = </span><span class="sc">{</span>true_mu<span class="sc">:.0f}</span><span class="ss"> g'</span>)</span>
+<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Körpermasse (g)'</span>)</span>
+<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f'95%-KIs: </span><span class="sc">{</span>hits<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>hits<span class="op">/</span>m<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%) enthalten μ'</span>)</span>
+<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-422"><a href="#cb2-422" aria-hidden="true" tabindex="-1"></a><span class="fu">## Praxisbeispiel: Konfidenzintervalle nach Pinguinart</span></span>
+<span id="cb2-423"><a href="#cb2-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-424"><a href="#cb2-424" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
+<span id="cb2-425"><a href="#cb2-425" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-426"><a href="#cb2-426" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-427"><a href="#cb2-427" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-428"><a href="#cb2-428" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb2-429"><a href="#cb2-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-430"><a href="#cb2-430" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
+<span id="cb2-431"><a href="#cb2-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-432"><a href="#cb2-432" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Art'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'n'</span><span class="sc">:&gt;5}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'x̄ (g)'</span><span class="sc">:&gt;10}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'SE'</span><span class="sc">:&gt;8}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'95%-KI'</span><span class="sc">:&gt;25}</span><span class="ss">"</span>)</span>
+<span id="cb2-433"><a href="#cb2-433" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb2-434"><a href="#cb2-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-435"><a href="#cb2-435" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> species <span class="kw">in</span> [<span class="st">'Adelie'</span>, <span class="st">'Chinstrap'</span>, <span class="st">'Gentoo'</span>]:</span>
+<span id="cb2-436"><a href="#cb2-436" aria-hidden="true" tabindex="-1"></a>    masse <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> species][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb2-437"><a href="#cb2-437" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(masse)</span>
+<span id="cb2-438"><a href="#cb2-438" aria-hidden="true" tabindex="-1"></a>    x_bar <span class="op">=</span> masse.mean()</span>
+<span id="cb2-439"><a href="#cb2-439" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> masse.sem()   <span class="co"># s / sqrt(n)</span></span>
+<span id="cb2-440"><a href="#cb2-440" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.t.interval(<span class="fl">0.95</span>, df<span class="op">=</span>n<span class="op">-</span><span class="dv">1</span>, loc<span class="op">=</span>x_bar, scale<span class="op">=</span>se)</span>
+<span id="cb2-441"><a href="#cb2-441" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>species<span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span>n<span class="sc">:&gt;5}</span><span class="ss"> </span><span class="sc">{</span>x_bar<span class="sc">:&gt;10.1f}</span><span class="ss"> </span><span class="sc">{</span>se<span class="sc">:&gt;8.1f}</span><span class="ss">  [</span><span class="sc">{</span>lo<span class="sc">:&gt;7.1f}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">:&gt;7.1f}</span><span class="ss">]"</span>)</span>
+<span id="cb2-442"><a href="#cb2-442" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-443"><a href="#cb2-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-446"><a href="#cb2-446" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb2-447"><a href="#cb2-447" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb2-448"><a href="#cb2-448" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb2-449"><a href="#cb2-449" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb2-450"><a href="#cb2-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-451"><a href="#cb2-451" aria-hidden="true" tabindex="-1"></a>species_list <span class="op">=</span> [<span class="st">'Adelie'</span>, <span class="st">'Chinstrap'</span>, <span class="st">'Gentoo'</span>]</span>
+<span id="cb2-452"><a href="#cb2-452" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#0a9396'</span>, <span class="st">'#ae2012'</span>, <span class="st">'#ca6702'</span>]</span>
+<span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (spec, col) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(species_list, colors)):</span>
+<span id="cb2-455"><a href="#cb2-455" aria-hidden="true" tabindex="-1"></a>    masse <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> spec][<span class="st">'body_mass_g'</span>].dropna()</span>
+<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(masse)</span>
+<span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a>    x_bar <span class="op">=</span> masse.mean()</span>
+<span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> masse.sem()</span>
+<span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.t.interval(<span class="fl">0.95</span>, df<span class="op">=</span>n<span class="op">-</span><span class="dv">1</span>, loc<span class="op">=</span>x_bar, scale<span class="op">=</span>se)</span>
+<span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a>    ax.errorbar(x_bar, i, xerr<span class="op">=</span>x_bar<span class="op">-</span>lo, fmt<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span>col, capsize<span class="op">=</span><span class="dv">6</span>,</span>
+<span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a>                ms<span class="op">=</span><span class="dv">8</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>spec<span class="sc">}</span><span class="ss"> (n=</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="dv">3</span>))</span>
+<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(species_list)</span>
+<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Körpermasse (g)'</span>)</span>
+<span id="cb2-466"><a href="#cb2-466" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'95%-Konfidenzintervalle für die mittlere Körpermasse</span><span class="ch">\n</span><span class="st">der drei Pinguinarten'</span>)</span>
+<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb2-468"><a href="#cb2-468" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>, axis<span class="op">=</span><span class="st">'x'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-470"><a href="#cb2-470" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a>Die Konfidenzintervalle überschneiden sich **nicht** – das deutet darauf hin, dass die mittleren</span>
+<span id="cb2-474"><a href="#cb2-474" aria-hidden="true" tabindex="-1"></a>Körpermassen der drei Arten sich statistisch signifikant unterscheiden.</span>
+<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
+<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: Konfidenzintervall für die Schnabellänge</span></span>
+<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a>Berechne ein Konfidenzintervall für die mittlere Schnabellänge der Gentoo-Pinguine und untersuche, wie das Konfidenzniveau die Intervallbreite beeinflusst.</span>
+<span id="cb2-480"><a href="#cb2-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a>**Aufgabe:**</span>
+<span id="cb2-482"><a href="#cb2-482" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Berechne das 95%-Konfidenzintervall für die mittlere Schnabellänge (<span class="in">`bill_length_mm`</span>) der Gentoo-Pinguine.</span>
+<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Berechne dasselbe Intervall für 90% und 99% Konfidenzniveau. Wie verändert sich die Breite?</span>
+<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Wie würde sich das 95%-KI verändern, wenn du den Stichprobenumfang verdoppelst? Überprüfe es mit einer simulierten Stichprobe.</span>
+<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
+<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-492"><a href="#cb2-492" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
+<span id="cb2-493"><a href="#cb2-493" aria-hidden="true" tabindex="-1"></a>gentoo_bill <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Gentoo'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
+<span id="cb2-494"><a href="#cb2-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-495"><a href="#cb2-495" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span>
+<span id="cb2-496"><a href="#cb2-496" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-497"><a href="#cb2-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-498"><a href="#cb2-498" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 1" collapse="true"}</span>
+<span id="cb2-499"><a href="#cb2-499" aria-hidden="true" tabindex="-1"></a>Da σ unbekannt ist, verwende das t-Intervall: <span class="in">`stats.t.interval(confidence=0.95, df=n-1, loc=x_bar, scale=se)`</span> mit <span class="in">`se = gentoo_bill.sem()`</span> (Standardfehler). Ändere <span class="in">`confidence=`</span> auf 0.90 bzw. 0.99 für die anderen Niveaus. Die Intervallbreite = <span class="in">`hi - lo`</span>.</span>
+<span id="cb2-500"><a href="#cb2-500" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-501"><a href="#cb2-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-502"><a href="#cb2-502" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Tipp 2" collapse="true"}</span>
+<span id="cb2-503"><a href="#cb2-503" aria-hidden="true" tabindex="-1"></a>Um den Effekt des Stichprobenumfangs zu sehen: Berechne die KI-Breite theoretisch mit $\text{Breite} = 2 \cdot t_{n-1;\,0{,}975} \cdot s/\sqrt{n}$. Bei doppeltem $n$ wird der Nenner um Faktor $\sqrt{2} \approx 1{,}41$ größer – das KI wird schmaler, aber nicht halb so breit.</span>
+<span id="cb2-504"><a href="#cb2-504" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-505"><a href="#cb2-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-506"><a href="#cb2-506" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
+<span id="cb2-507"><a href="#cb2-507" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb2-508"><a href="#cb2-508" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-509"><a href="#cb2-509" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb2-510"><a href="#cb2-510" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb2-511"><a href="#cb2-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-512"><a href="#cb2-512" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-513"><a href="#cb2-513" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Gentoo'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
+<span id="cb2-514"><a href="#cb2-514" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(bill)</span>
+<span id="cb2-515"><a href="#cb2-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-516"><a href="#cb2-516" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> conf <span class="kw">in</span> [<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>]:</span>
+<span id="cb2-517"><a href="#cb2-517" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> stats.t.interval(confidence<span class="op">=</span>conf, df<span class="op">=</span>n<span class="op">-</span><span class="dv">1</span>,</span>
+<span id="cb2-518"><a href="#cb2-518" aria-hidden="true" tabindex="-1"></a>                               loc<span class="op">=</span>bill.mean(), scale<span class="op">=</span>bill.sem())</span>
+<span id="cb2-519"><a href="#cb2-519" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">int</span>(conf<span class="op">*</span><span class="dv">100</span>)<span class="sc">}</span><span class="ss">%-KI: [</span><span class="sc">{</span>lo<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">:.2f}</span><span class="ss">] mm  (Breite: </span><span class="sc">{</span>hi<span class="op">-</span>lo<span class="sc">:.2f}</span><span class="ss"> mm)"</span>)</span>
+<span id="cb2-520"><a href="#cb2-520" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-521"><a href="#cb2-521" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-522"><a href="#cb2-522" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb2-523"><a href="#cb2-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-524"><a href="#cb2-524" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-525"><a href="#cb2-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-526"><a href="#cb2-526" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
+<span id="cb2-527"><a href="#cb2-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-528"><a href="#cb2-528" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Methode <span class="pp">|</span> Voraussetzung <span class="pp">|</span> Formel <span class="pp">|</span></span>
+<span id="cb2-529"><a href="#cb2-529" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|---------------|--------|</span></span>
+<span id="cb2-530"><a href="#cb2-530" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **z-Intervall** <span class="pp">|</span> $\sigma$ bekannt, Normalverteilung <span class="pp">|</span> $\bar{x} \pm z_{1-\alpha/2} \cdot \sigma/\sqrt{n}$ <span class="pp">|</span></span>
+<span id="cb2-531"><a href="#cb2-531" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **t-Intervall** <span class="pp">|</span> $\sigma$ unbekannt, Normalverteilung <span class="pp">|</span> $\bar{x} \pm t_{n-1;\,1-\alpha/2} \cdot s/\sqrt{n}$ <span class="pp">|</span></span>
+<span id="cb2-532"><a href="#cb2-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-533"><a href="#cb2-533" aria-hidden="true" tabindex="-1"></a>**Korrekte Interpretation:** Ein 95%-Konfidenzintervall bedeutet, dass das Verfahren bei 95 % aller</span>
+<span id="cb2-534"><a href="#cb2-534" aria-hidden="true" tabindex="-1"></a>möglichen Stichproben ein Intervall liefert, das den wahren Parameter enthält. Für ein konkretes</span>
+<span id="cb2-535"><a href="#cb2-535" aria-hidden="true" tabindex="-1"></a>realisiertes Intervall $<span class="co">[</span><span class="ot">a, b</span><span class="co">]</span>$ kann man keine Wahrscheinlichkeitsaussage mehr machen.</span>
+<span id="cb2-536"><a href="#cb2-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-537"><a href="#cb2-537" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-538"><a href="#cb2-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-539"><a href="#cb2-539" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissensüberprüfung</span></span>
+<span id="cb2-540"><a href="#cb2-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-543"><a href="#cb2-543" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
+<span id="cb2-544"><a href="#cb2-544" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb2-545"><a href="#cb2-545" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
+<span id="cb2-546"><a href="#cb2-546" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
+<span id="cb2-547"><a href="#cb2-547" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
+<span id="cb2-548"><a href="#cb2-548" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb2-549"><a href="#cb2-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-550"><a href="#cb2-550" aria-hidden="true" tabindex="-1"></a><span class="in">### Welche Aussage beschreibt die korrekte Interpretation eines 95%-Konfidenzintervalls?</span></span>
+<span id="cb2-551"><a href="#cb2-551" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-552"><a href="#cb2-552" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Mit 95% Wahrscheinlichkeit liegt der wahre Parameter im berechneten Intervall.</span></span>
+<span id="cb2-553"><a href="#cb2-553" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Bei 95% aller Stichproben, die mit diesem Verfahren ausgewertet werden, enthält das resultierende Intervall den wahren Parameter.</span></span>
+<span id="cb2-554"><a href="#cb2-554" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Der Parameter ist fest – der Zufall liegt im Verfahren, nicht im Parameter.</span></span>
+<span id="cb2-555"><a href="#cb2-555" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 95% der Daten liegen innerhalb des Intervalls.</span></span>
+<span id="cb2-556"><a href="#cb2-556" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall ist zu 95% korrekt berechnet worden.</span></span>
+<span id="cb2-557"><a href="#cb2-557" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-558"><a href="#cb2-558" aria-hidden="true" tabindex="-1"></a><span class="in">### Wann verwendet man das t-Intervall statt des z-Intervalls?</span></span>
+<span id="cb2-559"><a href="#cb2-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-560"><a href="#cb2-560" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Wenn die Populationsvarianz σ² unbekannt ist und durch s² geschätzt werden muss.</span></span>
+<span id="cb2-561"><a href="#cb2-561" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die zusätzliche Unsicherheit durch das Schätzen von σ führt zur t-Verteilung.</span></span>
+<span id="cb2-562"><a href="#cb2-562" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Wenn der Stichprobenumfang sehr groß ist.</span></span>
+<span id="cb2-563"><a href="#cb2-563" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Wenn die Daten nicht normalverteilt sind.</span></span>
+<span id="cb2-564"><a href="#cb2-564" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Wenn man genauere Ergebnisse erhalten möchte.</span></span>
+<span id="cb2-565"><a href="#cb2-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-566"><a href="#cb2-566" aria-hidden="true" tabindex="-1"></a><span class="in">### Ein 95%-KI für μ hat die Breite 20 g. Wie breit ist das 99%-KI (bei sonst gleichen Bedingungen)?</span></span>
+<span id="cb2-567"><a href="#cb2-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-568"><a href="#cb2-568" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Schmaler als 20 g.</span></span>
+<span id="cb2-569"><a href="#cb2-569" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Ebenfalls 20 g.</span></span>
+<span id="cb2-570"><a href="#cb2-570" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Breiter als 20 g.</span></span>
+<span id="cb2-571"><a href="#cb2-571" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Ein höheres Konfidenzniveau erfordert ein breiteres Intervall, da man mehr Parameterwerte einschließen muss.</span></span>
+<span id="cb2-572"><a href="#cb2-572" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Genau 26,4 g (1,99/1,96 × 20 g).</span></span>
+<span id="cb2-573"><a href="#cb2-573" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-574"><a href="#cb2-574" aria-hidden="true" tabindex="-1"></a><span class="in">### Was passiert mit einem 95%-Konfidenzintervall, wenn man den Stichprobenumfang vervierfacht?</span></span>
+<span id="cb2-575"><a href="#cb2-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-576"><a href="#cb2-576" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall wird viermal so schmal.</span></span>
+<span id="cb2-577"><a href="#cb2-577" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Das Intervall halbiert sich (wird halb so breit).</span></span>
+<span id="cb2-578"><a href="#cb2-578" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die Breite ist proportional zu 1/√n. √(4n) = 2√n → halbierte Breite.</span></span>
+<span id="cb2-579"><a href="#cb2-579" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall bleibt gleich breit.</span></span>
+<span id="cb2-580"><a href="#cb2-580" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Intervall wird viermal so breit.</span></span>
+<span id="cb2-581"><a href="#cb2-581" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-582"><a href="#cb2-582" aria-hidden="true" tabindex="-1"></a><span class="in">### Ein Forscher berechnet für eine Stichprobe das 95%-KI [100, 120]. Er behauptet: "Der wahre Parameter liegt mit 95% Wahrscheinlichkeit zwischen 100 und 120." Was ist daran falsch?</span></span>
+<span id="cb2-583"><a href="#cb2-583" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-584"><a href="#cb2-584" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Das Interval ist falsch berechnet.</span></span>
+<span id="cb2-585"><a href="#cb2-585" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Ein 95%-KI kann keine solche Aussage erlauben.</span></span>
+<span id="cb2-586"><a href="#cb2-586" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Nach der Berechnung ist das Intervall [100, 120] deterministisch – entweder liegt μ darin oder nicht. Die 95% beziehen sich auf das Verfahren, nicht auf das realisierte Intervall.</span></span>
+<span id="cb2-587"><a href="#cb2-587" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die Wahrscheinlichkeitsaussage gilt vor der Berechnung für das zufällige Intervall.</span></span>
+<span id="cb2-588"><a href="#cb2-588" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Man müsste das t-Intervall statt das z-Intervall verwenden.</span></span>
+<span id="cb2-589"><a href="#cb2-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-590"><a href="#cb2-590" aria-hidden="true" tabindex="-1"></a><span class="in">### Die t-Verteilung unterscheidet sich von der Standardnormalverteilung durch:</span></span>
+<span id="cb2-591"><a href="#cb2-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-592"><a href="#cb2-592" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Einen anderen Mittelwert (nicht 0).</span></span>
+<span id="cb2-593"><a href="#cb2-593" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Schwerere Ränder (mehr Wahrscheinlichkeitsmasse in den Extrembereichen), was bei kleinen n zu breiteren Konfidenzintervallen führt.</span></span>
+<span id="cb2-594"><a href="#cb2-594" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Die t-Verteilung hat schwerere Ränder, die mit wachsendem n (Freiheitsgraden) gegen die Normalverteilung konvergieren.</span></span>
+<span id="cb2-595"><a href="#cb2-595" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Eine andere Skalierung auf der x-Achse.</span></span>
+<span id="cb2-596"><a href="#cb2-596" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Keine Symmetrie.</span></span>
+<span id="cb2-597"><a href="#cb2-597" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-598"><a href="#cb2-598" aria-hidden="true" tabindex="-1"></a><span class="in">### Drei Pinguinarten haben 95%-Konfidenzintervalle, die sich nicht überschneiden. Was lässt sich daraus schließen?</span></span>
+<span id="cb2-599"><a href="#cb2-599" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-600"><a href="#cb2-600" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Gar nichts – KIs erlauben keine Gruppenvergleiche.</span></span>
+<span id="cb2-601"><a href="#cb2-601" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die wahren Mittelwerte der drei Gruppen unterscheiden sich wahrscheinlich statistisch signifikant.</span></span>
+<span id="cb2-602"><a href="#cb2-602" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Nicht-überschneidende KIs sind ein starkes Indiz für statistisch signifikante Unterschiede. (Genaueres liefern Hypothesentests in Kapitel 3.)</span></span>
+<span id="cb2-603"><a href="#cb2-603" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Stichproben sind zu klein für einen Vergleich.</span></span>
+<span id="cb2-604"><a href="#cb2-604" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Es gibt keine Unterschiede zwischen den Gruppen.</span></span>
+<span id="cb2-605"><a href="#cb2-605" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

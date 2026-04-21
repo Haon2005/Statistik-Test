@@ -1,7 +1,7 @@
 # Projektnotizen: Statistik-Tutorial (Python/Pyodide)
 
 **Letzte Aktualisierung:** 2026-04-21  
-**Status:** Schritte 1–7 fertig – alle 10 Aufgaben eingebaut. Schritt 8 (Feinschliff) offen.
+**Status:** Schritte 1–7 fertig. Schritt 8 läuft – zwei systemische Pyodide-Bugs entdeckt, noch nicht global gefixt.
 
 ---
 
@@ -165,6 +165,10 @@ Claude Statikstik/
   - [x] `chi_quadrat.qmd` (3.8)
 - [x] **Schritt 7:** Aufgaben einbauen (10 Stück, Format siehe Aufgaben-Konzept)
 - [ ] **Schritt 8:** Feinschliff – Theme, Navigation, Gesamttest
+  - [ ] **8a (DRINGEND):** `palmerpenguins`-Import global fixen – in allen `{pyodide-python}`-Blöcken ersetzen durch `pyodide.http.open_url` + `pd.read_csv`
+  - [ ] **8b (DRINGEND):** `plt.tight_layout()` aus allen `{pyodide-python}`-Blöcken entfernen (crasht in Pyodide)
+  - [ ] **8c:** Aufgabenqualität prüfen – User sieht noch keine guten Aufgaben überall
+  - [ ] **8d:** Theme, Navigation, Gesamttest
 
 ---
 
@@ -353,6 +357,8 @@ Drei Fragetypen, alle in ` ```{quizdown} ` Blöcken:
 
 ### Aufgaben-Format (festgelegt)
 
+**Achtung:** `#| packages: ["palmerpenguins"]` funktioniert in Pyodide NICHT zuverlässig → stattdessen `pyodide.http.open_url` verwenden (Bug 8a). `plt.tight_layout()` crasht in Pyodide → weglassen (Bug 8b).
+
 ```markdown
 :::: {.theorem .exercise}
 #### Aufgabe: [Titel]
@@ -364,9 +370,9 @@ Drei Fragetypen, alle in ` ```{quizdown} ` Blöcken:
 2. Schritt 2...
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 # Dein Code hier
 ```
