@@ -306,8 +306,8 @@ Nach der Klassierung kannst du `value_counts().sort_index()` verwenden, um die H
 ::: {.callout-caution title="Minimale Lösung" collapse="true"}
 ```python
 import pandas as pd
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 penguins["schnabelklasse"] = pd.cut(
     penguins["bill_length_mm"],

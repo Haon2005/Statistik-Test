@@ -129,12 +129,12 @@ sollte $F \approx 1$ liegen.
 **Hypothesen:** $H_0: \sigma_{\text{Adélie}}^2 = \sigma_{\text{Chinstrap}}^2$ vs. $H_1: \sigma_{\text{Adélie}}^2 \neq \sigma_{\text{Chinstrap}}^2$
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 from scipy import stats
 import numpy as np
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 adelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()
 chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
 
@@ -166,11 +166,11 @@ Der klassische F-Test reagiert sehr empfindlich auf Abweichungen von der Normalv
 **Levenes Test** ist robuster und in der Praxis oft vorzuziehen:
 
 ```{pyodide-python}
-#| packages: ["palmerpenguins"]
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 from scipy import stats
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 adelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()
 chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
 

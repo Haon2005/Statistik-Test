@@ -524,8 +524,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="projektnotizen-statistik-tutorial-pythonpyodide" class="level1">
 <h1>Projektnotizen: Statistik-Tutorial (Python/Pyodide)</h1>
-<p><strong>Letzte Aktualisierung:</strong> 2026-04-21<br>
-<strong>Status:</strong> Schritte 1–7 fertig. Schritt 8 läuft – zwei systemische Pyodide-Bugs entdeckt, noch nicht global gefixt.</p>
+<p><strong>Letzte Aktualisierung:</strong> 2026-04-27<br>
+<strong>Status:</strong> Schritte 1–8 fertig. Tutorial vollständig.</p>
 <hr>
 <section id="ziel" class="level2">
 <h2 class="anchored" data-anchor-id="ziel">Ziel</h2>
@@ -753,10 +753,10 @@ Zielordner: <code>D:\Whb\Git-Projekte\Claude Statikstik\</code></p>
 <li><label><input type="checkbox" checked=""><strong>Schritt 7:</strong> Aufgaben einbauen (10 Stück, Format siehe Aufgaben-Konzept)</label></li>
 <li><label><input type="checkbox"><strong>Schritt 8:</strong> Feinschliff – Theme, Navigation, Gesamttest</label>
 <ul class="task-list">
-<li><label><input type="checkbox"><strong>8a (DRINGEND):</strong> <code>palmerpenguins</code>-Import global fixen – in allen <code>{pyodide-python}</code>-Blöcken ersetzen durch <code>pyodide.http.open_url</code> + <code>pd.read_csv</code></label></li>
-<li><label><input type="checkbox"><strong>8b (DRINGEND):</strong> <code>plt.tight_layout()</code> aus allen <code>{pyodide-python}</code>-Blöcken entfernen (crasht in Pyodide)</label></li>
-<li><label><input type="checkbox"><strong>8c:</strong> Aufgabenqualität prüfen – User sieht noch keine guten Aufgaben überall</label></li>
-<li><label><input type="checkbox"><strong>8d:</strong> Theme, Navigation, Gesamttest</label></li>
+<li><label><input type="checkbox" checked=""><strong>8a:</strong> <code>palmerpenguins</code>-Import global gefixt – alle <code>{pyodide-python}</code>-Blöcke verwenden jetzt <code>pyodide.http.open_url</code> + <code>pd.read_csv</code> (letzte zwei Blöcke in f_test.qmd und gauss_test.qmd am 2026-04-27 gefixt)</label></li>
+<li><label><input type="checkbox" checked=""><strong>8b:</strong> Kein Problem – alle <code>plt.tight_layout()</code>-Aufrufe befinden sich ausschließlich in gerenderten <code>{python}</code>-Blöcken, nicht in <code>{pyodide-python}</code>-Blöcken</label></li>
+<li><label><input type="checkbox" checked=""><strong>8c:</strong> Aufgabenqualität geprüft (2026-04-27) – alle 9 Lösungs-Codeblöcke auf <code>open_url</code> umgestellt, <code>plt.tight_layout()</code> aus Lösungsblöcken (zweidimensional, schaetzer) entfernt, Tipp 2 in grafische_darstellungen.qmd angepasst; Kapitel 3 in Sidebar absichtlich nicht verlinkt</label></li>
+<li><label><input type="checkbox" checked=""><strong>8d:</strong> Theme, Navigation, Gesamttest (2026-04-27) – <code>.quartoignore</code> für <code>project_statistik.md</code> erstellt; alle verlinkten Seiten existieren; Tippfehler “vier”→“fünf” in schaetztheorie/index.qmd gefixt; <code>palmerpenguins</code> in <code>requirements.txt</code> ergänzt; Kapitel 3 absichtlich nicht in Sidebar; GitHub-Icon ohne href ist bewusster Platzhalter</label></li>
 </ul></li>
 </ul>
 <hr>
@@ -910,6 +910,7 @@ Tipp 2: <code>alpha = 0.05</code>; wenn <code>p &lt;= alpha</code> → H0 ablehn
 </section>
 <section id="aufgaben-format-festgelegt" class="level3">
 <h3 class="anchored" data-anchor-id="aufgaben-format-festgelegt">Aufgaben-Format (festgelegt)</h3>
+<p><strong>Achtung:</strong> <code>#| packages: ["palmerpenguins"]</code> funktioniert in Pyodide NICHT zuverlässig → stattdessen <code>pyodide.http.open_url</code> verwenden (Bug 8a). <code>plt.tight_layout()</code> crasht in Pyodide → weglassen (Bug 8b).</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: [Titel]</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -920,9 +921,9 @@ Tipp 2: <code>alpha = 0.05</code>; wenn <code>p &lt;= alpha</code> → H0 ablehn
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Schritt 2...</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tipp 1">
@@ -1044,8 +1045,8 @@ Tipp 2: <code>alpha = 0.05</code>; wenn <code>p &lt;= alpha</code> → H0 ablehn
 ```````````````````{.markdown shortcodes="false"}
 # Projektnotizen: Statistik-Tutorial (Python/Pyodide)
 
-**Letzte Aktualisierung:** 2026-04-21  
-**Status:** Schritte 1–7 fertig. Schritt 8 läuft – zwei systemische Pyodide-Bugs entdeckt, noch nicht global gefixt.
+**Letzte Aktualisierung:** 2026-04-27  
+**Status:** Schritte 1–8 fertig. Tutorial vollständig.
 
 ---
 
@@ -1173,10 +1174,10 @@ Zielordner: `D:\Whb\Git-Projekte\Claude Statikstik\`
   - [x] `chi_quadrat.qmd` (3.8)
 - [x] **Schritt 7:** Aufgaben einbauen (10 Stück, Format siehe Aufgaben-Konzept)
 - [ ] **Schritt 8:** Feinschliff – Theme, Navigation, Gesamttest
-  - [ ] **8a (DRINGEND):** `palmerpenguins`-Import global fixen – in allen `{pyodide-python}`-Blöcken ersetzen durch `pyodide.http.open_url` + `pd.read_csv`
-  - [ ] **8b (DRINGEND):** `plt.tight_layout()` aus allen `{pyodide-python}`-Blöcken entfernen (crasht in Pyodide)
-  - [ ] **8c:** Aufgabenqualität prüfen – User sieht noch keine guten Aufgaben überall
-  - [ ] **8d:** Theme, Navigation, Gesamttest
+  - [x] **8a:** `palmerpenguins`-Import global gefixt – alle `{pyodide-python}`-Blöcke verwenden jetzt `pyodide.http.open_url` + `pd.read_csv` (letzte zwei Blöcke in f_test.qmd und gauss_test.qmd am 2026-04-27 gefixt)
+  - [x] **8b:** Kein Problem – alle `plt.tight_layout()`-Aufrufe befinden sich ausschließlich in gerenderten `{python}`-Blöcken, nicht in `{pyodide-python}`-Blöcken
+  - [x] **8c:** Aufgabenqualität geprüft (2026-04-27) – alle 9 Lösungs-Codeblöcke auf `open_url` umgestellt, `plt.tight_layout()` aus Lösungsblöcken (zweidimensional, schaetzer) entfernt, Tipp 2 in grafische_darstellungen.qmd angepasst; Kapitel 3 in Sidebar absichtlich nicht verlinkt
+  - [x] **8d:** Theme, Navigation, Gesamttest (2026-04-27) – `.quartoignore` für `project_statistik.md` erstellt; alle verlinkten Seiten existieren; Tippfehler "vier"→"fünf" in schaetztheorie/index.qmd gefixt; `palmerpenguins` in `requirements.txt` ergänzt; Kapitel 3 absichtlich nicht in Sidebar; GitHub-Icon ohne href ist bewusster Platzhalter
 
 ---
 
@@ -1334,6 +1335,7 @@ Tipp 2: <code>alpha = 0.05</code>; wenn <code>p &lt;= alpha</code> → H0 ablehn
 </section>
 <section id="aufgaben-format-festgelegt-1" class="level3">
 <h3 class="anchored" data-anchor-id="aufgaben-format-festgelegt-1">Aufgaben-Format (festgelegt)</h3>
+<p><strong>Achtung:</strong> <code>#| packages: ["palmerpenguins"]</code> funktioniert in Pyodide NICHT zuverlässig → stattdessen <code>pyodide.http.open_url</code> verwenden (Bug 8a). <code>plt.tight_layout()</code> crasht in Pyodide → weglassen (Bug 8b).</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>:::: {.theorem .exercise}</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aufgabe: [Titel]</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1344,9 +1346,9 @@ Tipp 2: <code>alpha = 0.05</code>; wenn <code>p &lt;= alpha</code> → H0 ablehn
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Schritt 2...</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Dein Code hier</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tipp 1">

@@ -120,10 +120,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 /* Gesamt-Container */
 .quarto-container {
   display: flex; /* Flexbox für horizontale Anordnung */
-  max-width: 2100px;
+  max-width: none;
   margin: 0 auto; /* Zentrierung des Containers */
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Only force full-width flex at very wide viewports (heavily zoomed out).
+   Below this threshold Quarto's own responsive grid takes over. */
+@media (min-width: 2000px) {
+  .quarto-container {
+    display: flex !important;
+    width: 100%;
+  }
 }
 
 /* Linke Sidebar */
@@ -1021,7 +1030,7 @@ globalThis._qpyodideGetInstance = function() {
 <h2 class="unnumbered anchored" data-anchor-id="was-dich-erwartet">Was dich erwartet</h2>
 <p>In der deskriptiven Statistik haben wir gelernt, Daten zu beschreiben – einen Datensatz zu zusammenfassen, zu visualisieren und Kennzahlen zu berechnen. Das war alles <strong>Beschreiben, was wir bereits sehen</strong>.</p>
 <p>Aber in der Praxis sehen wir fast nie alles. Wir beobachten eine <strong>Stichprobe</strong> und wollen daraus Schlüsse über die <strong>Grundgesamtheit</strong> ziehen, die wir nicht vollständig kennen. Genau das ist die Aufgabe der <strong>schließenden</strong> (oder <strong>induktiven</strong>) <strong>Statistik</strong>, zu der die Schätztheorie gehört.</p>
-<p>Dieses Kapitel besteht aus vier Unterkapiteln:</p>
+<p>Dieses Kapitel besteht aus fünf Unterkapiteln:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1567,7 +1576,7 @@ globalThis._qpyodideGetInstance = function() {
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Schlüsse über die **Grundgesamtheit** ziehen, die wir nicht vollständig kennen. Genau das ist die</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Aufgabe der **schließenden** (oder **induktiven**) **Statistik**, zu der die Schätztheorie gehört.</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Dieses Kapitel besteht aus vier Unterkapiteln:</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Dieses Kapitel besteht aus fünf Unterkapiteln:</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="pp">|</span> Thema <span class="pp">|</span> Kernfrage <span class="pp">|</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|-------|-----------|</span></span>

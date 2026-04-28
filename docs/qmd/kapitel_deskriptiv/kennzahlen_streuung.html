@@ -120,10 +120,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 /* Gesamt-Container */
 .quarto-container {
   display: flex; /* Flexbox für horizontale Anordnung */
-  max-width: 2100px;
+  max-width: none;
   margin: 0 auto; /* Zentrierung des Containers */
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Only force full-width flex at very wide viewports (heavily zoomed out).
+   Below this threshold Quarto's own responsive grid takes over. */
+@media (min-width: 2000px) {
+  .quarto-container {
+    display: flex !important;
+    width: 100%;
+  }
 }
 
 /* Linke Sidebar */
@@ -1086,7 +1095,7 @@ window.Quarto = {
 <section id="einführung" class="level2">
 <h2 class="anchored" data-anchor-id="einführung">Einführung</h2>
 <p>In Kapitel 1.4 haben wir Lagemaße kennengelernt, die beschreiben, wo sich die Mitte einer Stichprobe befindet. Zwei Stichproben können aber denselben Mittelwert haben und trotzdem völlig unterschiedlich aussehen:</p>
-<div id="9ae9202b" class="cell" data-execution_count="2">
+<div id="123f846f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1268,7 +1277,7 @@ window.Quarto = {
 <p><span class="math display">s^2 = \dfrac{1215{,}07}{12-1} \approx 110{,}46 \text{ cm}^2 \qquad s \approx 10{,}51 \text{ cm}</span></p>
 <p><span class="math display">\tilde{s}^2 = \dfrac{1215{,}07}{12} \approx 101{,}26 \text{ cm}^2 \qquad \tilde{s} \approx 10{,}06 \text{ cm}</span></p>
 </div>
-<div id="197fd870" class="cell" data-execution_count="3">
+<div id="8f8cbf0a" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1298,7 +1307,7 @@ window.Quarto = {
 <p>Die Standardabweichung gibt die typische Abweichung eines einzelnen Werts vom Mittelwert an.</p>
 </blockquote>
 <p>Wenn die Daten annähernd <strong>glockenförmig</strong> (normalverteilt) verteilt sind, gilt die <strong>68-95-Regel</strong>:</p>
-<div id="8b7e47b8" class="cell" data-execution_count="4">
+<div id="abc3bf8f" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1341,7 +1350,7 @@ window.Quarto = {
 <h3 class="unnumbered anchored" data-anchor-id="symmetrie-und-asymmetrie">Symmetrie und Asymmetrie</h3>
 <p>Eine Häufigkeitsverteilung heißt <strong>symmetrisch</strong>, wenn sie um ihren Mittelwert gespiegelt werden kann – d.h. die linke und rechte Seite des Histogramms sehen gleich aus.</p>
 <p>Ist eine Verteilung <strong>nicht symmetrisch</strong>, sprechen wir von einer <strong>schiefen</strong> Verteilung:</p>
-<div id="9346c4f2" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="3">
+<div id="85a9879c" class="cell quarto-layout-panel" data-execution_count="5" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
@@ -1460,7 +1469,7 @@ window.Quarto = {
 <li><span class="math inline">ex &lt; 0</span>: flach (platykurtisch)</li>
 </ul>
 </div>
-<div id="dd064e84" class="cell" data-execution_count="6">
+<div id="babf850f" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1543,20 +1552,21 @@ window.Quarto = {
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[<span class="st">'bill_length_mm'</span>].dropna()</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>spannweite <span class="op">=</span> bill.<span class="bu">max</span>() <span class="op">-</span> bill.<span class="bu">min</span>()</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> bill.quantile(<span class="fl">0.75</span>) <span class="op">-</span> bill.quantile(<span class="fl">0.25</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> bill.std()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Spannweite: </span><span class="sc">{</span>spannweite<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR:        </span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Std.-abw.:  </span><span class="sc">{</span>std<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Standardabweichung nach Art:"</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins.groupby(<span class="st">'species'</span>)[<span class="st">'bill_length_mm'</span>].std().<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[<span class="st">'bill_length_mm'</span>].dropna()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>spannweite <span class="op">=</span> bill.<span class="bu">max</span>() <span class="op">-</span> bill.<span class="bu">min</span>()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> bill.quantile(<span class="fl">0.75</span>) <span class="op">-</span> bill.quantile(<span class="fl">0.25</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> bill.std()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Spannweite: </span><span class="sc">{</span>spannweite<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR:        </span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Std.-abw.:  </span><span class="sc">{</span>std<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Standardabweichung nach Art:"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins.groupby(<span class="st">'species'</span>)[<span class="st">'bill_length_mm'</span>].std().<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -2748,111 +2758,112 @@ shuffleAnswers: true
 <span id="cb5-591"><a href="#cb5-591" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-592"><a href="#cb5-592" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution title="Minimale Lösung" collapse="true"}</span>
 <span id="cb5-593"><a href="#cb5-593" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb5-594"><a href="#cb5-594" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb5-595"><a href="#cb5-595" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb5-596"><a href="#cb5-596" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[<span class="st">'bill_length_mm'</span>].dropna()</span>
-<span id="cb5-597"><a href="#cb5-597" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-598"><a href="#cb5-598" aria-hidden="true" tabindex="-1"></a>spannweite <span class="op">=</span> bill.<span class="bu">max</span>() <span class="op">-</span> bill.<span class="bu">min</span>()</span>
-<span id="cb5-599"><a href="#cb5-599" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> bill.quantile(<span class="fl">0.75</span>) <span class="op">-</span> bill.quantile(<span class="fl">0.25</span>)</span>
-<span id="cb5-600"><a href="#cb5-600" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> bill.std()</span>
-<span id="cb5-601"><a href="#cb5-601" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-602"><a href="#cb5-602" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Spannweite: </span><span class="sc">{</span>spannweite<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb5-603"><a href="#cb5-603" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR:        </span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb5-604"><a href="#cb5-604" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Std.-abw.:  </span><span class="sc">{</span>std<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
-<span id="cb5-605"><a href="#cb5-605" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-606"><a href="#cb5-606" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Standardabweichung nach Art:"</span>)</span>
-<span id="cb5-607"><a href="#cb5-607" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins.groupby(<span class="st">'species'</span>)[<span class="st">'bill_length_mm'</span>].std().<span class="bu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb5-608"><a href="#cb5-608" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-609"><a href="#cb5-609" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb5-610"><a href="#cb5-610" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb5-611"><a href="#cb5-611" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-612"><a href="#cb5-612" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb5-613"><a href="#cb5-613" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-614"><a href="#cb5-614" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
-<span id="cb5-615"><a href="#cb5-615" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-616"><a href="#cb5-616" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb5-617"><a href="#cb5-617" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Alle Kennzahlen im Überblick</span></span>
-<span id="cb5-618"><a href="#cb5-618" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-619"><a href="#cb5-619" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Maßzahl <span class="pp">|</span> Formel / Begriff <span class="pp">|</span> Python <span class="pp">|</span></span>
-<span id="cb5-620"><a href="#cb5-620" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-----------------|--------|</span></span>
-<span id="cb5-621"><a href="#cb5-621" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Spannweite** <span class="pp">|</span> $x_{(n)} - x_{(1)}$ <span class="pp">|</span> <span class="in">`max() - min()`</span> <span class="pp">|</span></span>
-<span id="cb5-622"><a href="#cb5-622" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **IQR** <span class="pp">|</span> $Q_3 - Q_1$ <span class="pp">|</span> <span class="in">`.quantile(0.75) - .quantile(0.25)`</span> <span class="pp">|</span></span>
-<span id="cb5-623"><a href="#cb5-623" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Varianz** (korrig.) <span class="pp">|</span> $\frac{1}{n-1}\sum(x_i-\bar{x})^2$ <span class="pp">|</span> <span class="in">`.var()`</span> <span class="pp">|</span></span>
-<span id="cb5-624"><a href="#cb5-624" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Standardabweichung** <span class="pp">|</span> $\sqrt{s^2}$ <span class="pp">|</span> <span class="in">`.std()`</span> <span class="pp">|</span></span>
-<span id="cb5-625"><a href="#cb5-625" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schiefe** $sk$ <span class="pp">|</span> $\frac{1}{n}\sum\left(\frac{x_i-\bar{x}}{s}\right)^3$ <span class="pp">|</span> <span class="in">`stats.skew()`</span> <span class="pp">|</span></span>
-<span id="cb5-626"><a href="#cb5-626" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Wölbung** $w$ <span class="pp">|</span> $\frac{1}{n}\sum\left(\frac{x_i-\bar{x}}{s}\right)^4$ <span class="pp">|</span> <span class="in">`stats.kurtosis() + 3`</span> <span class="pp">|</span></span>
-<span id="cb5-627"><a href="#cb5-627" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Exzess** $ex$ <span class="pp">|</span> $w - 3$ <span class="pp">|</span> <span class="in">`stats.kurtosis()`</span> <span class="pp">|</span></span>
-<span id="cb5-628"><a href="#cb5-628" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-629"><a href="#cb5-629" aria-hidden="true" tabindex="-1"></a>Mit <span class="in">`df['spalte'].describe()`</span> erhält man auf einen Blick: $n$, Mittelwert, Standardabweichung, Minimum, $Q_1$, Median, $Q_3$, Maximum.</span>
-<span id="cb5-630"><a href="#cb5-630" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb5-631"><a href="#cb5-631" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-632"><a href="#cb5-632" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb5-633"><a href="#cb5-633" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-634"><a href="#cb5-634" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissenstest</span></span>
-<span id="cb5-635"><a href="#cb5-635" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-638"><a href="#cb5-638" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
-<span id="cb5-639"><a href="#cb5-639" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb5-640"><a href="#cb5-640" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
-<span id="cb5-641"><a href="#cb5-641" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
-<span id="cb5-642"><a href="#cb5-642" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
-<span id="cb5-643"><a href="#cb5-643" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
-<span id="cb5-644"><a href="#cb5-644" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-645"><a href="#cb5-645" aria-hidden="true" tabindex="-1"></a><span class="in">### Was misst die Standardabweichung?</span></span>
-<span id="cb5-646"><a href="#cb5-646" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-647"><a href="#cb5-647" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Abstand zwischen Minimum und Maximum</span></span>
-<span id="cb5-648"><a href="#cb5-648" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die typische Abweichung der Beobachtungen vom Mittelwert</span></span>
-<span id="cb5-649"><a href="#cb5-649" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Genau! Die Standardabweichung hat dieselbe Einheit wie die Daten und gibt an, wie weit die Werte durchschnittlich vom Mittelwert abweichen.</span></span>
-<span id="cb5-650"><a href="#cb5-650" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Median der quadratischen Abweichungen</span></span>
-<span id="cb5-651"><a href="#cb5-651" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Abstand zwischen Q1 und Q3</span></span>
-<span id="cb5-652"><a href="#cb5-652" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-653"><a href="#cb5-653" aria-hidden="true" tabindex="-1"></a><span class="in">### Eine Stichprobe hat Varianz $s^2 = 25$ cm². Wie groß ist die Standardabweichung?</span></span>
-<span id="cb5-654"><a href="#cb5-654" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-655"><a href="#cb5-655" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 25 cm</span></span>
-<span id="cb5-656"><a href="#cb5-656" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 625 cm</span></span>
-<span id="cb5-657"><a href="#cb5-657" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] 5 cm</span></span>
-<span id="cb5-658"><a href="#cb5-658" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! $s = \sqrt{s^2} = \sqrt{25} = 5$ cm.</span></span>
-<span id="cb5-659"><a href="#cb5-659" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 12,5 cm</span></span>
-<span id="cb5-660"><a href="#cb5-660" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-661"><a href="#cb5-661" aria-hidden="true" tabindex="-1"></a><span class="in">### Welche der folgenden Streuungsmaße ist am robustesten gegenüber Ausreißern?</span></span>
-<span id="cb5-662"><a href="#cb5-662" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-663"><a href="#cb5-663" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Spannweite</span></span>
-<span id="cb5-664"><a href="#cb5-664" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Varianz</span></span>
-<span id="cb5-665"><a href="#cb5-665" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Interquartilsabstand (IQR)</span></span>
-<span id="cb5-666"><a href="#cb5-666" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Korrekt! Der IQR basiert nur auf den mittleren 50 % der Daten und wird von extremen Werten kaum beeinflusst.</span></span>
-<span id="cb5-667"><a href="#cb5-667" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Standardabweichung</span></span>
-<span id="cb5-668"><a href="#cb5-668" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-669"><a href="#cb5-669" aria-hidden="true" tabindex="-1"></a><span class="in">### Du siehst: Mittelwert = 45.000 €, Median = 32.000 €. Was schließt du?</span></span>
-<span id="cb5-670"><a href="#cb5-670" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-671"><a href="#cb5-671" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Daten sind linksschief</span></span>
-<span id="cb5-672"><a href="#cb5-672" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Daten sind rechtsschief – wenige hohe Gehälter ziehen den Mittelwert nach oben</span></span>
-<span id="cb5-673"><a href="#cb5-673" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Bei rechtsschiefen Verteilungen gilt $\bar{x} &gt; \tilde{x}_{0,5}$. Typisch für Gehälter.</span></span>
-<span id="cb5-674"><a href="#cb5-674" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Mittelwert und Median sollten immer gleich sein</span></span>
-<span id="cb5-675"><a href="#cb5-675" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Daten sind symmetrisch</span></span>
-<span id="cb5-676"><a href="#cb5-676" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-677"><a href="#cb5-677" aria-hidden="true" tabindex="-1"></a><span class="in">### Was sagt ein negativer Momentenkoeffizient der Schiefe ($sk &lt; 0$)?</span></span>
-<span id="cb5-678"><a href="#cb5-678" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-679"><a href="#cb5-679" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Verteilung ist rechtsschief</span></span>
-<span id="cb5-680"><a href="#cb5-680" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Verteilung ist symmetrisch</span></span>
-<span id="cb5-681"><a href="#cb5-681" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Verteilung ist linksschief – die meisten Werte liegen rechts, mit einem langen Schweif nach links</span></span>
-<span id="cb5-682"><a href="#cb5-682" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Bei linksschiefe gilt $sk &lt; 0$ und $\bar{x} &lt; \tilde{x}_{0,5}$.</span></span>
-<span id="cb5-683"><a href="#cb5-683" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Varianz ist negativ – das kann nicht sein</span></span>
-<span id="cb5-684"><a href="#cb5-684" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-685"><a href="#cb5-685" aria-hidden="true" tabindex="-1"></a><span class="in">### Was bedeutet ein Exzess $ex &gt; 0$?</span></span>
-<span id="cb5-686"><a href="#cb5-686" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-687"><a href="#cb5-687" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Verteilung ist leptokurtisch – spitzer als eine Normalverteilung</span></span>
-<span id="cb5-688"><a href="#cb5-688" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Positiver Exzess = leptokurtisch (griech. leptos = schlank/spitz). Die Werte häufen sich stark in der Mitte.</span></span>
-<span id="cb5-689"><a href="#cb5-689" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Verteilung ist platykurtisch – flacher als eine Normalverteilung</span></span>
-<span id="cb5-690"><a href="#cb5-690" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Wölbung ist größer als 0</span></span>
-<span id="cb5-691"><a href="#cb5-691" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Wölbung ist kleiner als 3</span></span>
-<span id="cb5-692"><a href="#cb5-692" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-693"><a href="#cb5-693" aria-hidden="true" tabindex="-1"></a><span class="in">### Die Funktion `stats.kurtosis()` aus scipy gibt welchen Wert zurück?</span></span>
-<span id="cb5-694"><a href="#cb5-694" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-695"><a href="#cb5-695" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Wölbungskoeffizienten $w$</span></span>
-<span id="cb5-696"><a href="#cb5-696" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Wölbungskoeffizienten $w$ minus 1</span></span>
-<span id="cb5-697"><a href="#cb5-697" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Den Exzess $ex = w - 3$ (Vergleich zur Normalverteilung)</span></span>
-<span id="cb5-698"><a href="#cb5-698" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Wichtig zu wissen! `scipy.stats.kurtosis()` gibt standardmäßig den Exzess (Überschuss gegenüber der Normalverteilung) zurück. Um $w$ zu erhalten, muss man 3 addieren.</span></span>
-<span id="cb5-699"><a href="#cb5-699" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Momentenkoeffizienten der Schiefe</span></span>
-<span id="cb5-700"><a href="#cb5-700" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-594"><a href="#cb5-594" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-595"><a href="#cb5-595" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
+<span id="cb5-596"><a href="#cb5-596" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
+<span id="cb5-597"><a href="#cb5-597" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[<span class="st">'bill_length_mm'</span>].dropna()</span>
+<span id="cb5-598"><a href="#cb5-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-599"><a href="#cb5-599" aria-hidden="true" tabindex="-1"></a>spannweite <span class="op">=</span> bill.<span class="bu">max</span>() <span class="op">-</span> bill.<span class="bu">min</span>()</span>
+<span id="cb5-600"><a href="#cb5-600" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> bill.quantile(<span class="fl">0.75</span>) <span class="op">-</span> bill.quantile(<span class="fl">0.25</span>)</span>
+<span id="cb5-601"><a href="#cb5-601" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> bill.std()</span>
+<span id="cb5-602"><a href="#cb5-602" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-603"><a href="#cb5-603" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Spannweite: </span><span class="sc">{</span>spannweite<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb5-604"><a href="#cb5-604" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR:        </span><span class="sc">{</span>iqr<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb5-605"><a href="#cb5-605" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Std.-abw.:  </span><span class="sc">{</span>std<span class="sc">:.2f}</span><span class="ss"> mm"</span>)</span>
+<span id="cb5-606"><a href="#cb5-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-607"><a href="#cb5-607" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Standardabweichung nach Art:"</span>)</span>
+<span id="cb5-608"><a href="#cb5-608" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins.groupby(<span class="st">'species'</span>)[<span class="st">'bill_length_mm'</span>].std().<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb5-609"><a href="#cb5-609" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-610"><a href="#cb5-610" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-611"><a href="#cb5-611" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb5-612"><a href="#cb5-612" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-613"><a href="#cb5-613" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-614"><a href="#cb5-614" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-615"><a href="#cb5-615" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zusammenfassung</span></span>
+<span id="cb5-616"><a href="#cb5-616" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-617"><a href="#cb5-617" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb5-618"><a href="#cb5-618" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Alle Kennzahlen im Überblick</span></span>
+<span id="cb5-619"><a href="#cb5-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-620"><a href="#cb5-620" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Maßzahl <span class="pp">|</span> Formel / Begriff <span class="pp">|</span> Python <span class="pp">|</span></span>
+<span id="cb5-621"><a href="#cb5-621" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-----------------|--------|</span></span>
+<span id="cb5-622"><a href="#cb5-622" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Spannweite** <span class="pp">|</span> $x_{(n)} - x_{(1)}$ <span class="pp">|</span> <span class="in">`max() - min()`</span> <span class="pp">|</span></span>
+<span id="cb5-623"><a href="#cb5-623" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **IQR** <span class="pp">|</span> $Q_3 - Q_1$ <span class="pp">|</span> <span class="in">`.quantile(0.75) - .quantile(0.25)`</span> <span class="pp">|</span></span>
+<span id="cb5-624"><a href="#cb5-624" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Varianz** (korrig.) <span class="pp">|</span> $\frac{1}{n-1}\sum(x_i-\bar{x})^2$ <span class="pp">|</span> <span class="in">`.var()`</span> <span class="pp">|</span></span>
+<span id="cb5-625"><a href="#cb5-625" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Standardabweichung** <span class="pp">|</span> $\sqrt{s^2}$ <span class="pp">|</span> <span class="in">`.std()`</span> <span class="pp">|</span></span>
+<span id="cb5-626"><a href="#cb5-626" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Schiefe** $sk$ <span class="pp">|</span> $\frac{1}{n}\sum\left(\frac{x_i-\bar{x}}{s}\right)^3$ <span class="pp">|</span> <span class="in">`stats.skew()`</span> <span class="pp">|</span></span>
+<span id="cb5-627"><a href="#cb5-627" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Wölbung** $w$ <span class="pp">|</span> $\frac{1}{n}\sum\left(\frac{x_i-\bar{x}}{s}\right)^4$ <span class="pp">|</span> <span class="in">`stats.kurtosis() + 3`</span> <span class="pp">|</span></span>
+<span id="cb5-628"><a href="#cb5-628" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Exzess** $ex$ <span class="pp">|</span> $w - 3$ <span class="pp">|</span> <span class="in">`stats.kurtosis()`</span> <span class="pp">|</span></span>
+<span id="cb5-629"><a href="#cb5-629" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-630"><a href="#cb5-630" aria-hidden="true" tabindex="-1"></a>Mit <span class="in">`df['spalte'].describe()`</span> erhält man auf einen Blick: $n$, Mittelwert, Standardabweichung, Minimum, $Q_1$, Median, $Q_3$, Maximum.</span>
+<span id="cb5-631"><a href="#cb5-631" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-632"><a href="#cb5-632" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-633"><a href="#cb5-633" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-634"><a href="#cb5-634" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-635"><a href="#cb5-635" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wissenstest</span></span>
+<span id="cb5-636"><a href="#cb5-636" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-639"><a href="#cb5-639" aria-hidden="true" tabindex="-1"></a><span class="in">```{quizdown}</span></span>
+<span id="cb5-640"><a href="#cb5-640" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb5-641"><a href="#cb5-641" aria-hidden="true" tabindex="-1"></a><span class="in">primaryColor: '#0a9396'</span></span>
+<span id="cb5-642"><a href="#cb5-642" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleQuestions: false</span></span>
+<span id="cb5-643"><a href="#cb5-643" aria-hidden="true" tabindex="-1"></a><span class="in">shuffleAnswers: true</span></span>
+<span id="cb5-644"><a href="#cb5-644" aria-hidden="true" tabindex="-1"></a><span class="in">---</span></span>
+<span id="cb5-645"><a href="#cb5-645" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-646"><a href="#cb5-646" aria-hidden="true" tabindex="-1"></a><span class="in">### Was misst die Standardabweichung?</span></span>
+<span id="cb5-647"><a href="#cb5-647" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-648"><a href="#cb5-648" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Abstand zwischen Minimum und Maximum</span></span>
+<span id="cb5-649"><a href="#cb5-649" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die typische Abweichung der Beobachtungen vom Mittelwert</span></span>
+<span id="cb5-650"><a href="#cb5-650" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Genau! Die Standardabweichung hat dieselbe Einheit wie die Daten und gibt an, wie weit die Werte durchschnittlich vom Mittelwert abweichen.</span></span>
+<span id="cb5-651"><a href="#cb5-651" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Median der quadratischen Abweichungen</span></span>
+<span id="cb5-652"><a href="#cb5-652" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Abstand zwischen Q1 und Q3</span></span>
+<span id="cb5-653"><a href="#cb5-653" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-654"><a href="#cb5-654" aria-hidden="true" tabindex="-1"></a><span class="in">### Eine Stichprobe hat Varianz $s^2 = 25$ cm². Wie groß ist die Standardabweichung?</span></span>
+<span id="cb5-655"><a href="#cb5-655" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-656"><a href="#cb5-656" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 25 cm</span></span>
+<span id="cb5-657"><a href="#cb5-657" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 625 cm</span></span>
+<span id="cb5-658"><a href="#cb5-658" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] 5 cm</span></span>
+<span id="cb5-659"><a href="#cb5-659" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! $s = \sqrt{s^2} = \sqrt{25} = 5$ cm.</span></span>
+<span id="cb5-660"><a href="#cb5-660" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] 12,5 cm</span></span>
+<span id="cb5-661"><a href="#cb5-661" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-662"><a href="#cb5-662" aria-hidden="true" tabindex="-1"></a><span class="in">### Welche der folgenden Streuungsmaße ist am robustesten gegenüber Ausreißern?</span></span>
+<span id="cb5-663"><a href="#cb5-663" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-664"><a href="#cb5-664" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Spannweite</span></span>
+<span id="cb5-665"><a href="#cb5-665" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Varianz</span></span>
+<span id="cb5-666"><a href="#cb5-666" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Interquartilsabstand (IQR)</span></span>
+<span id="cb5-667"><a href="#cb5-667" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Korrekt! Der IQR basiert nur auf den mittleren 50 % der Daten und wird von extremen Werten kaum beeinflusst.</span></span>
+<span id="cb5-668"><a href="#cb5-668" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Standardabweichung</span></span>
+<span id="cb5-669"><a href="#cb5-669" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-670"><a href="#cb5-670" aria-hidden="true" tabindex="-1"></a><span class="in">### Du siehst: Mittelwert = 45.000 €, Median = 32.000 €. Was schließt du?</span></span>
+<span id="cb5-671"><a href="#cb5-671" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-672"><a href="#cb5-672" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Daten sind linksschief</span></span>
+<span id="cb5-673"><a href="#cb5-673" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Daten sind rechtsschief – wenige hohe Gehälter ziehen den Mittelwert nach oben</span></span>
+<span id="cb5-674"><a href="#cb5-674" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Bei rechtsschiefen Verteilungen gilt $\bar{x} &gt; \tilde{x}_{0,5}$. Typisch für Gehälter.</span></span>
+<span id="cb5-675"><a href="#cb5-675" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Mittelwert und Median sollten immer gleich sein</span></span>
+<span id="cb5-676"><a href="#cb5-676" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Daten sind symmetrisch</span></span>
+<span id="cb5-677"><a href="#cb5-677" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-678"><a href="#cb5-678" aria-hidden="true" tabindex="-1"></a><span class="in">### Was sagt ein negativer Momentenkoeffizient der Schiefe ($sk &lt; 0$)?</span></span>
+<span id="cb5-679"><a href="#cb5-679" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-680"><a href="#cb5-680" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Verteilung ist rechtsschief</span></span>
+<span id="cb5-681"><a href="#cb5-681" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Verteilung ist symmetrisch</span></span>
+<span id="cb5-682"><a href="#cb5-682" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Verteilung ist linksschief – die meisten Werte liegen rechts, mit einem langen Schweif nach links</span></span>
+<span id="cb5-683"><a href="#cb5-683" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Bei linksschiefe gilt $sk &lt; 0$ und $\bar{x} &lt; \tilde{x}_{0,5}$.</span></span>
+<span id="cb5-684"><a href="#cb5-684" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Varianz ist negativ – das kann nicht sein</span></span>
+<span id="cb5-685"><a href="#cb5-685" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-686"><a href="#cb5-686" aria-hidden="true" tabindex="-1"></a><span class="in">### Was bedeutet ein Exzess $ex &gt; 0$?</span></span>
+<span id="cb5-687"><a href="#cb5-687" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-688"><a href="#cb5-688" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Die Verteilung ist leptokurtisch – spitzer als eine Normalverteilung</span></span>
+<span id="cb5-689"><a href="#cb5-689" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Richtig! Positiver Exzess = leptokurtisch (griech. leptos = schlank/spitz). Die Werte häufen sich stark in der Mitte.</span></span>
+<span id="cb5-690"><a href="#cb5-690" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Verteilung ist platykurtisch – flacher als eine Normalverteilung</span></span>
+<span id="cb5-691"><a href="#cb5-691" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Wölbung ist größer als 0</span></span>
+<span id="cb5-692"><a href="#cb5-692" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Die Wölbung ist kleiner als 3</span></span>
+<span id="cb5-693"><a href="#cb5-693" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-694"><a href="#cb5-694" aria-hidden="true" tabindex="-1"></a><span class="in">### Die Funktion `stats.kurtosis()` aus scipy gibt welchen Wert zurück?</span></span>
+<span id="cb5-695"><a href="#cb5-695" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-696"><a href="#cb5-696" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Wölbungskoeffizienten $w$</span></span>
+<span id="cb5-697"><a href="#cb5-697" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Wölbungskoeffizienten $w$ minus 1</span></span>
+<span id="cb5-698"><a href="#cb5-698" aria-hidden="true" tabindex="-1"></a><span class="in">1. [x] Den Exzess $ex = w - 3$ (Vergleich zur Normalverteilung)</span></span>
+<span id="cb5-699"><a href="#cb5-699" aria-hidden="true" tabindex="-1"></a><span class="in">    &gt; Wichtig zu wissen! `scipy.stats.kurtosis()` gibt standardmäßig den Exzess (Überschuss gegenüber der Normalverteilung) zurück. Um $w$ zu erhalten, muss man 3 addieren.</span></span>
+<span id="cb5-700"><a href="#cb5-700" aria-hidden="true" tabindex="-1"></a><span class="in">1. [ ] Den Momentenkoeffizienten der Schiefe</span></span>
+<span id="cb5-701"><a href="#cb5-701" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

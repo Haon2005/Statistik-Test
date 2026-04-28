@@ -120,10 +120,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 /* Gesamt-Container */
 .quarto-container {
   display: flex; /* Flexbox für horizontale Anordnung */
-  max-width: 2100px;
+  max-width: none;
   margin: 0 auto; /* Zentrierung des Containers */
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Only force full-width flex at very wide viewports (heavily zoomed out).
+   Below this threshold Quarto's own responsive grid takes over. */
+@media (min-width: 2000px) {
+  .quarto-container {
+    display: flex !important;
+    width: 100%;
+  }
 }
 
 /* Linke Sidebar */
@@ -331,7 +340,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\nbill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\n\n# Daten\nn = len(bill)\nx_bar = bill.mean()\nsigma = 2.5    # bekannte Standardabweichung\nmu0 = 38.0     # Hypothesenwert\n\n# Teststatistik\nZ = (x_bar - mu0) / (sigma / np.sqrt(n))\n\n# p-Wert (zweiseitig)\np_value = 2 * stats.norm.sf(abs(Z))\n\nprint(f\"n = {n},  x̄ = {x_bar:.3f} mm\")\nprint(f\"Teststatistik Z = {Z:.4f}\")\nprint(f\"p-Wert (zweiseitig) = {p_value:.4f}\")\nprint()\nif p_value < 0.05:\n    print(\"Entscheidung: H₀ wird verworfen (p < 0,05).\")\n    print(\"→ Statistisch signifikante Abweichung von µ₀ = 38 mm.\")\nelse:\n    print(\"Entscheidung: H₀ wird nicht verworfen (p ≥ 0,05).\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from scipy import stats\n\n# Beispiel: z = 2.5\nz = 2.5\n\np_zweiseitig  = 2 * stats.norm.sf(abs(z))   # sf = 1 - cdf\np_rechtsseitig = stats.norm.sf(z)\np_linksseitig  = stats.norm.cdf(z)\n\nprint(f\"Zweiseitiger p-Wert:    {p_zweiseitig:.4f}\")\nprint(f\"Rechtsseitiger p-Wert:  {p_rechtsseitig:.4f}\")\nprint(f\"Linksseitiger p-Wert:   {p_linksseitig:.4f}\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nfrom pyodide.http import open_url\nfrom scipy import stats\nimport numpy as np\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nbill = penguins[penguins['species'] == 'Adelie']['bill_length_mm'].dropna()\n\n# Daten\nn = len(bill)\nx_bar = bill.mean()\nsigma = 2.5    # bekannte Standardabweichung\nmu0 = 38.0     # Hypothesenwert\n\n# Teststatistik\nZ = (x_bar - mu0) / (sigma / np.sqrt(n))\n\n# p-Wert (zweiseitig)\np_value = 2 * stats.norm.sf(abs(Z))\n\nprint(f\"n = {n},  x̄ = {x_bar:.3f} mm\")\nprint(f\"Teststatistik Z = {Z:.4f}\")\nprint(f\"p-Wert (zweiseitig) = {p_value:.4f}\")\nprint()\nif p_value < 0.05:\n    print(\"Entscheidung: H₀ wird verworfen (p < 0,05).\")\n    print(\"→ Statistisch signifikante Abweichung von µ₀ = 38 mm.\")\nelse:\n    print(\"Entscheidung: H₀ wird nicht verworfen (p ≥ 0,05).\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"from scipy import stats\n\n# Beispiel: z = 2.5\nz = 2.5\n\np_zweiseitig  = 2 * stats.norm.sf(abs(z))   # sf = 1 - cdf\np_rechtsseitig = stats.norm.sf(z)\np_linksseitig  = stats.norm.cdf(z)\n\nprint(f\"Zweiseitiger p-Wert:    {p_zweiseitig:.4f}\")\nprint(f\"Rechtsseitiger p-Wert:  {p_rechtsseitig:.4f}\")\nprint(f\"Linksseitiger p-Wert:   {p_linksseitig:.4f}\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1160,7 +1169,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="684ab795" class="cell" data-execution_count="2">
+<div id="0956ef91" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1180,7 +1189,7 @@ window.Quarto = {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <section id="visualisierung" class="level3">
 <h3 class="anchored" data-anchor-id="visualisierung">Visualisierung</h3>
-<div id="2add9d40" class="cell" data-execution_count="3">
+<div id="122f5564" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1873,12 +1882,12 @@ shuffleAnswers: true
 <span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>**Annahme:** $\sigma = 2{,}5$ mm (bekannt), $\alpha = 0{,}05$</span>
 <span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
 <span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>bill <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'bill_length_mm'</span>].dropna()</span>
 <span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten</span></span>

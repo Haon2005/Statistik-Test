@@ -681,8 +681,9 @@ Gesamt ist die Korrelation negativ, innerhalb jeder Art positiv – das ist das 
 ::: {.callout-caution title="Minimale Lösung" collapse="true"}
 ```python
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
-penguins = load_penguins().dropna(subset=['bill_length_mm', 'bill_depth_mm'])
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv")).dropna(subset=['bill_length_mm', 'bill_depth_mm'])
 
 # Korrelationen
 r_gesamt = penguins[['bill_length_mm', 'bill_depth_mm']].corr().iloc[0, 1]
@@ -700,7 +701,6 @@ for art, gr in penguins.groupby('species'):
 plt.xlabel('Schnabellänge (mm)')
 plt.ylabel('Schnabeltiefe (mm)')
 plt.legend()
-plt.tight_layout()
 plt.show()
 ```
 :::

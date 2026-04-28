@@ -579,8 +579,9 @@ Spannweite = `bill.max() - bill.min()`, IQR = `bill.quantile(0.75) - bill.quanti
 
 ::: {.callout-caution title="Minimale Lösung" collapse="true"}
 ```python
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 bill = penguins['bill_length_mm'].dropna()
 
 spannweite = bill.max() - bill.min()

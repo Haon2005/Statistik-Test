@@ -299,9 +299,10 @@ Entscheidungsregel: Wenn `p_val <= 0.05` → $H_0$ ablehnen. Wenn `p_val > 0.05`
 ::: {.callout-caution title="Minimale Lösung" collapse="true"}
 ```python
 from scipy import stats
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 flipper = penguins[penguins['species'] == 'Adelie']['flipper_length_mm'].dropna()
 
 t_stat, p_val = stats.ttest_1samp(flipper, popmean=190)

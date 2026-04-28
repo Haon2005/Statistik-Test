@@ -206,8 +206,9 @@ Mit `.round(3)` kannst du die relativen Häufigkeiten auf 3 Nachkommastellen run
 
 ::: {.callout-caution title="Minimale Lösung" collapse="true"}
 ```python
-from palmerpenguins import load_penguins
-penguins = load_penguins()
+import pandas as pd
+from pyodide.http import open_url
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 
 print("Absolute Häufigkeiten:")
 print(penguins["island"].value_counts())

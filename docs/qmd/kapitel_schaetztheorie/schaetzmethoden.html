@@ -77,9 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-382d17d2ec91494e2875e3b7d66d3210.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-bee068d14591db49783478d131c4b8dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-382d17d2ec91494e2875e3b7d66d3210.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ab47fe10028ae57f8e11a112a58e8851.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-6a8c711e6fd403f4fce0151a8970f876.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ab47fe10028ae57f8e11a112a58e8851.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
 <script src="../../site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 /* Gesamt-Container */
 .quarto-container {
   display: flex; /* Flexbox für horizontale Anordnung */
-  max-width: 2100px;
+  max-width: none;
   margin: 0 auto; /* Zentrierung des Containers */
   padding: 0;
   box-sizing: border-box;
@@ -331,7 +331,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nfrom scipy import stats\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nmasse = penguins['body_mass_g'].dropna()\n\n# ML-Schätzer für Normalverteilung: scipy.stats.norm.fit\nmu_hat, sigma_hat = stats.norm.fit(masse)\nprint(f\"ML-Schätzer: μ̂ = {mu_hat:.1f} g, σ̂ = {sigma_hat:.1f} g\")\n\n# Vergleich mit Stichprobenmittel und -standardabweichung\nprint(f\"x̄ = {masse.mean():.1f} g, s = {masse.std():.1f} g (s mit n-1)\")\nprint(f\"(Unterschied: norm.fit liefert σ mit n, nicht n-1)\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport matplotlib.pyplot as plt\nimport numpy as np\n\npenguins = load_penguins()\nmasse = penguins['body_mass_g'].dropna()\n\nmu_hat, sigma_hat = stats.norm.fit(masse)\n\n# Angepasste Normalverteilung plotten\nx = np.linspace(masse.min(), masse.max(), 300)\nfig, ax = plt.subplots(figsize=(7, 3.5))\nax.hist(masse, bins=30, density=True, alpha=0.6, color='#0a9396', edgecolor='white', label='Daten')\nax.plot(x, stats.norm.pdf(x, mu_hat, sigma_hat), '#ae2012', lw=2.5,\n        label=f'N({mu_hat:.0f}, {sigma_hat:.0f}²) – ML-Fit')\nax.set_xlabel('Körpermasse (g)'); ax.set_ylabel('Dichte')\nax.legend(); plt.tight_layout(); plt.show()","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nfrom scipy import stats\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nmasse = penguins['body_mass_g'].dropna()\n\n# ML-Schätzer für Normalverteilung: scipy.stats.norm.fit\nmu_hat, sigma_hat = stats.norm.fit(masse)\nprint(f\"ML-Schätzer: μ̂ = {mu_hat:.1f} g, σ̂ = {sigma_hat:.1f} g\")\n\n# Vergleich mit Stichprobenmittel und -standardabweichung\nprint(f\"x̄ = {masse.mean():.1f} g, s = {masse.std():.1f} g (s mit n-1)\")\nprint(f\"(Unterschied: norm.fit liefert σ mit n, nicht n-1)\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"import pandas as pd\nfrom scipy import stats\nimport matplotlib.pyplot as plt\nimport numpy as np\nfrom pyodide.http import open_url\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nmasse = penguins['body_mass_g'].dropna()\n\nmu_hat, sigma_hat = stats.norm.fit(masse)\n\n# Angepasste Normalverteilung plotten\nx = np.linspace(masse.min(), masse.max(), 300)\nfig, ax = plt.subplots(figsize=(7, 3.5))\nax.hist(masse, bins=30, density=True, alpha=0.6, color='#0a9396', edgecolor='white', label='Daten')\nax.plot(x, stats.norm.pdf(x, mu_hat, sigma_hat), '#ae2012', lw=2.5,\n        label=f'N({mu_hat:.0f}, {sigma_hat:.0f}²) – ML-Fit')\nax.set_xlabel('Körpermasse (g)'); ax.set_ylabel('Dichte')\nax.legend(); plt.show()","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1158,7 +1158,7 @@ window.Quarto = {
 <section id="münzwurf-intuition-für-ml" class="level3">
 <h3 class="anchored" data-anchor-id="münzwurf-intuition-für-ml">Münzwurf: Intuition für ML</h3>
 <p>Angenommen, wir werfen eine Münze 10-mal und beobachten <strong>7 Köpfe</strong>. Welche Kopf-Wahrscheinlichkeit <span class="math inline">p</span> macht diese Beobachtung am plausibelsten?</p>
-<div id="8743920d" class="cell" data-execution_count="2">
+<div id="9640ca0a" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1999,13 +1999,13 @@ shuffleAnswers: true
 <span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>masse <span class="op">=</span> penguins[<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>mu_hat, sigma_hat <span class="op">=</span> stats.norm.fit(masse)</span>
@@ -2017,7 +2017,7 @@ shuffleAnswers: true
 <span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>ax.plot(x, stats.norm.pdf(x, mu_hat, sigma_hat), <span class="st">'#ae2012'</span>, lw<span class="op">=</span><span class="fl">2.5</span>,</span>
 <span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="ss">f'N(</span><span class="sc">{</span>mu_hat<span class="sc">:.0f}</span><span class="ss">, </span><span class="sc">{</span>sigma_hat<span class="sc">:.0f}</span><span class="ss">²) – ML-Fit'</span>)</span>
 <span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Körpermasse (g)'</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">'Dichte'</span>)</span>
-<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span> plt.show()</span>
 <span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>---</span>

@@ -15,7 +15,7 @@ Aber in der Praxis sehen wir fast nie alles. Wir beobachten eine **Stichprobe** 
 Schlüsse über die **Grundgesamtheit** ziehen, die wir nicht vollständig kennen. Genau das ist die
 Aufgabe der **schließenden** (oder **induktiven**) **Statistik**, zu der die Schätztheorie gehört.
 
-Dieses Kapitel besteht aus vier Unterkapiteln:
+Dieses Kapitel besteht aus fünf Unterkapiteln:
 
 | | Thema | Kernfrage |
 |-|-------|-----------|

@@ -1,7 +1,7 @@
 # Projektnotizen: Statistik-Tutorial (Python/Pyodide)
 
-**Letzte Aktualisierung:** 2026-04-21  
-**Status:** Schritte 1–7 fertig. Schritt 8 läuft – zwei systemische Pyodide-Bugs entdeckt, noch nicht global gefixt.
+**Letzte Aktualisierung:** 2026-04-27  
+**Status:** Schritte 1–8 fertig. Tutorial vollständig.
 
 ---
 
@@ -165,10 +165,10 @@ Claude Statikstik/
   - [x] `chi_quadrat.qmd` (3.8)
 - [x] **Schritt 7:** Aufgaben einbauen (10 Stück, Format siehe Aufgaben-Konzept)
 - [ ] **Schritt 8:** Feinschliff – Theme, Navigation, Gesamttest
-  - [ ] **8a (DRINGEND):** `palmerpenguins`-Import global fixen – in allen `{pyodide-python}`-Blöcken ersetzen durch `pyodide.http.open_url` + `pd.read_csv`
-  - [ ] **8b (DRINGEND):** `plt.tight_layout()` aus allen `{pyodide-python}`-Blöcken entfernen (crasht in Pyodide)
-  - [ ] **8c:** Aufgabenqualität prüfen – User sieht noch keine guten Aufgaben überall
-  - [ ] **8d:** Theme, Navigation, Gesamttest
+  - [x] **8a:** `palmerpenguins`-Import global gefixt – alle `{pyodide-python}`-Blöcke verwenden jetzt `pyodide.http.open_url` + `pd.read_csv` (letzte zwei Blöcke in f_test.qmd und gauss_test.qmd am 2026-04-27 gefixt)
+  - [x] **8b:** Kein Problem – alle `plt.tight_layout()`-Aufrufe befinden sich ausschließlich in gerenderten `{python}`-Blöcken, nicht in `{pyodide-python}`-Blöcken
+  - [x] **8c:** Aufgabenqualität geprüft (2026-04-27) – alle 9 Lösungs-Codeblöcke auf `open_url` umgestellt, `plt.tight_layout()` aus Lösungsblöcken (zweidimensional, schaetzer) entfernt, Tipp 2 in grafische_darstellungen.qmd angepasst; Kapitel 3 in Sidebar absichtlich nicht verlinkt
+  - [x] **8d:** Theme, Navigation, Gesamttest (2026-04-27) – `.quartoignore` für `project_statistik.md` erstellt; alle verlinkten Seiten existieren; Tippfehler "vier"→"fünf" in schaetztheorie/index.qmd gefixt; `palmerpenguins` in `requirements.txt` ergänzt; Kapitel 3 absichtlich nicht in Sidebar; GitHub-Icon ohne href ist bewusster Platzhalter
 
 ---
 

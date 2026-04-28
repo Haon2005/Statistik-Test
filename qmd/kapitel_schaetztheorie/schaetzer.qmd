@@ -279,9 +279,10 @@ Simulierte Stichproben: `np.random.normal(loc=mu_hat, scale=sigma_hat, size=20)`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 chinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()
 
 mu_hat = chinstrap.mean()
@@ -297,7 +298,6 @@ plt.xlabel('Stichprobenmittelwert (g)')
 plt.ylabel('Häufigkeit')
 plt.title('500 simulierte Stichprobenmittelwerte (n = 20)')
 plt.legend()
-plt.tight_layout()
 plt.show()
 ```
 :::

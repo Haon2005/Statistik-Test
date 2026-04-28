@@ -120,10 +120,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 /* Gesamt-Container */
 .quarto-container {
   display: flex; /* Flexbox für horizontale Anordnung */
-  max-width: 2100px;
+  max-width: none;
   margin: 0 auto; /* Zentrierung des Containers */
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Only force full-width flex at very wide viewports (heavily zoomed out).
+   Below this threshold Quarto's own responsive grid takes over. */
+@media (min-width: 2000px) {
+  .quarto-container {
+    display: flex !important;
+    width: 100%;
+  }
 }
 
 /* Linke Sidebar */
@@ -331,7 +340,7 @@ globalThis.qpyodideCustomizedPyodideOptions = {
 }
 
 // Store cell data
-globalThis.qpyodideCellDetails = [{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\nimport numpy as np\n\npenguins = load_penguins()\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\nchinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()\n\nprint(f\"Adélie:    n={len(adelie)},  s²={adelie.var(ddof=1):.1f},  s={adelie.std(ddof=1):.1f} g\")\nprint(f\"Chinstrap: n={len(chinstrap)},  s²={chinstrap.var(ddof=1):.1f},  s={chinstrap.std(ddof=1):.1f} g\")\nprint()\n\n# Manueller F-Test\nF = adelie.var(ddof=1) / chinstrap.var(ddof=1)\ndf1 = len(adelie) - 1\ndf2 = len(chinstrap) - 1\n\n# Zweiseitiger p-Wert\np_value = 2 * min(stats.f.cdf(F, df1, df2), stats.f.sf(F, df1, df2))\n\nprint(f\"F = {F:.4f}\")\nprint(f\"df₁ = {df1}, df₂ = {df2}\")\nprint(f\"p-Wert (zweiseitig) = {p_value:.4f}\")\nprint()\nif p_value < 0.05:\n    print(\"→ H₀ wird verworfen: Die Varianzen unterscheiden sich signifikant.\")\nelse:\n    print(\"→ H₀ wird nicht verworfen: Keine signifikante Varianzunterschied.\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\n\npenguins = load_penguins()\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\nchinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()\n\n# Levene-Test (robuster als F-Test)\nstat, p = stats.levene(adelie, chinstrap)\nprint(f\"Levene-Teststatistik = {stat:.4f}\")\nprint(f\"p-Wert = {p:.4f}\")\nprint()\nif p < 0.05:\n    print(\"→ Varianzen unterscheiden sich signifikant (Levene).\")\nelse:\n    print(\"→ Keine signifikante Varianzunterschied (Levene).\")\n    print(\"  → Beim Zweistichproben-t-Test wäre Student-Test vertretbar.\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qpyodideCellDetails = [{"code":"import pandas as pd\nfrom pyodide.http import open_url\nfrom scipy import stats\nimport numpy as np\n\npenguins = pd.read_csv(open_url(\"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv\"))\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\nchinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()\n\nprint(f\"Adélie:    n={len(adelie)},  s²={adelie.var(ddof=1):.1f},  s={adelie.std(ddof=1):.1f} g\")\nprint(f\"Chinstrap: n={len(chinstrap)},  s²={chinstrap.var(ddof=1):.1f},  s={chinstrap.std(ddof=1):.1f} g\")\nprint()\n\n# Manueller F-Test\nF = adelie.var(ddof=1) / chinstrap.var(ddof=1)\ndf1 = len(adelie) - 1\ndf2 = len(chinstrap) - 1\n\n# Zweiseitiger p-Wert\np_value = 2 * min(stats.f.cdf(F, df1, df2), stats.f.sf(F, df1, df2))\n\nprint(f\"F = {F:.4f}\")\nprint(f\"df₁ = {df1}, df₂ = {df2}\")\nprint(f\"p-Wert (zweiseitig) = {p_value:.4f}\")\nprint()\nif p_value < 0.05:\n    print(\"→ H₀ wird verworfen: Die Varianzen unterscheiden sich signifikant.\")\nelse:\n    print(\"→ H₀ wird nicht verworfen: Keine signifikante Varianzunterschied.\")","id":1,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"from palmerpenguins import load_penguins\nfrom scipy import stats\n\npenguins = load_penguins()\nadelie = penguins[penguins['species'] == 'Adelie']['body_mass_g'].dropna()\nchinstrap = penguins[penguins['species'] == 'Chinstrap']['body_mass_g'].dropna()\n\n# Levene-Test (robuster als F-Test)\nstat, p = stats.levene(adelie, chinstrap)\nprint(f\"Levene-Teststatistik = {stat:.4f}\")\nprint(f\"p-Wert = {p:.4f}\")\nprint()\nif p < 0.05:\n    print(\"→ Varianzen unterscheiden sich signifikant (Levene).\")\nelse:\n    print(\"→ Keine signifikante Varianzunterschied (Levene).\")\n    print(\"  → Beim Zweistichproben-t-Test wäre Student-Test vertretbar.\")","id":2,"options":{"autorun":"","classes":"","comment":"","context":"interactive","dpi":72,"fig-cap":"","fig-height":5,"fig-width":7,"label":"","message":"true","out-height":"","out-width":"700px","output":"true","packages":"[palmerpenguins]","read-only":"false","results":"markup","warning":"true"}}];
 
 /* Set variable for backend
 for Groq Server: "groq"
@@ -1136,7 +1145,7 @@ window.Quarto = {
 <p>Die Idee ist einfach: Wenn beide Varianzen gleich sind, sollte ihr Verhältnis nahe bei 1 liegen.</p>
 <p><span class="math display">F = \frac{s_1^2}{s_2^2}</span></p>
 <p>Unter <span class="math inline">H_0</span> folgt <span class="math inline">F</span> einer <strong>F-Verteilung</strong> mit <span class="math inline">df_1 = n_1 - 1</span> und <span class="math inline">df_2 = n_2 - 1</span> Freiheitsgraden.</p>
-<div id="60c772f4" class="cell" data-execution_count="2">
+<div id="a24ac66b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1868,12 +1877,12 @@ shuffleAnswers: true
 <span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>**Hypothesen:** $H_0: \sigma_{\text{Adélie}}^2 = \sigma_{\text{Chinstrap}}^2$ vs. $H_1: \sigma_{\text{Adélie}}^2 \neq \sigma_{\text{Chinstrap}}^2$</span>
 <span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
 <span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>chinstrap <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Chinstrap'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
@@ -1905,11 +1914,11 @@ shuffleAnswers: true
 <span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>**Levenes Test** ist robuster und in der Praxis oft vorzuziehen:</span>
 <span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{pyodide-python}</span></span>
-<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="co">#| packages: ["palmerpenguins"]</span></span>
-<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyodide.http <span class="im">import</span> open_url</span>
 <span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
 <span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(open_url(<span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"</span>))</span>
 <span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>adelie <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>chinstrap <span class="op">=</span> penguins[penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Chinstrap'</span>][<span class="st">'body_mass_g'</span>].dropna()</span>
 <span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>

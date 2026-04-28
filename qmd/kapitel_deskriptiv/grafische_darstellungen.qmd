@@ -132,15 +132,16 @@ Berechne zuerst die Häufigkeiten: `counts = penguins["island"].value_counts()`.
 :::
 
 ::: {.callout-tip title="Tipp 2" collapse="true"}
-Beschrifte die Achsen mit `plt.xlabel()` und `plt.ylabel()`, den Titel mit `plt.title()`. Vergiss `plt.tight_layout()` vor `plt.show()` nicht – das verhindert abgeschnittene Beschriftungen.
+Beschrifte die Achsen mit `plt.xlabel()` und `plt.ylabel()`, den Titel mit `plt.title()`. Rufe abschließend `plt.show()` auf, um das Diagramm anzuzeigen.
 :::
 
 ::: {.callout-caution title="Minimale Lösung" collapse="true"}
 ```python
 import matplotlib.pyplot as plt
-from palmerpenguins import load_penguins
+import pandas as pd
+from pyodide.http import open_url
 
-penguins = load_penguins()
+penguins = pd.read_csv(open_url("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"))
 counts = penguins["island"].value_counts()
 
 plt.figure(figsize=(6, 4))
@@ -148,7 +149,6 @@ plt.bar(counts.index, counts.values, color=["steelblue", "coral", "seagreen"])
 plt.xlabel("Insel")
 plt.ylabel("Anzahl")
 plt.title("Pinguine je Insel")
-plt.tight_layout()
 plt.show()
 ```
 :::
